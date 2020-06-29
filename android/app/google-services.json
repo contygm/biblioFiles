@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "223706602471",
+    "firebase_url": "https://cs467-bibliofiles.firebaseio.com",
+    "project_id": "cs467-bibliofiles",
+    "storage_bucket": "cs467-bibliofiles.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223706602471:android:1790d897f4f0a19b533b42",
+        "android_client_info": {
+          "package_name": "com.example.biblioFiles"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "223706602471-va1a3kbmu506blbiqv5vbdllk57d1iig.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.biblioFiles",
+            "certificate_hash": "552a79c1ec49f9937c959bb32b738f175a6622ad"
+          }
+        },
+        {
+          "client_id": "223706602471-0ud7v7abcp1c9iusfdvo457j69f7t8pj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjTig7TTA4useDDkyKxrls1F_TwokMOtA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "223706602471-0ud7v7abcp1c9iusfdvo457j69f7t8pj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
