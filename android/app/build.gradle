@@ -64,3 +64,6 @@ dependencies {
       // add the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
 }
+
+// apply google/firebase authentication
+apply plugin: 'com.google.gms.google-services'
