@@ -18,7 +18,7 @@ CREATE TABLE libraries(
 	id INT (11) AUTO_INCREMENT PRIMARY KEY,
 	user_id INT(11) NOT NULL,
 	name VARCHAR (255) NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
 	UNIQUE (id, user_id)
 );
 
@@ -52,10 +52,10 @@ CREATE TABLE books_libraries(
 -- strech goal:	rating ENUM('1', '2', '3', '4', '5')
 	FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE,
 	FOREIGN KEY (library_id) REFERENCES libraries(id) ON DELETE CASCADE,
-	PRIMARY KEY (book_id, library_id),
+	PRIMARY KEY (book_id, library_id)
 );
 
---Genre Table 
+-- Genre Table 
 DROP TABLE IF EXISTS genres;
 
 CREATE TABLE genres (
@@ -63,7 +63,7 @@ CREATE TABLE genres (
 	name VARCHAR(255) NOT NULL
 );
 
---Genres_Books
+-- Genres_Books
 DROP TABLE IF EXISTS genres_books;
 
 CREATE TABLE genres_books (
@@ -74,8 +74,8 @@ CREATE TABLE genres_books (
 	PRIMARY KEY (book_id, genre_id)
 );
 
---Friends List Table: Strech Goal 
---DROP TABLE IF EXISTS friends; 
+-- Friends List Table: Strech Goal 
+-- DROP TABLE IF EXISTS friends; 
 
 -- CREATE TABLE friends (
 	-- user_1 INT(11),
