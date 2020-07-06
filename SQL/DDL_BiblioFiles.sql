@@ -22,7 +22,7 @@ CREATE TABLE libraries(
 	UNIQUE (id, user_id)
 );
 
---Books Table 
+-- Books Table 
 DROP TABLE IF EXISTS books;
 
 CREATE TABLE books(
@@ -37,7 +37,7 @@ CREATE TABLE books(
 	image LONGBLOB
 );
 
---Books_Libraries Table 
+-- Books_Libraries Table 
 DROP TABLE IF EXISTS books_libraries; 
 
 CREATE TABLE books_libraries(
