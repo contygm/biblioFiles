@@ -30,6 +30,11 @@ jobs:
         api-level: [29]
         target: [default]
     steps:
+      - uses: actions/checkout@v1
+      # Setup the flutter environment.
+      - uses: subosito/flutter-action@v1
+        with: 
+          channel: 'stable'
       - name: Run Flutter Driver tests
         #GitHub Action for installing, configuring and running Android Emulators (work only Mac OS)
         #https://github.com/ReactiveCircus/android-emulator-runner
@@ -39,13 +44,9 @@ jobs:
           target: ${{ matrix.target }}
           arch: x86_64
           profile: Nexus 6
-      - uses: actions/checkout@v1
-      # Setup the flutter environment.
-      - uses: subosito/flutter-action@v1
-        with: 
-          channel: 'stable'
+          script: flutter doctor
       # Flutter dependencies
-      # - run: flutter pub get
+      - run: flutter pub get
       # Integration tests
       - run: flutter drive --target=test_driver/app.dart
   test_integration_ios: 
@@ -76,6 +77,6 @@ jobs:
         with: 
           channel: 'stable'
       # Flutter dependencies
-      # - run: flutter pub get
+      - run: flutter pub get
       # Integration tests
       - run: flutter drive --target=test_driver/app.dart
