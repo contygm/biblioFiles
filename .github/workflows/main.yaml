@@ -1,0 +1,51 @@
+name: Test and build
+
+on: [push,pull_request]
+
+jobs: 
+  test_lint_style: 
+    runs-on: macos-latest
+    steps:
+      # Setup the flutter environment.
+      - uses: subosito/flutter-action@v1
+        with: 
+          channel: 'stable'
+      # Flutter dependencies
+      - run: flutter pub get
+      # Lint and style test
+      - run: flutter analyze
+  test_unit: 
+    runs-on: macos-latest
+    steps:
+      # Setup the flutter environment.
+      - uses: subosito/flutter-action@v1
+        with: 
+          channel: 'stable'
+      # Flutter dependencies
+      - run: flutter pub get
+      # Unit tests
+      - run: flutter test
+      # Integration tests
+      - run: flutter drive --target=test_driver/app.dart
+  test_integration_andriod: 
+    runs-on: macos-latest
+    steps:
+      # Setup the flutter environment.
+      - uses: subosito/flutter-action@v1
+        with: 
+          channel: 'stable'
+      # Flutter dependencies
+      - run: flutter pub get
+      # Integration tests
+      - run: flutter drive --target=test_driver/app.dart
+  test_integration_ios: 
+    runs-on: macos-latest
+    steps:
+      # Setup the flutter environment.
+      - uses: subosito/flutter-action@v1
+        with: 
+          channel: 'stable'
+      # Flutter dependencies
+      - run: flutter pub get
+      # Integration tests
+      - run: flutter drive --target=test_driver/app.dart
