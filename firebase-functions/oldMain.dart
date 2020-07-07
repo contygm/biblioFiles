@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -134,9 +137,77 @@ class _GoogleSignInSectionState extends State<_GoogleSignInSection> {
                     : 'Sign in failed'),
             style: TextStyle(color: Colors.red),
           ),
-        )
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          alignment: Alignment.center,
+          child: RaisedButton(
+            onPressed: () async {
+              _callSayHello();
+            },
+            child: const Text('Call SayHello'),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          alignment: Alignment.center,
+          child: RaisedButton(
+            onPressed: () async {
+              _callEcho();
+            },
+            child: const Text('Call Echo'),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          alignment: Alignment.center,
+          child: RaisedButton(
+            onPressed: () async {
+              _callAddMessage();
+            },
+            child: const Text('Call Add Message'),
+          ),
+        ),
       ],
     );
+  }
+
+  void _callAddMessage() async {
+    final HttpsCallable addMsgFunction =
+        CloudFunctions.instance.getHttpsCallable(
+      functionName: 'addMessage_Callable',
+    );
+
+    final HttpsCallableResult result = await addMsgFunction.call(
+      <String, dynamic>{'text': 'Record this string'},
+    );
+
+    print(result.data);
+  }
+
+  void _callEcho() async {
+    // get function instance
+    final HttpsCallable echoFunction = CloudFunctions.instance.getHttpsCallable(
+      functionName: 'echo',
+    );
+
+    final HttpsCallableResult result = await echoFunction.call(
+      <String, dynamic>{'text': 'meow'},
+    );
+
+    print(result.data);
+  }
+
+  void _callSayHello() async {
+    // get an instance of the callable function
+    final HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(
+      functionName: 'sayHello',
+    );
+
+    callable.call().then((result) {
+      var data = result.data;
+      print(data);
+    });
   }
 
   void _signInWithGoogle() async {
