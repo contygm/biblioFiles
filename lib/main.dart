@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 void main() {
   runApp(App());
@@ -50,69 +55,114 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+  FirebaseUser user;
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: <Widget>[
+          Builder(builder: (BuildContext context) {
+            return FlatButton(
+              child: const Text('Sign out'),
+              textColor: Theme.of(context).buttonColor,
+              onPressed: () async {
+                final FirebaseUser user = await _auth.currentUser();
+                if (user == null) {
+                  Scaffold.of(context).showSnackBar(const SnackBar(
+                    content: Text('No one has signed in.'),
+                  ));
+                  return;
+                }
+                _signOut();
+                final String uid = user.uid;
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text(uid + ' has successfully signed out.'),
+                ));
+              },
+            );
+          })
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: Builder(builder: (BuildContext context) {
+        return ListView(
+          scrollDirection: Axis.vertical,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-              key: Key('counter'),
-            ),
+            _GoogleSignInSection(),
           ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        );
+      }),
     );
+  }
+
+  // signout
+  void _signOut() async {
+    await _auth.signOut();
+  }
+}
+
+class _GoogleSignInSection extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _GoogleSignInSectionState();
+}
+
+class _GoogleSignInSectionState extends State<_GoogleSignInSection> {
+  bool _success;
+  String _userID;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          alignment: Alignment.center,
+          child: RaisedButton(
+            onPressed: () async {
+              _signInWithGoogle();
+            },
+            child: const Text('Google Sign In'),
+          ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            _success == null
+                ? ''
+                : (_success
+                    ? 'Successfully signed in, uid: ' + _userID
+                    : 'Sign in failed'),
+            style: TextStyle(color: Colors.red),
+          ),
+        )
+      ],
+    );
+  }
+
+  void _signInWithGoogle() async {
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    final FirebaseUser user =
+        (await _auth.signInWithCredential(credential)).user;
+    assert(user.email != null);
+    assert(user.displayName != null);
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    final FirebaseUser currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+    setState(() {
+      if (user != null) {
+        _success = true;
+        _userID = user.uid;
+      } else {
+        _success = false;
+      }
+    });
   }
 }
