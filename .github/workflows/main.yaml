@@ -6,6 +6,7 @@ jobs:
   test_lint_style: 
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v1
       # Setup the flutter environment.
       - uses: subosito/flutter-action@v1
         with: 
@@ -17,6 +18,7 @@ jobs:
   test_unit: 
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v1
       # Setup the flutter environment.
       - uses: subosito/flutter-action@v1
         with: 
@@ -29,7 +31,22 @@ jobs:
       - run: flutter drive --target=test_driver/app.dart
   test_integration_andriod: 
     runs-on: macos-latest
+    trategy:
+      #set of different configurations of the virtual environment.
+      matrix:
+        api-level: [21, 29]
+        target: [default]
     steps:
+      - name: Run Flutter Driver tests
+        #GitHub Action for installing, configuring and running Android Emulators (work only Mac OS)
+        #https://github.com/ReactiveCircus/android-emulator-runner
+        uses: reactivecircus/android-emulator-runner@v1
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          profile: Nexus 6
+      - uses: actions/checkout@v1
       # Setup the flutter environment.
       - uses: subosito/flutter-action@v1
         with: 
@@ -41,6 +58,20 @@ jobs:
   test_integration_ios: 
     runs-on: macos-latest
     steps:
+      - name: List all simulators
+        run: xcrun instruments -s
+      # get UUID  simulator and boot a simulator on mac from  command line
+      - name: Start Simulator
+        run: |
+          UDID=$(
+            xcrun instruments -s |
+            awk \
+              -F ' *[][]' \
+              -v 'device=${{ matrix.device }}' \
+              '$1 == device { print $2 }'
+          )
+          xcrun simctl boot "${UDID:?No Simulator with this name found}"
+      - uses: actions/checkout@v1
       # Setup the flutter environment.
       - uses: subosito/flutter-action@v1
         with: 
