@@ -1,13 +1,5 @@
 name: Test and build
-on:
-  # Trigger the workflow on push or pull request,
-  # but only for the master branch
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+on: [push]
 jobs: 
   test_lint_style: 
     runs-on: macos-latest
