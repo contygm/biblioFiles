@@ -26,7 +26,7 @@ jobs:
     strategy:
       #set of different configurations of the virtual environment.
       matrix:
-        api-level: [21, 29]
+        api-level: [29]
         target: [default]
     steps:
       - name: Run Flutter Driver tests
@@ -54,7 +54,6 @@ jobs:
       matrix:
         device:
           - "iPhone 8 (13.1)"
-          - "iPhone 11 Pro Max (13.1)"
     runs-on: macos-latest
     steps:
       - name: List all simulators
