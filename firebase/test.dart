@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -134,9 +135,55 @@ class _GoogleSignInSectionState extends State<_GoogleSignInSection> {
                     : 'Sign in failed'),
             style: TextStyle(color: Colors.red),
           ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          alignment: Alignment.center,
+          child: RaisedButton(
+            onPressed: () async {
+              _callCreateBook();
+            },
+            child: const Text('Call CreateBook'),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          alignment: Alignment.center,
+          child: RaisedButton(
+            onPressed: () async {
+              _callGetBooks();
+            },
+            child: const Text('Call GetBooks'),
+          ),
         )
       ],
     );
+  }
+
+  void _callGetBooks() async {
+    final HttpsCallable getAllBooksFunction =
+        CloudFunctions.instance.getHttpsCallable(functionName: 'getBooks');
+
+    final HttpsCallableResult result = await getAllBooksFunction.call();
+
+    print(result.data);
+  }
+
+  void _callCreateBook() async {
+    // get function instance
+    final HttpsCallable createBookFunction =
+        CloudFunctions.instance.getHttpsCallable(
+      functionName: 'createBook',
+    );
+
+    final HttpsCallableResult result = await createBookFunction.call(
+      <String, dynamic>{
+        'title': 'Leviathan Wakes',
+        'author': 'James S. A. Corey'
+      },
+    );
+
+    print(result.data);
   }
 
   void _signInWithGoogle() async {
