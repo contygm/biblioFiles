@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>223706602471-q253dsa31rt8mvgdrkdedk21o70eb0ni.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.223706602471-q253dsa31rt8mvgdrkdedk21o70eb0ni</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>223706602471-va1a3kbmu506blbiqv5vbdllk57d1iig.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB1usZY7DGQ4FuIOeqroZ9iF2CntVLMz5U</string>
+	<key>GCM_SENDER_ID</key>
+	<string>223706602471</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.biblioFiles</string>
+	<key>PROJECT_ID</key>
+	<string>cs467-bibliofiles</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cs467-bibliofiles.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:223706602471:ios:93153fd2f4729b57533b42</string>
+	<key>DATABASE_URL</key>
+	<string>https://cs467-bibliofiles.firebaseio.com</string>
+</dict>
+</plist>
