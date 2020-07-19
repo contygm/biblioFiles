@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
-import 'screens/main_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
 
 class App extends StatelessWidget {
-  // This widget is the root of your application.
+  static final routes = {
+    '/': (context) => Login(),
+    'home': (context) => Home()
+  };
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'BiblioFiles',
       theme: ThemeData(
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainScreen(),
+      routes: routes
     );
   }
 }
