@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/home_tile.dart';
 import '../templates/default_template.dart';
 
 class Home extends StatelessWidget {
@@ -11,15 +12,20 @@ class Home extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text('Home Page'),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              // TODO
+              HomeTile(),
+              HomeTile()
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              //TODO
+              HomeTile(),
+              HomeTile()
             ]
           )
         ]

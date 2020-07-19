@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../components/logo_card.dart';
 import '../templates/default_template.dart';
-import 'home_screen.dart';
 
 class Login extends StatefulWidget {
   const Login({Key key}) : super(key: key);
@@ -27,6 +26,7 @@ class _LoginState extends State<Login> {
               borderRadius: BorderRadius.circular(30.0),
             ),
             onPressed: () {
+              // TODO only on success
               pushHome(context);
             },
           )
@@ -35,7 +35,6 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // TODO proper route for home
   void pushHome(BuildContext context) {
     Navigator.of(context).pushNamed( 'home' );
   }
