@@ -9,11 +9,14 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
+  // Search related variables
+  String _searchText = "";
   Icon _searchIcon = Icon(Icons.search);
   Widget _appBarTitle = Text( 'BiblioFiles' );
   final TextEditingController _searchController = TextEditingController();
-  String _searchText = "";
 
+  // search functionality
   void _searchPressed() {
     setState(() {
       if (_searchIcon.icon == Icons.search) {
@@ -26,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           onSubmitted: (value) {
             _searchText = _searchController.text;
-            print(_searchText);
+            print("SEARCH Input: $_searchText");
           },
         );
       } else {
@@ -76,10 +79,7 @@ class _MainScreenState extends State<MainScreen> {
           padding: EdgeInsets.only(left: 6),
           child: IconButton(
             icon: _searchIcon,
-            onPressed: () {
-              print('Clicked SEARCH');
-              _searchPressed();
-            },
+            onPressed: _searchPressed,
           ),
         ),
       ),
