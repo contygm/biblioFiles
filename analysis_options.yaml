@@ -3,3 +3,4 @@ include: package:effective_dart/analysis_options.yaml
 linter:
   rules:
     avoid_types_on_closure_parameter: false
+    public_member_api_docs: false
