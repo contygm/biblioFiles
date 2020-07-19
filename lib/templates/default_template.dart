@@ -4,12 +4,22 @@ import '../components/base_drawer.dart';
 
 class DefaultTemplate extends StatelessWidget {
   final Widget content;
-  DefaultTemplate({Key key, this.content}) : super(key: key);
+  final Widget floatingAction;
+  final FloatingActionButtonLocation floatingActionLocation;
+
+  DefaultTemplate({
+    Key key, 
+    this.content, 
+    this.floatingAction,
+    this.floatingActionLocation
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       endDrawer: BaseDrawer(),
+      floatingActionButton: floatingAction,
+      floatingActionButtonLocation: floatingActionLocation,
       appBar: BaseAppBar(appBar: AppBar()),
       body: SafeArea(
         child: Center(
