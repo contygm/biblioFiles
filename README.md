@@ -8,7 +8,7 @@ To run the tests locally:
 # lint
 flutter analyze
 
-# unit tests
+# unit & widget tests
 flutter test
 
 # integration test

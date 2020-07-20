@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../services/auth.dart';
 
 class BaseDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      key: Key('sideMenu'),
       child: ListView(
         children: <Widget>[
           ListTile(
@@ -25,8 +27,8 @@ class BaseDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             title: Text('Signout'),
-            onTap: () {
-              // Navigator.pop(context);
+            onTap: () async{
+              // await authService.signOut();
               print('Clicked SIGNOUT');
             },
           )

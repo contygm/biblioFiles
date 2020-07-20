@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../components/base_appbar.dart';
 import '../components/base_drawer.dart';
 
+// NOTE: Guide for how to make templates: 
+// -> https://medium.com/@SandeepGurram/creating-templates-in-flutter-43568073193b
 class DefaultTemplate extends StatelessWidget {
   final Widget content;
   final Widget floatingAction;

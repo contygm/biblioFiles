@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../components/logo_card.dart';
+import '../services/auth.dart';
 import '../templates/default_template.dart';
 
 class Login extends StatefulWidget {
@@ -25,9 +26,17 @@ class _LoginState extends State<Login> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
-            onPressed: () {
-              // TODO only on success
-              pushHome(context);
+            onPressed: () async {
+              if(authService.user != null) {
+                pushHome(context);
+              } else if(await authService.signInWithGoogle() != null) {
+                pushHome(context);
+              } else {
+                Scaffold.of(context).showSnackBar(const SnackBar(
+                  content: Text('Oops, something went wrong! Try Again!'),
+                ));
+              }
+              
             },
           )
         ]
