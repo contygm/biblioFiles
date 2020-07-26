@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import '../templates/default_template.dart';
 import '../db/databaseops.dart';
@@ -24,7 +22,7 @@ class _LoadLibraryState extends State<LoadLibrary> {
     getLibraries();
   }
 
-  List<dynamic> finalLibraries;
+  List<dynamic> finalLibraries = [];
 
   void getLibraries() async {
     List<dynamic> libraries = await callGetLibraries();
@@ -34,12 +32,16 @@ class _LoadLibraryState extends State<LoadLibrary> {
   }
 
   Widget build(BuildContext context) {
-    return Container(
-        child: (ListView.builder(
-            itemCount: finalLibraries.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(child: 
-              Text('Library: ${finalLibraries[index].name}'));
-            })));
+    if (finalLibraries.isNotEmpty) {
+      return Container(
+          child: (ListView.builder(
+              itemCount: finalLibraries.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                    child: Text('Library: ${finalLibraries[index].name}'));
+              })));
+    }
+
+    return Container(child: Text('No libraries exist'));
   }
 }
