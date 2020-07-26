@@ -274,3 +274,17 @@ export const deleteBookLibrary = functions.https.onCall(async (data: BookLibrary
         return err; 
     }  
 })
+
+export const getLibraries = functions.https.onCall(async (data, context) => {
+    // database connection
+    const connection = await connect(); 
+
+    // get repo
+    const LibraryRepo = connection.getRepository(Library);
+
+    // get all
+    const libraries = await LibraryRepo.find(data.user); 
+
+    // return books
+    return libraries; 
+});
