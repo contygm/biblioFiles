@@ -43,7 +43,7 @@ void callDeleteLibrary(int libraryId) async {
   );
 }
 
-//library functions, return library listed based on user id
+//library functions, return books from library listed based on library id
 Future<List<dynamic>> callGetLibraryBooks(int libraryId) async {
   final HttpsCallable getLibraryBooksFunction =
       CloudFunctions.instance.getHttpsCallable(functionName: 'getLibraryBooks');
