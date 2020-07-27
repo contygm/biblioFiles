@@ -52,7 +52,7 @@ Future<List<dynamic>> callGetLibraryBooks(int libraryId) async {
       .call(<dynamic, dynamic>{'library': libraryId});
   print(result.data);
 
-
+//THIS NEEDS WORK - NOT PARSING CORRECTLY
   final bookResults = result.data.map((record) {
     return BookLibrary(
         record['book'],
