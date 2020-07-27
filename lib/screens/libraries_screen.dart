@@ -23,9 +23,9 @@ class _LoadLibraryState extends State<LoadLibrary> {
   }
 
   List<dynamic> finalLibraries = [];
-
+  int userId = 19;
   void getLibraries() async {
-    List<dynamic> libraries = await callGetLibraries();
+    List<dynamic> libraries = await callGetLibraries(userId);
     setState(() {
       finalLibraries = libraries;
     });
@@ -34,14 +34,62 @@ class _LoadLibraryState extends State<LoadLibrary> {
   Widget build(BuildContext context) {
     if (finalLibraries.isNotEmpty) {
       return Container(
-          child: (ListView.builder(
-              itemCount: finalLibraries.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                    child: Text('Library: ${finalLibraries[index].name}'));
-              })));
+        child: Column(
+          children: [
+            RaisedButton(
+              child: Text('Create Library'),
+              onPressed: () {
+                Navigator.pushNamed(context, 'addLibrary');
+              },
+            ),
+            Expanded(
+                child: ListView.builder(
+                    itemCount: finalLibraries.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        child: Column(
+                          children: [
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                      'Library: ${finalLibraries[index].name}'),
+                                  RaisedButton(
+                                    onPressed: () {
+                                     Navigator.pushNamed(
+                                       context, 
+                                       'libraryBooks', 
+                                       arguments: 
+                                        (int.parse("${finalLibraries[index].libraryId}" ))
+                                            );},
+                                      child: Text('View')),
+                                  RaisedButton(
+                                      onPressed: () async {
+                                        await callDeleteLibrary(int.parse(
+                                            "${finalLibraries[index].libraryId}"));
+                                        setState(() {});
+                                      },
+                                      child: Text('Delete'))
+                                ])
+                          ],
+                        ),
+                      );
+                    })),
+          ],
+        ),
+      );
     }
-
-    return Container(child: Text('No libraries exist'));
+    //otherwise print empty screen
+    return Container(
+        child: Column(
+      children: [
+        RaisedButton(
+            child: Text('Create Library'),
+            onPressed: () {
+              Navigator.pushNamed(context, 'addLibrary');
+            })
+      ],
+    ));
   }
 }
