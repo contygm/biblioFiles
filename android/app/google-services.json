@@ -38,6 +38,13 @@
             {
               "client_id": "223706602471-0ud7v7abcp1c9iusfdvo457j69f7t8pj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "223706602471-q253dsa31rt8mvgdrkdedk21o70eb0ni.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.biblioFiles"
+              }
             }
           ]
         }

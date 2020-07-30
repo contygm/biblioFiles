@@ -6,11 +6,57 @@ import { Library } from './entity/Library';
 import { BookLibrary } from './entity/BookLibrary';
 import { Genre } from './entity/Genre';
 
+// echo test function
 export const echo = functions.https.onCall(async (data, context) => {
     return data.text; 
 });
-export const echo_protected = functions.https.onCall(async (data, context) => {
-    return data.text; 
+
+// create user on new user auth
+export const createUserFromAuth = functions.auth.user().onCreate(async (user) => {
+    try {
+        // get database connection
+        const connection = await connect(); 
+        
+        // get repo 
+        const userRepo = connection.getRepository(User);
+
+        // create new user object
+        const newUser = new User(); 
+        newUser.username = user.displayName; 
+        newUser.email = user.email;
+        newUser.uid = user.uid; 
+
+        // write object to the database
+        const savedUser = await userRepo.save(newUser); 
+
+        // return created user
+        return savedUser; 
+    }
+    catch (err) {
+        return err; 
+    }
+}); 
+
+export const deleteUserFromAuth = functions.auth.user().onDelete(async (user) => {
+    try {
+        // get database connection
+        const connection = await connect(); 
+
+        // get repo
+        const userRepo = connection.getRepository(User); 
+
+        // get user to delete
+        const delUser = await userRepo.findOne(user.uid); 
+
+        // delete object from the database
+        const deletedUser = await userRepo.delete(delUser); 
+
+        // return confirmation of delete
+        return deletedUser; 
+    }
+    catch (err) {
+        return err; 
+    }
 });
 
 
@@ -64,32 +110,6 @@ export const getAllBooks = functions.https.onCall(async (data, context) => {
     return allBooks; 
 });
 
-//create user 
-export const createUser = functions.https.onCall(async (data: User, context) => {
-
-    try {
-        // get database connection
-        const connection = await connect(); 
-
-        // get repo
-        const userRepo = connection.getRepository(User); 
-
-        // create new user object
-        const newUser = new User();
-        newUser.username = data.username; 
-        newUser.email = data.email;  
-    
-
-        // write object to the database
-        const savedUser = await userRepo.save(newUser); 
-
-        // return created user
-        return savedUser; 
-    } 
-    catch (err) { // catch and return errors
-        return err; 
-    }   
-}); 
 
 //create library 
 export const createLibrary = functions.https.onCall(async (data: Library, context) => {
@@ -203,30 +223,6 @@ export const deleteGenre = functions.https.onCall(async (data: Genre, context) =
     }  
 })
 
-//delete user
-export const deleteUser = functions.https.onCall(async (data: User, context) => {
-
-    try {
-        // get database connection
-        const connection = await connect(); 
-
-        // get repo
-        const userRepo = connection.getRepository(User); 
-
-        // get user to delete
-        const delUser = await userRepo.findOne(data.id);
-
-        // delete object from the database
-        const deletedUser = await userRepo.delete(delUser); 
-
-        // return confirmation of delete
-        return deletedUser; 
-    } 
-    catch (err) { // catch and return errors
-        return err; 
-    }  
-})
-
 //delete library
 export const deleteLibrary = functions.https.onCall(async (data: Library, context) => {
 
@@ -274,3 +270,32 @@ export const deleteBookLibrary = functions.https.onCall(async (data: BookLibrary
         return err; 
     }  
 })
+
+export const getLibraries = functions.https.onCall(async (data, context) => {
+    // database connection
+    const connection = await connect(); 
+
+    const libraries = await connection.getRepository(Library) 
+    .createQueryBuilder("library")
+    .leftJoinAndSelect("library.user", "user")
+    .where("user.id = :userId", {userId : data.user})
+    .getMany();
+
+    // return books
+    return libraries; 
+});
+
+export const getLibraryBooks = functions.https.onCall(async (data, context) => {
+    // database connection
+    const connection = await connect(); 
+
+    const books = await connection.getRepository(BookLibrary) 
+    .createQueryBuilder("bookLibrary")
+    .leftJoinAndSelect("bookLibrary.book", "book")
+    .leftJoin("bookLibrary.library", "library")
+    .where("library.id = :libraryId", {libraryId : data.library})
+    .getMany();
+
+    // return books
+    return books; 
+});

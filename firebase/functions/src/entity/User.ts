@@ -12,6 +12,10 @@ export class User extends BaseEntity {
     @Column() 
     email: string; 
 
+    @Column()
+    uid: string;
+    
+
     @OneToMany(type => Library, library => library.user)
     library: Library[]; 
 
