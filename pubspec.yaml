@@ -30,6 +30,7 @@ dependencies:
   rxdart: ^0.24.1
 
 dev_dependencies:
+  http: any
   flutter_test:
     sdk: flutter
   flutter_driver:
