@@ -1,11 +1,11 @@
 class Book {
   String image;
   int pages;
-  String author; 
-  int isbn13;
-  int isbn10;
+  String author;
+  String isbn13;
+  String isbn10;
   String dewey;
-  int id; 
+  int id;
   String title;
   String language;
 
@@ -20,12 +20,25 @@ class Book {
       this.title,
       this.language);
 
-   
-  int get isbn_10 {
+factory Book.fromJson(Map<dynamic, dynamic> record) {
+    return Book(
+    record['image'],
+    record['pages'],
+    record['author'],
+    record['isbn13'],
+    record['isbn10'],
+    record['dewey'],
+    record['id'],
+    record['title'],
+    record['lang']);
+}
+
+
+  String get isbn_10 {
     return isbn10;
   }
 
-  int get isbn_13 {
+  String get isbn_13 {
     return isbn13;
   }
 
@@ -46,6 +59,6 @@ class Book {
   }
 
   String get bookLang {
-    return language; 
+    return language;
   }
 }

@@ -52,32 +52,10 @@ Future<List<dynamic>> callGetLibraryBooks(int libraryId) async {
       .call(<dynamic, dynamic>{'library': libraryId});
   print(result.data);
 
-final tempbook = result.data.map((record) {
-  return Book(
-    record['book']['image'],
-        int.parse(record['book']['pages']),
-        record['book']['author'],
-        int.parse(record['book']['isbn13']),
-        int.parse(record['book']['isbn10']),
-        record['book']['dewey'],
-        int.parse(record['book']['id']),
-        record['book']['title'],
-        record['book']['lang'] );
-}).toList(); 
-
+var booklib = result.data as List;
 //THIS NEEDS WORK - NOT PARSING CORRECTLY
-  final bookResults = result.data.map((record) {
-    return BookLibrary(
-        tempbook,
-        record['notes'],
-        record['private_book'],
-        record['loanable'],
-        int.parse(record['rating']),
-        record['reading'],
-        record['loaned'],
-        record['unpacked'],
-        int.parse(record['id']));
-  }).toList();
+  List<BookLibrary> bookResults =
+      booklib.map((i) => BookLibrary.fromJson(i)).toList();
 
   return bookResults;
 }

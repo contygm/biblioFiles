@@ -11,10 +11,28 @@ class BookLibrary {
   int rating;
   Book book;
 
-  BookLibrary(this.book, this.notes, this.private, this.loanable,
-      this.rating, this.currentlyreading, this.checkedout, this.unpacked, this.id
-      );
+  BookLibrary(
+      {this.book,
+      this.notes,
+      this.private,
+      this.loanable,
+      this.rating,
+      this.currentlyreading,
+      this.checkedout,
+      this.unpacked,
+      this.id});
 
+  BookLibrary.fromJson(Map<dynamic, dynamic> record) {
+    notes = record['user_note'];
+    private = record['private_book'];
+    loanable = record['loanable'];
+    rating = record['rating'];
+    currentlyreading = record['reading'];
+    checkedout = record['loaned'];
+    unpacked = record['unpacked'];
+    id = record['id'];
+    book = record['book'] != null ? Book.fromJson(record['book']) : null;
+  }
 
   int get lbid {
     return id;
