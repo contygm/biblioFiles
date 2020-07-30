@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../templates/default_template.dart';
+import 'package:flutter/rendering.dart';
+import '../../templates/default_template.dart';
+import 'isbn_entry_screen.dart';
 
 class AddBookScreen extends StatelessWidget {
-  static final routes = {'scanBarcode'};
-
   @override
   Widget build(BuildContext context) {
     return DefaultTemplate(
@@ -15,7 +15,7 @@ class AddBookScreen extends StatelessWidget {
           alignment: Alignment.center,
           child: RaisedButton(
             onPressed: () async {
-              _callScanBarcode();
+              //_callScanBarcode();
             },
             child: const Text('Scan Barcode'),
           ),
@@ -25,7 +25,10 @@ class AddBookScreen extends StatelessWidget {
           alignment: Alignment.center,
           child: RaisedButton(
             onPressed: () async {
-              _callIsbnEntry();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => IsbnEntryScreen()),
+              );
             },
             child: const Text('ISBN #'),
           ),
@@ -35,7 +38,7 @@ class AddBookScreen extends StatelessWidget {
           alignment: Alignment.center,
           child: RaisedButton(
             onPressed: () async {
-              _callWriteInfo();
+              //_callWriteInfo();
             },
             child: const Text('Write Info'),
           ),
@@ -43,10 +46,4 @@ class AddBookScreen extends StatelessWidget {
       ])
     ]));
   }
-
-  void _callScanBarcode() async {}
-
-  void _callIsbnEntry() async {}
-
-  void _callWriteInfo() async {}
 }
