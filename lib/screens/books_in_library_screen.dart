@@ -56,8 +56,8 @@ class _LoadBooksLibraryState extends State<LoadBooksLibrary> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                      'Title: ${finalBooks[index].Book.title}'),
-                                  Text('Author: ${finalBooks[index].Book.author}'),
+                                      'Title: ${finalBooks[index].book.title}'),
+                                  Text('Author: ${finalBooks[index].book.author}'),
                                   RaisedButton(
                                       onPressed: () {
                                         //delete book 

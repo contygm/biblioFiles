@@ -12,7 +12,8 @@ class BookLibrary {
   Book book;
 
   BookLibrary(this.book, this.notes, this.private, this.loanable,
-      this.rating, this.currentlyreading, this.checkedout, this.unpacked, this.id);
+      this.rating, this.currentlyreading, this.checkedout, this.unpacked, this.id
+      );
 
 
   int get lbid {
