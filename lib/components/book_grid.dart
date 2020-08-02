@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../models/book.dart';
 import '../models/bookLibrary.dart';
 import '../screens/single_book_screen.dart';
 
@@ -8,38 +7,15 @@ class BookGrid extends StatelessWidget {
   final int bookCount;
   final int crossAxisCount;
   final String title;
-  final List<Book> books;
+  final BookLibrary bookLibrary;
 
   BookGrid({
-    this.books,
+    this.bookLibrary,
     this.crossAxisCount = 5, 
     @required this.title,
     @required this.bookCount, 
     @required this.scrollDirection
   });
-
-  // REMOVE this
-  final BookLibrary bookInLib = BookLibrary(
-    book: Book(
-      "https://media.wired.com/photos/5cdefc28b2569892c06b2ae4/master/w_2560%2Cc_limit/Culture-Grumpy-Cat-487386121-2.jpg", 
-      425, 
-      'Sir Chonk', 
-      '1234567890123', 
-      '1234567890', 
-      '122.21', 
-      1, 
-      'Professionally Grumpy', 
-      'English'
-    ),
-    notes: 'Excellent resources for how to be grumpy',
-    private: false,
-    loanable: true,
-    rating: 4,
-    currentlyreading: true,
-    checkedout: false,
-    unpacked: false,
-    id: 1
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +25,12 @@ class BookGrid extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(title, style: TextStyle(fontSize: 35),),
         ),
-        cardGrid(context, books),
+        cardGrid(context, bookLibrary),
       ],
     );
   }
 
-  Widget cardGrid(BuildContext context, List<Book> books) {
+  Widget cardGrid(BuildContext context, BookLibrary bookLibrary) {
     return GridView.builder(
       shrinkWrap: true,
       scrollDirection: scrollDirection,
@@ -66,7 +42,7 @@ class BookGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         return Center(
           // TODO replace with books[index]
-          child: bookCard(context, bookInLib) 
+          child: bookCard(context, bookLibrary) 
         );
       }
     );

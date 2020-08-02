@@ -39,7 +39,7 @@ class Home extends StatelessWidget {
                 HomeTile(
                   title: 'Shelves', 
                   icon: FontAwesomeIcons.leanpub, 
-                  routeName: 'shelves'
+                  routeName: 'shelvesScreen'
                 ),
                 HomeTile(
                   title: 'Unpack', 
