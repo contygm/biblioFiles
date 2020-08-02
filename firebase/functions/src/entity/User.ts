@@ -1,20 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm";
+import { Entity, Column, BaseEntity, OneToMany, PrimaryColumn } from "typeorm";
 import { Library } from "./Library";
 
 @Entity()
 export class User extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryColumn()
+    id: string;
 
     @Column() 
     username: string;
 
     @Column() 
     email: string; 
-
-    @Column()
-    uid: string;
-    
 
     @OneToMany(type => Library, library => library.user)
     library: Library[]; 

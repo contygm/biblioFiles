@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'book_to_add_details.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import '../../model/book.dart';
+import '../../db/databaseops.dart';
+import '../../models/book.dart';
 import '../../templates/default_template.dart';
+import 'book_to_add_details.dart';
 
 class IsbnEntryScreen extends StatelessWidget {
   @override
@@ -41,7 +42,7 @@ class IsbnEntryForm extends State<IsbnEntry> {
                 onPressed: () async {
                   if (_key.currentState.validate()) {
                     // get the book
-                    var book = await checkIsbn(isbn);
+                    var book = await getBookByIsbn(isbn);
                     // if we have a book
                     if (book != null) {
                       Navigator.push(
@@ -63,22 +64,40 @@ class IsbnEntryForm extends State<IsbnEntry> {
         ));
   }
 
-  Future<Book> checkIsbn(String isbn) async {
+  Future<Book> getBookByIsbn(String isbn) async {
     // check local database
+    isbn = isbn.replaceAll('-', '');
+    var book = await findBookByIsbn(isbn);
 
-    // check API
-    var httpVal = 'https://api2.isbndb.com/book/$isbn';
-    final response = await http.get(httpVal, headers: {
-      HttpHeaders.authorizationHeader: '44346_ad5ea40582a1b18d154a6eb3ff4a3bfc'
-    });
+    // if book found return it
+    if (book != null) {
+      return book;
+    } else {
+      // if not found
+      // check API
+      var httpVal = 'https://api2.isbndb.com/book/$isbn';
 
-    // decode json
-    final responseJson = json.decode(response.body);
-    if (responseJson['book'] != null) {
-      var newBook = Book.fromApiJson(responseJson);
-      return newBook;
+      // get response
+      final response = await http.get(httpVal, headers: {
+        HttpHeaders.authorizationHeader:
+            '44346_ad5ea40582a1b18d154a6eb3ff4a3bfc'
+      });
+
+      // decode json
+      final responseJson = json.decode(response.body);
+
+      // if book was found in api
+      if (responseJson['book'] != null) {
+        // create new book object
+        var newBook = Book.fromApiJson(responseJson);
+
+        // insert into database, return created book
+        return callCreateBook(newBook);
+      } else {
+        // book was not found in database or API
+        // throw error
+        throw ('Book was not found in database or API');
+      }
     }
-
-    return null;
   }
 }

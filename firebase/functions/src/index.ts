@@ -5,10 +5,36 @@ import { User } from './entity/User';
 import { Library } from './entity/Library'; 
 import { BookLibrary } from './entity/BookLibrary';
 import { Genre } from './entity/Genre';
+ 
 
 // echo test function
 export const echo = functions.https.onCall(async (data, context) => {
     return data.text; 
+});
+
+// find book by isbn
+export const findBookByIsbn = functions.https.onCall(async (data, context) => {
+    try {
+        // get database connection
+        const connection = await connect();
+
+        // get repo
+        const bookRepo = connection.getRepository(Book);
+
+        // get book by isbn10
+        var retBook = await bookRepo.findOne({ isbn10: data.isbn });
+
+        // if not found, get book by isbn13
+        if (retBook == null){
+            retBook = await bookRepo.findOne({ isbn13: data.isbn });
+        }
+
+        // if found return book, else return null
+        return retBook;
+    }
+    catch (err) {
+        return err;
+    }
 });
 
 // create user on new user auth
@@ -22,9 +48,10 @@ export const createUserFromAuth = functions.auth.user().onCreate(async (user) =>
 
         // create new user object
         const newUser = new User(); 
+        newUser.id = user.uid; 
         newUser.username = user.displayName; 
         newUser.email = user.email;
-        newUser.uid = user.uid; 
+
 
         // write object to the database
         const savedUser = await userRepo.save(newUser); 
@@ -37,6 +64,7 @@ export const createUserFromAuth = functions.auth.user().onCreate(async (user) =>
     }
 }); 
 
+// delete user on auth delete
 export const deleteUserFromAuth = functions.auth.user().onDelete(async (user) => {
     try {
         // get database connection
@@ -59,9 +87,8 @@ export const deleteUserFromAuth = functions.auth.user().onDelete(async (user) =>
     }
 });
 
-
 // create a book
-export const createBook = functions.https.onCall(async (data: Book, context) => {
+export const createBook = functions.https.onCall(async (data, context) => {
 
     try {
         // get database connection
@@ -81,9 +108,7 @@ export const createBook = functions.https.onCall(async (data: Book, context) => 
         newBook.lang = data.lang || null;
         newBook.image = data.image || null;
         newBook.genres = data.genres || null; 
-        
-    
-
+ 
         // write object to the database
         const savedBook = await bookRepo.save(newBook); 
 
@@ -109,7 +134,6 @@ export const getAllBooks = functions.https.onCall(async (data, context) => {
     // return books
     return allBooks; 
 });
-
 
 //create library 
 export const createLibrary = functions.https.onCall(async (data: Library, context) => {
@@ -137,6 +161,40 @@ export const createLibrary = functions.https.onCall(async (data: Library, contex
         return err; 
     }   
 }); 
+
+export const addBookToLibrary = functions.https.onCall(async (data, context) => {
+    try {
+        // get database connection
+        const connection = await connect();
+
+        // get get BookLibrary Repo
+        const bookLibraryRepo = connection.getRepository(BookLibrary);
+
+        // create new
+        const newBookLibrary = new BookLibrary();
+        newBookLibrary.user_note = null; 
+        newBookLibrary.private_book = false; 
+        newBookLibrary.loanable = false;
+        newBookLibrary.reading = false;
+        newBookLibrary.unpacked = false;
+        newBookLibrary.loaned = false; 
+        newBookLibrary.rating =  null; 
+         // get book
+        const bookRepo = connection.getRepository(Book); 
+        newBookLibrary.book = await bookRepo.findOne(data.bookId);
+        // get library
+        const libraryRepo = connection.getRepository(Library);
+        newBookLibrary.library = await libraryRepo.findOne({name: data.libraryName, user: data.userId});
+        
+        const savedBookLibrary = await bookLibraryRepo.save(newBookLibrary);
+
+        // return created book library
+        return savedBookLibrary
+    } 
+    catch (err) { // catch and return errors
+    return err; 
+    } 
+});
 
 //create book assigned to library 
 export const createBookLibrary = functions.https.onCall(async (data: BookLibrary, context) => {
@@ -174,7 +232,6 @@ export const createBookLibrary = functions.https.onCall(async (data: BookLibrary
 });
 
 //create genre 
-
 export const createGenre = functions.https.onCall(async (data: Genre, context) => {
 
     try {
@@ -299,3 +356,24 @@ export const getLibraryBooks = functions.https.onCall(async (data, context) => {
     // return books
     return books; 
 });
+
+// find library by name and userid
+export const findLibraryRecord = functions.https.onCall(async (data, context) => {
+    try {
+        // get database connection
+        const connection = await connect(); 
+
+        // get repo
+        const libraryRepo = connection.getRepository(Library);
+
+        // get library
+        const libraryRecord =  await libraryRepo.findOne({name: data.libraryName, user: data.userId});
+
+        // return the record
+        return libraryRecord;
+    } 
+    catch (err) { // catch and return errors
+        return err; 
+    }  
+});
+ 
