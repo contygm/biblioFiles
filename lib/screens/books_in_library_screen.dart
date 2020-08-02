@@ -57,10 +57,11 @@ class _LoadBooksLibraryState extends State<LoadBooksLibrary> {
                                 children: [
                                   Text(
                                       'Title: ${finalBooks[index].book.title}'),
-                                  Text('Author: ${finalBooks[index].book.author}'),
+                                  Text(
+                                      'Author: ${finalBooks[index].book.author}'),
                                   RaisedButton(
                                       onPressed: () {
-                                        //delete book 
+                                        //delete book
                                       },
                                       child: Text('Delete'))
                                 ])

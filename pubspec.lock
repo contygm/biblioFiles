@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.1"
+  barcode_scan:
+    dependency: "direct main"
+    description:
+      name: barcode_scan
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -249,7 +256,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.1"
+    version: "0.12.2"
   http_multi_server:
     dependency: transitive
     description:

@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../model/book.dart';
-import 'package:biblioFiles/templates/default_template.dart';
-import 'package:flutter/cupertino.dart';
+import '../../db/databaseops.dart';
+import '../../models/book.dart';
+import '../../models/library.dart';
+import '../../templates/default_template.dart';
+import 'add_success.dart';
 
 class BookToAddScreen extends StatelessWidget {
   // declare field to hold book
@@ -24,9 +26,11 @@ class BookDetails extends StatefulWidget {
 }
 
 class BookDetailsForm extends State<BookDetails> {
-  final Book book;
+  Book book;
   BookDetailsForm({this.book});
+
   final _key = GlobalKey<FormState>();
+  String selectedLibrary;
 
   @override
   Widget build(BuildContext context) {
@@ -40,82 +44,130 @@ class BookDetailsForm extends State<BookDetails> {
             width: 100,
           ),
           TextFormField(
+            readOnly: book.bookTitle == '' ? false : true,
             initialValue: book.bookTitle,
             decoration: InputDecoration(
               labelText: 'Title',
             ),
+            onSaved: (newValue) => book.bookTitle = newValue,
           ),
           TextFormField(
+            readOnly: book.bookAuthor == '' ? false : true,
             initialValue: book.bookAuthor,
             decoration: InputDecoration(
               labelText: 'Author',
             ),
+            onSaved: (newValue) => book.bookAuthor = newValue,
           ),
           TextFormField(
+            readOnly: book.isbn_10 == '' ? false : true,
             initialValue: book.isbn_10,
             decoration: InputDecoration(
               labelText: 'ISBN10',
             ),
+            onSaved: (newValue) => book.isbn_10 = newValue,
           ),
           TextFormField(
+            readOnly: book.isbn_13 == '' ? false : true,
             initialValue: book.isbn_13,
             decoration: InputDecoration(
               labelText: 'ISBN13',
             ),
+            onSaved: (newValue) => book.isbn_13 = newValue,
           ),
           TextFormField(
+            readOnly: book.pageCount.toString() == '' ? false : true,
             initialValue: book.pageCount.toString(),
             decoration: InputDecoration(
               labelText: 'Pages',
             ),
+            onSaved: (newValue) => book.pageCount = int.parse(newValue),
           ),
           TextFormField(
+            readOnly: book.bookLang == '' ? false : true,
             initialValue: book.bookLang,
             decoration: InputDecoration(
               labelText: 'Language',
             ),
+            onSaved: (newValue) => book.bookLang = newValue,
           ),
-          LibrarySelector(),
+          FutureBuilder<List<Library>>(
+              future: getLibraries(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return DropdownButtonFormField<String>(
+                      decoration: InputDecoration(labelText: 'Libary'),
+                      value: selectedLibrary,
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedLibrary = newValue;
+                        });
+                      },
+                      items: snapshot.data
+                          .map((item) => DropdownMenuItem<String>(
+                                child: Text(item.libraryName),
+                                value: item.libraryName,
+                              ))
+                          .toList());
+                } else {
+                  return CircularProgressIndicator();
+                }
+              }),
           RaisedButton(
-            onPressed: () async {},
+            onPressed: () async {
+              submit(book, selectedLibrary);
+
+              // get the library record
+              var libRecord = await getLibraryRecord(selectedLibrary);
+              var libId = libRecord.id;
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddSuccessScreen(libId: libId),
+                ),
+              );
+            },
             child: Text('Approve'),
           ),
         ],
       ),
     );
   }
-}
 
-class LibrarySelector extends StatefulWidget {
-  @override
-  _LibrarySelector createState() => _LibrarySelector();
-}
+  Future<Library> getLibraryRecord(libraryName) async {
+    // get UID
+    final auth = FirebaseAuth.instance;
+    final user = await auth.currentUser();
+    final uid = user.uid;
 
-class _LibrarySelector extends State<LibrarySelector> {
-  String dropdownValue = 'One';
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownValue,
-      icon: Icon(Icons.arrow_downward),
-      iconSize: 25,
-      style: TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurple,
-      ),
-      items: <String>['One', 'Two', 'Free', 'Four']
-          .map<DropdownMenuItem<String>>((value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: (newValue) {
-        setState(() {
-          dropdownValue = newValue;
-        });
-      },
-    );
+    return await findLibraryRecord(selectedLibrary, uid);
+  }
+
+  void submit(Book book, String selectedLibrary) async {
+    if (_key.currentState.validate()) {
+      _key.currentState.save();
+
+      // get UID
+      final auth = FirebaseAuth.instance;
+      final user = await auth.currentUser();
+      final uid = user.uid;
+
+      // addBookToLibrary
+      await addBookToLibrary(book, selectedLibrary, uid);
+    }
+  }
+
+  Future<List<Library>> getLibraries() async {
+    // get UID
+    final auth = FirebaseAuth.instance;
+    final user = await auth.currentUser();
+    final uid = user.uid;
+
+    // get libraries from database
+    var libraryObjects = await callGetLibraries(uid);
+
+    // return libraries
+    return libraryObjects;
   }
 }
