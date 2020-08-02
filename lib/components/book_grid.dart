@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/book.dart';
 import '../models/bookLibrary.dart';
 import '../screens/single_book_screen.dart';
 
@@ -19,13 +20,13 @@ class BookGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(title, style: TextStyle(fontSize: 35),),
         ),
-        cardGrid(context, bookLibrary),
+        Expanded(child: cardGrid(context, bookLibrary)),
       ],
     );
   }

@@ -41,9 +41,9 @@ class ShelvesScreen extends StatelessWidget {
         bookLibrary: bookLibrary,
         crossAxisCount: 3, 
         title: 'Library Title',
-        bookCount: 100, 
-        scrollDirection: Axis.vertical
-      )
+        bookCount: 10, 
+        scrollDirection: Axis.horizontal
+      ),
     );
   }
 }
