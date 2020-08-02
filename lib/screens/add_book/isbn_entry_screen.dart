@@ -53,9 +53,6 @@ class IsbnEntryForm extends State<IsbnEntry> {
                           ),
                         ),
                       );
-                    } else {
-                      // if book is not valid
-
                     }
                   }
                 },

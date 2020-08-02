@@ -1,3 +1,4 @@
+import 'package:biblioFiles/screens/add_book/barcode_entry_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../../templates/default_template.dart';
@@ -15,7 +16,10 @@ class AddBookScreen extends StatelessWidget {
           alignment: Alignment.center,
           child: RaisedButton(
             onPressed: () async {
-              //_callScanBarcode();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BarcodeEntryScreen()),
+              );
             },
             child: const Text('Scan Barcode'),
           ),
