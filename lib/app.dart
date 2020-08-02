@@ -7,6 +7,7 @@ import 'screens/home_screen.dart';
 import 'screens/libraries_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/shelves.dart';
+import 'screens/single_book_screen.dart';
 import 'screens/unpack_screen.dart';
 
 class App extends StatelessWidget {
@@ -19,7 +20,8 @@ class App extends StatelessWidget {
     'addBook': (context) => AddBookScreen(),
     'libraries': (context) => LibrariesScreen(),
     'addLibrary': (context) => AddLibraryScreen(),
-    'libraryBooks': (context) => LibraryBooksScreen()
+    'libraryBooks': (context) => LibraryBooksScreen(),
+    SingleBookScreen.routeName: (context) => SingleBookScreen()
   };
 
   @override
