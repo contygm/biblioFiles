@@ -5,12 +5,12 @@ import '../models/book.dart';
 import '../models/bookLibrary.dart';
 import '../templates/default_template.dart';
 
-
 // TODO shelf list
 class ShelvesScreen extends StatelessWidget {
   static const routeName = 'shelvesScreen';
+  // REMOVE this when we start pulling info from DB
   List<String> libraries = ['Currently Reading', 'Checked Out', 'Another One'];
-  // REMOVE this
+  // REMOVE this when we start pulling info from DB
   final BookLibrary bookLibrary = BookLibrary(
     book: Book(
       "https://media.wired.com/photos/5cdefc28b2569892c06b2ae4/master/w_2560%2Cc_limit/Culture-Grumpy-Cat-487386121-2.jpg", 
