@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../components/book_grid.dart';
+import '../components/floating_back_button.dart';
 import '../models/book.dart';
-
 import '../models/bookLibrary.dart';
 import '../templates/default_template.dart';
 
+
 // TODO shelf list
-// TODO multiple shelves
 class ShelvesScreen extends StatelessWidget {
   static const routeName = 'shelvesScreen';
   List<String> libraries = ['Currently Reading', 'Checked Out', 'Another One'];
@@ -37,13 +37,31 @@ class ShelvesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO pass in books from DB and library title
     return DefaultTemplate(
-      content: BookGrid(
-        bookLibrary: bookLibrary,
-        crossAxisCount: 3, 
-        title: 'Library Title',
-        bookCount: 10, 
-        scrollDirection: Axis.horizontal
-      ),
+      floatingAction: FloatingBackButton(context),
+      content: shelvesList(context)
+    );
+  }
+
+  Widget shelvesList(BuildContext context) {
+    return ListView.separated(
+      padding: const EdgeInsets.all(8),
+      itemCount: libraries.length,
+      itemBuilder: (context, index) {
+        return Container(
+          height: 300,
+          child: BookGrid(
+            // TODO: replace with libraries.books once we bull from DB
+            bookLibrary: bookLibrary,
+            crossAxisCount: 2, 
+            title: libraries[index],
+            bookCount: 20, 
+            scrollDirection: Axis.horizontal
+          ),
+        );
+      },
+      separatorBuilder: (context, index) => const Divider()
     );
   }
 }
+
+
