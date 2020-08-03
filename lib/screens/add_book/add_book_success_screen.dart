@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import '../../templates/default_template.dart';
-import '../books_in_library_screen.dart';
 
 class AddSuccessScreen extends StatelessWidget {
   final int libId;

@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../../db/databaseops.dart';
 import '../../models/book.dart';
 import '../../templates/default_template.dart';
-import 'book_to_add_details.dart';
+import 'add_book_error_screen.dart';
+import 'book_to_add_details_screen.dart';
 
 class BarcodeEntryScreen extends StatelessWidget {
   @override
@@ -32,49 +32,60 @@ class _BarcodeEntry extends State<BarcodeEntry> {
         // scan the barcode
         var barcode = await scanBarcode();
 
-        // get the book
-        var book = await getBookByIsbn(barcode);
-        // if we have a book
-        if (book != null) {
+        // if barcode error
+        if (barcode == null) {
           Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BookToAddScreen(
-                book: book,
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddBookErrorScreen(),
+              ));
+        }
+
+        // get the book
+        try {
+          var book = await getBookByIsbn(barcode);
+
+          // if book error
+          if (book == null) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddBookErrorScreen(),
+                ));
+          }
+
+          // if we have a book
+          if (book != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BookToAddScreen(
+                  book: book,
+                ),
               ),
-            ),
-          );
+            );
+          }
+          // ignore: avoid_catches_without_on_clauses
+        } catch (err) {
+          // catch all whacky scanning errors
+          // if book error
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddBookErrorScreen(),
+              ));
         }
       },
     );
   }
 
-  TextEditingController errorController = TextEditingController();
-
   Future<String> scanBarcode() async {
     try {
       var scanResult = await BarcodeScanner.scan();
       return scanResult;
-    } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.CameraAccessDenied) {
-        setState(() {
-          errorController.text = 'Camera Access Denied';
-        });
-      } else {
-        setState(() {
-          errorController.text = 'Unknown error: $e';
-        });
-      }
-    } on FormatException {
-      setState(() {
-        errorController.text = 'Nothing Scanned';
-      });
-    } catch (e) {
-      setState(() {
-        errorController.text = 'Unknown error $e';
-      });
+    } catch (err) {
+      return null;
     }
-    return null;
   }
 }
 
@@ -108,8 +119,8 @@ Future<Book> getBookByIsbn(String isbn) async {
       return callCreateBook(newBook);
     } else {
       // book was not found in database or API
-      // throw error
-      throw ('Book was not found in database or API');
+      // return null;
+      return null;
     }
   }
 }

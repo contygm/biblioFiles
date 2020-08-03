@@ -1,8 +1,10 @@
-import 'package:biblioFiles/screens/add_book/barcode_entry_screen.dart';
+import 'package:biblioFiles/screens/add_book/add_book_error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../../templates/default_template.dart';
+import 'barcode_entry_screen.dart';
 import 'isbn_entry_screen.dart';
+import 'manual_book_entry_screen.dart';
 
 class AddBookScreen extends StatelessWidget {
   @override
@@ -15,7 +17,7 @@ class AddBookScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           alignment: Alignment.center,
           child: RaisedButton(
-            onPressed: () async {
+            onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => BarcodeEntryScreen()),
@@ -28,7 +30,7 @@ class AddBookScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           alignment: Alignment.center,
           child: RaisedButton(
-            onPressed: () async {
+            onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => IsbnEntryScreen()),
@@ -41,8 +43,12 @@ class AddBookScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           alignment: Alignment.center,
           child: RaisedButton(
-            onPressed: () async {
-              //_callWriteInfo();
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ManualBookEntryScreen()),
+              );
             },
             child: const Text('Write Info'),
           ),
