@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/bookLibrary.dart';
 import '../screens/single_book_screen.dart';
+import '../screens/libraries_screen.dart';
 
 class BookGrid extends StatelessWidget {
   final Axis scrollDirection;
@@ -19,13 +20,20 @@ class BookGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(title, style: TextStyle(fontSize: 35),),
+          child: GestureDetector(
+            child: Text(title, style: TextStyle(fontSize: 35)),
+            // TODO make go to the library screen with appropriate arguments
+            // need to wait for library screen to have a view and accept arguments
+            onTap: () {
+              print("GO TO LIBRARY SCREEN");
+            }
+          ),
         ),
-        cardGrid(context, bookLibrary),
+        Expanded(child: cardGrid(context, bookLibrary)),
       ],
     );
   }
@@ -76,7 +84,7 @@ class BookGrid extends StatelessWidget {
               children: [
                 Text(
                   "${bookLibrary.book.bookTitle}", 
-                  textAlign: TextAlign.center
+                  textAlign: TextAlign.center,
                 ),
                 Divider(),
                 Text("by ${bookLibrary.book.author}")

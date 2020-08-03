@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/bookLibrary.dart';
 import '../templates/default_template.dart';
+import '../components/floating_back_button.dart';
 
 class SingleBookScreen extends StatefulWidget {
   static const routeName = 'singleBookScreen';
@@ -16,10 +17,7 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
     final BookLibrary bookLibrary = ModalRoute.of(context).settings.arguments;
 
     return DefaultTemplate(
-      floatingAction: FloatingActionButton(
-        onPressed: () => Navigator.of(context).pop(),
-        child: Icon(Icons.arrow_back),
-      ),
+      floatingAction: FloatingBackButton(context),
       content: Card(
         child: _isSmall ? 
           smallInfo(context, bookLibrary) : 
