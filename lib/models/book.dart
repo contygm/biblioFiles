@@ -7,10 +7,12 @@ class Book {
   String dewey;
   int id;
   String title;
-  String language;
+  String lang;
+
+  Book.empty();
 
   Book(this.image, this.pages, this.author, this.isbn13, this.isbn10,
-      this.dewey, this.id, this.title, this.language);
+      this.dewey, this.id, this.title, this.lang);
 
   Map<String, dynamic> toJson() => {
         'image': image,
@@ -20,7 +22,7 @@ class Book {
         'isbn10': isbn10,
         'dewey': dewey,
         'title': title,
-        'language': language
+        'lang': lang
       };
 
   factory Book.fromJson(Map<dynamic, dynamic> record) {
@@ -113,10 +115,10 @@ class Book {
   }
 
   String get bookLang {
-    return language != null ? language : '';
+    return lang != null ? lang : '';
   }
 
   set bookLang(String newValue) {
-    language = newValue;
+    lang = newValue;
   }
 }

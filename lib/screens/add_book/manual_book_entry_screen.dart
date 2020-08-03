@@ -1,36 +1,35 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../db/databaseops.dart';
 import '../../models/book.dart';
 import '../../models/library.dart';
 import '../../templates/default_template.dart';
-import 'add_success.dart';
+import 'add_book_success_screen.dart';
 
-class BookToAddScreen extends StatelessWidget {
-  // declare field to hold book
-  final Book book;
-  // require incoming book
-  BookToAddScreen({Key key, @required this.book}) : super(key: key);
-
+class ManualBookEntryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DefaultTemplate(content: BookDetails(book: book));
+    return DefaultTemplate(content: ManualBookEntry());
   }
 }
 
-class BookDetails extends StatefulWidget {
-  final Book book;
-  BookDetails({this.book});
+class ManualBookEntry extends StatefulWidget {
   @override
-  BookDetailsForm createState() => BookDetailsForm(book: book);
+  _ManualBookEntry createState() => _ManualBookEntry();
 }
 
-class BookDetailsForm extends State<BookDetails> {
-  Book book;
-  BookDetailsForm({this.book});
+class _ManualBookEntry extends State<ManualBookEntry> {
+  String selectedLibrary;
 
   final _key = GlobalKey<FormState>();
-  String selectedLibrary;
+
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _pagesController = TextEditingController();
+  final TextEditingController _authorController = TextEditingController();
+  final TextEditingController _isbn13Controller = TextEditingController();
+  final TextEditingController _isbn10Controller = TextEditingController();
+  final TextEditingController _languageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,58 +37,53 @@ class BookDetailsForm extends State<BookDetails> {
       key: _key,
       child: Column(
         children: <Widget>[
-          Image.network(
-            book.bookImg,
-            height: 100,
-            width: 100,
-          ),
           TextFormField(
-            readOnly: book.bookTitle == '' ? false : true,
-            initialValue: book.bookTitle,
+            controller: _titleController,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Enter a title';
+              }
+              return null;
+            },
             decoration: InputDecoration(
               labelText: 'Title',
             ),
-            onSaved: (newValue) => book.bookTitle = newValue,
           ),
           TextFormField(
-            readOnly: book.bookAuthor == '' ? false : true,
-            initialValue: book.bookAuthor,
+            controller: _authorController,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Enter an author';
+              }
+              return null;
+            },
             decoration: InputDecoration(
               labelText: 'Author',
             ),
-            onSaved: (newValue) => book.bookAuthor = newValue,
           ),
           TextFormField(
-            readOnly: book.isbn_10 == '' ? false : true,
-            initialValue: book.isbn_10,
+            controller: _isbn10Controller,
             decoration: InputDecoration(
               labelText: 'ISBN10',
             ),
-            onSaved: (newValue) => book.isbn_10 = newValue,
           ),
           TextFormField(
-            readOnly: book.isbn_13 == '' ? false : true,
-            initialValue: book.isbn_13,
+            controller: _isbn13Controller,
             decoration: InputDecoration(
               labelText: 'ISBN13',
             ),
-            onSaved: (newValue) => book.isbn_13 = newValue,
           ),
           TextFormField(
-            readOnly: book.pageCount.toString() == '' ? false : true,
-            initialValue: book.pageCount.toString(),
+            controller: _pagesController,
             decoration: InputDecoration(
               labelText: 'Pages',
             ),
-            onSaved: (newValue) => book.pageCount = int.parse(newValue),
           ),
           TextFormField(
-            readOnly: book.bookLang == '' ? false : true,
-            initialValue: book.bookLang,
+            controller: _languageController,
             decoration: InputDecoration(
               labelText: 'Language',
             ),
-            onSaved: (newValue) => book.bookLang = newValue,
           ),
           FutureBuilder<List<Library>>(
               future: getLibraries(),
@@ -115,18 +109,20 @@ class BookDetailsForm extends State<BookDetails> {
               }),
           RaisedButton(
             onPressed: () async {
-              submit(book, selectedLibrary);
+              var isValid = await submit(selectedLibrary);
 
-              // get the library record
-              var libRecord = await getLibraryRecord(selectedLibrary);
-              var libId = libRecord.id;
+              if (isValid) {
+                // get the library record
+                var libRecord = await getLibraryRecord(selectedLibrary);
+                var libId = libRecord.id;
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddSuccessScreen(libId: libId),
-                ),
-              );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddSuccessScreen(libId: libId),
+                  ),
+                );
+              }
             },
             child: Text('Approve'),
           ),
@@ -135,7 +131,7 @@ class BookDetailsForm extends State<BookDetails> {
     );
   }
 
-  Future<Library> getLibraryRecord(libraryName) async {
+  Future<Library> getLibraryRecord(String libraryName) async {
     // get UID
     final auth = FirebaseAuth.instance;
     final user = await auth.currentUser();
@@ -144,17 +140,32 @@ class BookDetailsForm extends State<BookDetails> {
     return await findLibraryRecord(selectedLibrary, uid);
   }
 
-  void submit(Book book, String selectedLibrary) async {
+  Future<bool> submit(String selectedLibrary) async {
     if (_key.currentState.validate()) {
-      _key.currentState.save();
+      var book = Book.empty();
+      book.bookAuthor = _authorController.text.trim();
+      book.pageCount = int.tryParse(_pagesController.text.trim()) != null
+          ? int.parse(_pagesController.text.trim())
+          : 0;
+      book.isbn_10 = _isbn10Controller.text.trim();
+      book.isbn_13 = _isbn13Controller.text.trim();
+      book.bookTitle = _titleController.text.trim();
+      book.bookLang = _languageController.text.trim();
 
       // get UID
       final auth = FirebaseAuth.instance;
       final user = await auth.currentUser();
       final uid = user.uid;
 
+      // insert into database, return created book
+      var newBook = await callCreateBook(book);
+
       // addBookToLibrary
-      await addBookToLibrary(book, selectedLibrary, uid);
+      await addBookToLibrary(newBook, selectedLibrary, uid);
+
+      return true;
+    } else {
+      return false;
     }
   }
 

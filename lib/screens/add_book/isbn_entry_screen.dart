@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import '../../db/databaseops.dart';
 import '../../models/book.dart';
 import '../../templates/default_template.dart';
-import 'book_to_add_details.dart';
+import 'add_book_error_screen.dart';
+import 'book_to_add_details_screen.dart';
 
 class IsbnEntryScreen extends StatelessWidget {
   @override
@@ -66,6 +67,15 @@ class IsbnEntryForm extends State<IsbnEntry> {
     isbn = isbn.replaceAll('-', '');
     var book = await findBookByIsbn(isbn);
 
+    // if book error
+    if (book == null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddBookErrorScreen(),
+          ));
+    }
+
     // if book found return it
     if (book != null) {
       return book;
@@ -92,8 +102,12 @@ class IsbnEntryForm extends State<IsbnEntry> {
         return callCreateBook(newBook);
       } else {
         // book was not found in database or API
-        // throw error
-        throw ('Book was not found in database or API');
+        // if book error
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddBookErrorScreen(),
+            ));
       }
     }
   }
