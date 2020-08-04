@@ -376,4 +376,37 @@ export const findLibraryRecord = functions.https.onCall(async (data, context) =>
         return err; 
     }  
 });
- 
+
+export const getCOLibraryBooks = functions.https.onCall(async (data, context) => {
+    // database connection
+    const connection = await connect(); 
+
+    const books = await connection.getRepository(BookLibrary) 
+    .createQueryBuilder("bookLibrary")
+    .leftJoinAndSelect("bookLibrary.book", "book")
+    .leftJoin("bookLibrary.library", "library")
+    .leftJoin("library.user", "user")
+    .where("user.id = :userId", {userId : data.user})
+    .andWhere("bookLibrary.loaned = :checkedout", {checkedout : true})
+    .getMany();
+
+    // return books
+    return books; 
+});
+
+export const getCRLibraryBooks = functions.https.onCall(async (data, context) => {
+    // database connection
+    const connection = await connect(); 
+
+    const books = await connection.getRepository(BookLibrary) 
+    .createQueryBuilder("bookLibrary")
+    .leftJoinAndSelect("bookLibrary.book", "book")
+    .leftJoin("bookLibrary.library", "library")
+    .leftJoin("library.user", "user")
+    .where("user.id = :userId", {userId : data.user})
+    .andWhere("bookLibrary.reading = :reading", {reading : true})
+    .getMany();
+
+    // return books
+    return books; 
+});

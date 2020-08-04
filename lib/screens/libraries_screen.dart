@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../templates/default_template.dart';
 import '../db/databaseops.dart';
 import '../models/library.dart';
+
+class LibraryArgs {
+  final int id;
+  final String name;
+
+  LibraryArgs(this.id, this.name); 
+}
 
 class LibrariesScreen extends StatelessWidget {
   @override
@@ -23,9 +31,11 @@ class _LoadLibraryState extends State<LoadLibrary> {
   }
 
   List<dynamic> finalLibraries = [];
-  String userId = '19';
   void getLibraries() async {
-    List<dynamic> libraries = await callGetLibraries(userId);
+    final auth = FirebaseAuth.instance;
+    final user = await auth.currentUser();
+    final uid = user.uid;
+    List<Library> libraries = await callGetLibraries(uid);
     setState(() {
       finalLibraries = libraries;
     });
@@ -59,8 +69,10 @@ class _LoadLibraryState extends State<LoadLibrary> {
                                       onPressed: () {
                                         Navigator.pushNamed(
                                             context, 'libraryBooks',
-                                            arguments: (int.parse(
-                                                "${finalLibraries[index].libraryId}")));
+                                            arguments: LibraryArgs(
+                                                int.parse("${finalLibraries[index].libraryId}"),
+                                                "${finalLibraries[index].name}")
+                                                );
                                       },
                                       child: Text('View')),
                                   RaisedButton(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../db/databaseops.dart';
 import '../templates/default_template.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AddLibraryScreen extends StatelessWidget {
   @override
@@ -15,8 +16,17 @@ class AddLibrary extends StatefulWidget {
 }
 
 class _AddLibraryState extends State<AddLibrary> {
-  int userId = 19;
-
+  String uid;
+  // get UID
+  void getUserId() async {
+    final auth = FirebaseAuth.instance;
+    final user = await auth.currentUser();
+    uid = user.uid;
+  }
+  initState() {
+    getUserId();
+  }
+  
   final _key = GlobalKey<FormState>();
   String name = '';
   @override
@@ -37,7 +47,7 @@ class _AddLibraryState extends State<AddLibrary> {
               onPressed: () async {
                 if (_key.currentState.validate()) {
                   //submit info to db and navigate to libraries
-                  callCreateLibrary(name, userId);
+                  callCreateLibrary(name, uid);
                   await Navigator.pushNamed(context, 'libraries');
                 }
               },
