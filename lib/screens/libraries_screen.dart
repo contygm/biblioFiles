@@ -82,10 +82,11 @@ class _LoadLibraryState extends State<LoadLibrary> {
                     child: Text('View')),
                 RaisedButton(
                     onPressed: () async {
+                      
                       await callDeleteLibrary(selectedLibrary.id);
                       Navigator.pushNamed(
                         context,
-                        'libraries',
+                        'libraries'
                       );
 
                       setState(() {});
@@ -95,7 +96,9 @@ class _LoadLibraryState extends State<LoadLibrary> {
               RaisedButton(
                 child: Text('Create Library'),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'addLibrary');
+                  Navigator.pushNamed(context, 'addLibrary'); 
+                  setState(() {});  
+
                 },
               ),
             ],
@@ -107,8 +110,10 @@ class _LoadLibraryState extends State<LoadLibrary> {
           child: Column(
         children: [
           RaisedButton(
+              
               child: Text('Create Library'),
               onPressed: () {
+                lookLibrary = false; 
                 Navigator.pushNamed(context, 'addLibrary');
               })
         ],

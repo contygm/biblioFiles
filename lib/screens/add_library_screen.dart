@@ -23,10 +23,11 @@ class _AddLibraryState extends State<AddLibrary> {
     final user = await auth.currentUser();
     uid = user.uid;
   }
+
   initState() {
     getUserId();
   }
-  
+
   final _key = GlobalKey<FormState>();
   String name = '';
   @override
@@ -38,17 +39,24 @@ class _AddLibraryState extends State<AddLibrary> {
               decoration: const InputDecoration(labelText: 'Library Name'),
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'A new library require a name!';
+                  return 'A new library requires a name!';
                 }
                 name = value;
                 return null;
               }),
           RaisedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, 'libraries');
+              },
+              child: Text('Go to library')),
+          RaisedButton(
               onPressed: () async {
                 if (_key.currentState.validate()) {
                   //submit info to db and navigate to libraries
-                  callCreateLibrary(name, uid);
-                  await Navigator.pushNamed(context, 'libraries');
+                  await callCreateLibrary(name, uid);
+                  final message =
+                      SnackBar(content: Text('Library has been added!'));
+                  Scaffold.of(context).showSnackBar(message);
                 }
               },
               child: Text('Save'))
