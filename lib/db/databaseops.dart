@@ -105,13 +105,13 @@ Future<Library> findLibraryRecord(String libName, String userId) async {
   return Library.fromJson(result.data);
 }
 
-//library functions, return books from library that are checked out 
+//library functions, return books from library that are checked out
 Future<List<dynamic>> callGetCheckedOutBooks(String uid) async {
-  final HttpsCallable getCOBooksFunction =
-      CloudFunctions.instance.getHttpsCallable(functionName: 'getCOLibraryBooks');
+  final HttpsCallable getCOBooksFunction = CloudFunctions.instance
+      .getHttpsCallable(functionName: 'getCOLibraryBooks');
 
-  final HttpsCallableResult result = await getCOBooksFunction
-      .call(<dynamic, dynamic>{'user': uid});
+  final HttpsCallableResult result =
+      await getCOBooksFunction.call(<dynamic, dynamic>{'user': uid});
 
   var booklib = result.data as List;
   List<BookLibrary> bookResults =
@@ -120,19 +120,20 @@ Future<List<dynamic>> callGetCheckedOutBooks(String uid) async {
   return bookResults;
 }
 
-//library functions, return books from library that are currently being read out 
+//library functions, return books from library that are currently being read out
 Future<List<dynamic>> callGetReadingBooks(String uid) async {
-  final HttpsCallable getCOBooksFunction =
-      CloudFunctions.instance.getHttpsCallable(functionName: 'getCRLibraryBooks');
+  final HttpsCallable getCOBooksFunction = CloudFunctions.instance
+      .getHttpsCallable(functionName: 'getCRLibraryBooks');
 
-  final HttpsCallableResult result = await getCOBooksFunction
-      .call(<dynamic, dynamic>{'user': uid});
+  final HttpsCallableResult result =
+      await getCOBooksFunction.call(<dynamic, dynamic>{'user': uid});
 
   var booklib = result.data as List;
   List<BookLibrary> bookResults =
       booklib.map((i) => BookLibrary.fromJson(i)).toList();
 
   return bookResults;
+}
 
 Future<User> getUser(String userId) async {
   final findUserFunction =
