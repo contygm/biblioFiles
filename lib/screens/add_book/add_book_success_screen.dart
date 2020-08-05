@@ -1,3 +1,4 @@
+import 'package:biblioFiles/screens/libraries_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../templates/default_template.dart';
@@ -32,9 +33,12 @@ class _AddSuccess extends State<AddSuccess> {
           children: <Widget>[
             Text("You've added this book to your library!"),
             RaisedButton(
-              onPressed: () async {
-                Navigator.pushNamed(context, 'libraryBooks',
-                    arguments: (libId));
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  'libraryBooks',
+                  arguments: LibraryArgs(libId, ''),
+                );
               },
               child: Text('Go to Library'),
             ),
