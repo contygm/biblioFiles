@@ -12,6 +12,51 @@ export const echo = functions.https.onCall(async (data, context) => {
     return data.text; 
 });
 
+// update library
+export const updateLibrary = functions.https.onCall(async (data,context) => {
+    try {
+        // get database connection
+        const connection = await connect();
+
+        // get repo 
+        const libraryRepo = connection.getRepository(Library);
+
+        // get library
+        const libraryRecord = await libraryRepo.findOne({id: data.id});
+
+        // update new values
+        libraryRecord.name = data.name;
+
+        // write object to the database
+        const savedLibrary = await libraryRepo.save(libraryRecord); 
+
+        // return saved library
+        return savedLibrary;
+    }
+    catch (err) {
+        return err
+    }
+});
+// get library
+export const getLibrary = functions.https.onCall(async (data, context) => {
+    try {
+        // get database connection
+        const connection = await connect();
+
+        // get repo
+        const libraryRepo = connection.getRepository(Library); 
+
+        // get library by userId and libraryId
+        var retLibrary = await libraryRepo.findOne({id: data.id});
+ 
+        // return the record
+        return retLibrary; 
+    }
+    catch (err) {
+        return err;
+    }
+});
+
 // find book by isbn
 export const findBookByIsbn = functions.https.onCall(async (data, context) => {
     try {
@@ -37,8 +82,56 @@ export const findBookByIsbn = functions.https.onCall(async (data, context) => {
     }
 });
 
+// update user
+export const updateUser = functions.https.onCall(async (data, context) => {
+    try {
+        // get database connection
+        const connection = await connect();
+
+        // get repo
+        const userRepo = connection.getRepository(User); 
+        
+        // get user
+        const userRecord = await userRepo.findOne({id: data.id});
+
+        // update new values
+        userRecord.email = data.email; 
+        userRecord.photoURL = data.photoURL; 
+        userRecord.username = data.username; 
+
+        // write object to the database
+        const savedUser = await userRepo.save(userRecord); 
+
+        // return saved user
+        return savedUser; 
+    }
+    catch (err) {
+        return err;
+    }
+});
+
+// get user by UID
+export const findUser = functions.https.onCall(async (data, context) =>{
+    try {
+        // get database connection
+        const connection = await connect(); 
+
+        // get repo
+        const userRepo = connection.getRepository(User); 
+
+        // get user
+        const userRecord = await userRepo.findOne({id: data.id});
+
+        // return the record
+        return userRecord; 
+    }
+    catch (err) { // catch and return errors
+        return err;
+    }
+});
+
 // create user on new user auth
-export const createUserFromAuth = functions.auth.user().onCreate(async (user) => {
+export const createUserFromAuth = functions.auth.user().onCreate(async (user) => {;
     try {
         // get database connection
         const connection = await connect(); 
@@ -51,7 +144,7 @@ export const createUserFromAuth = functions.auth.user().onCreate(async (user) =>
         newUser.id = user.uid; 
         newUser.username = user.displayName; 
         newUser.email = user.email;
-
+        newUser.photoURL = user.photoURL;
 
         // write object to the database
         const savedUser = await userRepo.save(newUser); 
