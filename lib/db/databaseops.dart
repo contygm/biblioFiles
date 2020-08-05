@@ -1,7 +1,8 @@
-import 'package:biblioFiles/models/bookLibrary.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import '../models/library.dart';
 import '../models/book.dart';
+import '../models/bookLibrary.dart';
+import '../models/library.dart';
+import '../models/user.dart';
 
 //library functions, return library listed based on user id
 Future<List<Library>> callGetLibraries(String userId) async {
@@ -102,6 +103,43 @@ Future<Library> findLibraryRecord(String libName, String userId) async {
 
   final result =
       await findLibraryRecord.call({'libraryName': libName, 'userId': userId});
+
+  return Library.fromJson(result.data);
+}
+
+Future<User> getUser(String userId) async {
+  final findUserFunction =
+      CloudFunctions.instance.getHttpsCallable(functionName: 'findUser');
+
+  final result = await findUserFunction.call({'id': userId});
+
+  return User.fromJson(result.data);
+}
+
+Future<User> updateUser(User user) async {
+  final updateUserFunction =
+      CloudFunctions.instance.getHttpsCallable(functionName: 'updateUser');
+
+  final result = await updateUserFunction.call(user.toJson());
+
+  return User.fromJson(result.data);
+}
+
+Future<Library> getLibrary(int libraryId) async {
+  final getLibraryFunction =
+      CloudFunctions.instance.getHttpsCallable(functionName: 'getLibrary');
+
+  final result =
+      await getLibraryFunction.call(<String, dynamic>{'id': libraryId});
+
+  return Library.fromJson(result.data);
+}
+
+Future<Library> updateLibrary(Library library) async {
+  final updateLibraryFunction =
+      CloudFunctions.instance.getHttpsCallable(functionName: 'updateLibrary');
+
+  final result = await updateLibraryFunction(library.toJson());
 
   return Library.fromJson(result.data);
 }

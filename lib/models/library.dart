@@ -8,6 +8,8 @@ class Library {
     return Library(record['name'], record['id']);
   }
 
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
+
   String get libraryName {
     return name;
   }
