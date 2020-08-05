@@ -15,7 +15,7 @@ class ShelvesScreen extends StatefulWidget {
 }
 
 class _ShelvesScreenState extends State<ShelvesScreen> {
-  List<String> shelves = ['Currently Reading','Checked Out'];
+  List<String> shelves = ['Currently Reading', 'Checked Out'];
 
   @override
   void initState() {
@@ -26,6 +26,7 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
   List<dynamic> checkedOutBooks = [];
   List<dynamic> currentBooks = [];
   List<List<dynamic>> allBooks = [];
+  bool booksAsked = false;
   void getBooksinShelves() async {
     final auth = FirebaseAuth.instance;
     final user = await auth.currentUser();
@@ -33,11 +34,19 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
     var coBooks = await callGetCheckedOutBooks(uid);
     var curBooks = await callGetReadingBooks(uid);
     setState(() {
+       booksAsked = true;
       checkedOutBooks = coBooks;
       currentBooks = curBooks;
-
-      allBooks.add(checkedOutBooks);
-      allBooks.add(currentBooks);
+      if (checkedOutBooks.isEmpty) {
+        shelves.remove('Checked Out');
+      } else {
+        allBooks.add(checkedOutBooks);
+      }
+      if (currentBooks.isEmpty) {
+        shelves.remove('Currently Reading');
+      } else {
+        allBooks.add(currentBooks);
+      }
     });
   }
 
@@ -48,20 +57,29 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
   }
 
   Widget shelvesList(BuildContext context) {
-    return ListView.separated(
-        padding: const EdgeInsets.all(8),
-        itemCount: shelves.length,
-        itemBuilder: (context, index) {
-          return Container(
-            height: 300,
-            child: BookGrid(
-                bookLibrary: allBooks[index],
-                crossAxisCount: 2,
-                title: shelves[index],
-                bookCount: allBooks[index].length,
-                scrollDirection: Axis.horizontal),
-          );
-        },
-        separatorBuilder: (context, index) => const Divider());
+    if (booksAsked == false) {
+      return Container(child: CircularProgressIndicator());
+    } else {
+      if (allBooks.isEmpty) {
+        return Text('All of your shelves are empty!', 
+                style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
+      } else {
+        return ListView.separated(
+            padding: const EdgeInsets.all(8),
+            itemCount: shelves.length,
+            itemBuilder: (context, index) {
+              return Container(
+                height: 300,
+                child: BookGrid(
+                    bookLibrary: allBooks[index],
+                    crossAxisCount: 2,
+                    title: shelves[index],
+                    bookCount: allBooks[index].length,
+                    scrollDirection: Axis.horizontal),
+              );
+            },
+            separatorBuilder: (context, index) => const Divider());
+      }
+    }
   }
 }

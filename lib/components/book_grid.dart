@@ -42,14 +42,13 @@ class BookGrid extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true,
       scrollDirection: scrollDirection,
-      // TODO replace with books count from DB
       itemCount: bookCount, 
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount, 
       ), 
       itemBuilder: (context, index) {
         return Center(
-          // TODO replace with books[index]
+         
           child: bookCard(context, bookLibrary[index]) 
         );
       }
