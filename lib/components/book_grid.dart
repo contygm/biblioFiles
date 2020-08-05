@@ -8,7 +8,7 @@ class BookGrid extends StatelessWidget {
   final int bookCount;
   final int crossAxisCount;
   final String title;
-  final BookLibrary bookLibrary;
+  final List<BookLibrary> bookLibrary;
 
   BookGrid({
     this.bookLibrary,
@@ -38,19 +38,18 @@ class BookGrid extends StatelessWidget {
     );
   }
 
-  Widget cardGrid(BuildContext context, BookLibrary bookLibrary) {
+  Widget cardGrid(BuildContext context, List<BookLibrary> bookLibrary) {
     return GridView.builder(
       shrinkWrap: true,
       scrollDirection: scrollDirection,
-      // TODO replace with books count from DB
       itemCount: bookCount, 
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount, 
       ), 
       itemBuilder: (context, index) {
         return Center(
-          // TODO replace with books[index]
-          child: bookCard(context, bookLibrary) 
+         
+          child: bookCard(context, bookLibrary[index]) 
         );
       }
     );

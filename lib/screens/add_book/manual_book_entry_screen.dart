@@ -90,7 +90,7 @@ class _ManualBookEntry extends State<ManualBookEntry> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return DropdownButtonFormField<String>(
-                      decoration: InputDecoration(labelText: 'Libary'),
+                      decoration: InputDecoration(labelText: 'Library'),
                       value: selectedLibrary,
                       onChanged: (newValue) {
                         setState(() {

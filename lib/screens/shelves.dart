@@ -3,65 +3,83 @@ import '../components/book_grid.dart';
 import '../components/floating_back_button.dart';
 import '../models/book.dart';
 import '../models/bookLibrary.dart';
+import '../db/databaseops.dart';
 import '../templates/default_template.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-// TODO shelf list
-class ShelvesScreen extends StatelessWidget {
+class ShelvesScreen extends StatefulWidget {
   static const routeName = 'shelvesScreen';
-  // REMOVE this when we start pulling info from DB
-  List<String> libraries = ['Currently Reading', 'Checked Out', 'Another One'];
-  // REMOVE this when we start pulling info from DB
-  final BookLibrary bookLibrary = BookLibrary(
-    book: Book(
-      "https://media.wired.com/photos/5cdefc28b2569892c06b2ae4/master/w_2560%2Cc_limit/Culture-Grumpy-Cat-487386121-2.jpg", 
-      425, 
-      'Sir Chonk', 
-      '1234567890123', 
-      '1234567890', 
-      '122.21', 
-      1, 
-      'Professionally Grumpy', 
-      'English'
-    ),
-    notes: 'Excellent resources for how to be grumpy',
-    private: false,
-    loanable: true,
-    rating: 4,
-    currentlyreading: true,
-    checkedout: false,
-    unpacked: false,
-    id: 1
-  );
 
   @override
+  _ShelvesScreenState createState() => _ShelvesScreenState();
+}
+
+class _ShelvesScreenState extends State<ShelvesScreen> {
+  List<String> shelves = ['Currently Reading', 'Checked Out'];
+
+  @override
+  void initState() {
+    super.initState();
+    getBooksinShelves();
+  }
+
+  List<dynamic> checkedOutBooks = [];
+  List<dynamic> currentBooks = [];
+  List<List<dynamic>> allBooks = [];
+  bool booksAsked = false;
+  void getBooksinShelves() async {
+    final auth = FirebaseAuth.instance;
+    final user = await auth.currentUser();
+    final uid = user.uid;
+    var coBooks = await callGetCheckedOutBooks(uid);
+    var curBooks = await callGetReadingBooks(uid);
+    setState(() {
+       booksAsked = true;
+      checkedOutBooks = coBooks;
+      currentBooks = curBooks;
+      if (checkedOutBooks.isEmpty) {
+        shelves.remove('Checked Out');
+      } else {
+        allBooks.add(checkedOutBooks);
+      }
+      if (currentBooks.isEmpty) {
+        shelves.remove('Currently Reading');
+      } else {
+        allBooks.add(currentBooks);
+      }
+    });
+  }
+
   Widget build(BuildContext context) {
-    // TODO pass in books from DB and library title
     return DefaultTemplate(
-      floatingAction: FloatingBackButton(context),
-      content: shelvesList(context)
-    );
+        floatingAction: FloatingBackButton(context),
+        content: shelvesList(context));
   }
 
   Widget shelvesList(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(8),
-      itemCount: libraries.length,
-      itemBuilder: (context, index) {
-        return Container(
-          height: 300,
-          child: BookGrid(
-            // TODO: replace with libraries.books once we bull from DB
-            bookLibrary: bookLibrary,
-            crossAxisCount: 2, 
-            title: libraries[index],
-            bookCount: 20, 
-            scrollDirection: Axis.horizontal
-          ),
-        );
-      },
-      separatorBuilder: (context, index) => const Divider()
-    );
+    if (booksAsked == false) {
+      return Container(child: CircularProgressIndicator());
+    } else {
+      if (allBooks.isEmpty) {
+        return Text('All of your shelves are empty!', 
+                style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
+      } else {
+        return ListView.separated(
+            padding: const EdgeInsets.all(8),
+            itemCount: shelves.length,
+            itemBuilder: (context, index) {
+              return Container(
+                height: 300,
+                child: BookGrid(
+                    bookLibrary: allBooks[index],
+                    crossAxisCount: 2,
+                    title: shelves[index],
+                    bookCount: allBooks[index].length,
+                    scrollDirection: Axis.horizontal),
+              );
+            },
+            separatorBuilder: (context, index) => const Divider());
+      }
+    }
   }
 }
-
-

@@ -10,7 +10,7 @@ export class User extends BaseEntity {
     username: string;
 
     @Column() 
-    email: string; 
+    email: string;
 
     @Column()
     photoURL: string;

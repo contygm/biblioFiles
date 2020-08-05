@@ -23,7 +23,7 @@ Future<List<Library>> callGetLibraries(String userId) async {
 }
 
 //create library based on form value and current user id
-void callCreateLibrary(String value, int userId) async {
+void callCreateLibrary(String value, String userId) async {
   // get function instance
   final HttpsCallable createLibraryFunction =
       CloudFunctions.instance.getHttpsCallable(
@@ -55,10 +55,8 @@ Future<List<dynamic>> callGetLibraryBooks(int libraryId) async {
 
   final HttpsCallableResult result = await getLibraryBooksFunction
       .call(<dynamic, dynamic>{'library': libraryId});
-  print(result.data);
 
   var booklib = result.data as List;
-//THIS NEEDS WORK - NOT PARSING CORRECTLY
   List<BookLibrary> bookResults =
       booklib.map((i) => BookLibrary.fromJson(i)).toList();
 
@@ -105,6 +103,36 @@ Future<Library> findLibraryRecord(String libName, String userId) async {
       await findLibraryRecord.call({'libraryName': libName, 'userId': userId});
 
   return Library.fromJson(result.data);
+}
+
+//library functions, return books from library that are checked out
+Future<List<dynamic>> callGetCheckedOutBooks(String uid) async {
+  final HttpsCallable getCOBooksFunction = CloudFunctions.instance
+      .getHttpsCallable(functionName: 'getCOLibraryBooks');
+
+  final HttpsCallableResult result =
+      await getCOBooksFunction.call(<dynamic, dynamic>{'user': uid});
+
+  var booklib = result.data as List;
+  List<BookLibrary> bookResults =
+      booklib.map((i) => BookLibrary.fromJson(i)).toList();
+
+  return bookResults;
+}
+
+//library functions, return books from library that are currently being read out
+Future<List<dynamic>> callGetReadingBooks(String uid) async {
+  final HttpsCallable getCOBooksFunction = CloudFunctions.instance
+      .getHttpsCallable(functionName: 'getCRLibraryBooks');
+
+  final HttpsCallableResult result =
+      await getCOBooksFunction.call(<dynamic, dynamic>{'user': uid});
+
+  var booklib = result.data as List;
+  List<BookLibrary> bookResults =
+      booklib.map((i) => BookLibrary.fromJson(i)).toList();
+
+  return bookResults;
 }
 
 Future<User> getUser(String userId) async {
