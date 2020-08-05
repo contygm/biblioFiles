@@ -1,3 +1,5 @@
+import 'package:biblioFiles/db/databaseops.dart';
+import 'package:biblioFiles/models/library.dart';
 import 'package:biblioFiles/screens/libraries_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +35,14 @@ class _AddSuccess extends State<AddSuccess> {
           children: <Widget>[
             Text("You've added this book to your library!"),
             RaisedButton(
-              onPressed: () {
+              onPressed: () async {
+                var lib = await getLibraryName();
+                var libName = lib.libraryName;
+
                 Navigator.pushNamed(
                   context,
                   'libraryBooks',
-                  arguments: LibraryArgs(libId, ''),
+                  arguments: LibraryArgs(libId, libName),
                 );
               },
               child: Text('Go to Library'),
@@ -46,5 +51,11 @@ class _AddSuccess extends State<AddSuccess> {
         )
       ],
     );
+  }
+
+  Future<Library> getLibraryName() async {
+    var libraryObject = await getLibrary(libId);
+
+    return libraryObject;
   }
 }
