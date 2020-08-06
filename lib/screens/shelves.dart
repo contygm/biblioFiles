@@ -52,8 +52,8 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
 
   Widget build(BuildContext context) {
     return DefaultTemplate(
-        floatingAction: FloatingBackButton(context),
-        content: shelvesList(context));
+      floatingAction: FloatingBackButton(context),
+      content: shelvesList(context));
   }
 
   Widget shelvesList(BuildContext context) {
@@ -71,11 +71,12 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
               return Container(
                 height: 300,
                 child: BookGrid(
-                    bookLibrary: allBooks[index],
-                    crossAxisCount: 2,
-                    title: shelves[index],
-                    bookCount: allBooks[index].length,
-                    scrollDirection: Axis.horizontal),
+                  bookLibrary: allBooks[index],
+                  crossAxisCount: 2,
+                  title: shelves[index],
+                  bookCount: allBooks[index].length,
+                  scrollDirection: Axis.horizontal
+                ),
               );
             },
             separatorBuilder: (context, index) => const Divider());
