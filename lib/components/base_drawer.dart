@@ -91,6 +91,15 @@ class BaseDrawer extends StatelessWidget {
                         },
                       ),
                     ),
+                     Opacity(
+                      opacity: _opac,
+                      child: ListTile(
+                        title: Text('Home'),
+                        onTap: ()  {
+                              Navigator.pushNamed(context, 'home');
+                            }
+                      ),
+                    ),
                   ],
                 ) // Populate the Drawer in the next step.
                 );
