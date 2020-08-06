@@ -48,7 +48,7 @@ class _AddLibraryState extends State<AddLibrary> {
               onPressed: () {
                 Navigator.pushNamed(context, 'libraries');
               },
-              child: Text('Go to library')),
+              child: Text('View libraries')),
           RaisedButton(
               onPressed: () async {
                 if (_key.currentState.validate()) {
