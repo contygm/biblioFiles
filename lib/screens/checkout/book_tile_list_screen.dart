@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../components/filter_sort_bar.dart';
 import '../../models/book.dart';
 import '../../models/bookLibrary.dart';
 import '../../models/library.dart';
@@ -65,8 +66,8 @@ class BooksTileListScreen extends StatefulWidget {
 }
 
 class _BooksTileListScreenState extends State<BooksTileListScreen> {
-  bool _isAscending = true;
   List<BookLibrary> allBooks = [bookRegular, bookOut, bookUnloanable];
+  bool _isAscending = true;
 
   @override
   Widget build(BuildContext context) {
@@ -76,70 +77,7 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
       content: Container(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    library.libraryName, 
-                    style: TextStyle(fontSize: 25)
-                  ),
-                  ButtonBar(children: [
-                    DropdownButton(
-                      icon: Icon(Icons.filter_list), 
-                      iconSize: 24, 
-                      onChanged: (value) {
-                        
-                      },
-                      underline: Container(color: Colors.transparent),
-                      items: ['Filter 1', 'Filter 2', 'Filter 3']
-                        .map<DropdownMenuItem<String>>((value) {
-                          return DropdownMenuItem (
-                            child: Text(value),
-                            value: value,
-                          );
-                        }
-                      ).toList(),
-                    ),
-                    GestureDetector(
-                      onDoubleTap: () {
-                          setState(() {
-                            _isAscending = !_isAscending;
-                          });
-                        },
-                      child: DropdownButton(
-                        icon: _isAscending ? 
-                        Icon(Icons.arrow_upward) : Icon(Icons.arrow_downward), 
-                        iconSize: 24, 
-                        onChanged: (value) {
-                          setState(() {
-                            // _isAscending = !_isAscending;
-                          });
-                        },
-                        onTap: () {
-                          setState(() {
-                            _isAscending = !_isAscending;
-                          });
-                        },
-                        underline: Container(
-                          // height: 2,
-                          color: Colors.transparent,
-                        ),
-                        items: ['Sort 1', 'Sort 2', 'Sort 3']
-                          .map<DropdownMenuItem<String>>((value) {
-                            return DropdownMenuItem (
-                              child: Text(value),
-                              value: value,
-                            );
-                          }
-                        ).toList(),
-                      ),
-                    )
-                  ])
-                ]
-              ),
-            ),
+            filterSortBar(library.libraryName),
             Expanded(child: bookTileList())
           ],
         )
@@ -173,6 +111,79 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
             Text('OUT', style: TextStyle(color: Colors.red)) 
             : null,
         ),
+    );
+  }
+
+  Widget filterSortBar(String libraryName) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
+      child: Row(
+        children: [
+          Text(
+            libraryName, 
+            style: TextStyle(fontSize: 25)
+          ),
+          Spacer(flex: 1),
+          ButtonBar(
+            children: [
+            filterDropDown(),
+            sortDropDown()
+          ])
+        ]
+      ),
+    );
+  }
+
+  Widget filterDropDown() {
+    var choices = <String>[
+      'All','Unloanable', 'Loanable', 'Checked Out', 'Checked In'
+    ];
+
+    return PopupMenuButton(
+      icon: Icon(Icons.filter_list), 
+      onSelected: print,
+      itemBuilder: (context) {
+        return choices.map<PopupMenuItem<String>>((value) {
+            return PopupMenuItem (
+              child: Text(value),
+              value: value,
+            );
+          }
+        ).toList();
+      }
+    );
+  }
+
+  Widget sortDropDown() {
+    var choices = <String>[
+      'Author', 'Dewey Decimal', 'Pages', 'Genre', 'Title', 'Language'
+    ];
+    
+    return GestureDetector(
+      onDoubleTap: () {
+        setState(() {
+          _isAscending = !_isAscending;
+          allBooks = allBooks.reversed.toList();
+        });
+      },
+      child: PopupMenuButton(
+        icon: _isAscending ? 
+          Icon(Icons.arrow_upward) : Icon(Icons.arrow_downward), 
+        onSelected: (value) {
+          setState(() {
+            allBooks.sort((a, b) => a.book.title.compareTo(b.book.title));
+          });
+        },
+        itemBuilder: (context) {
+          return choices.map<PopupMenuItem<String>>((value) {
+              return PopupMenuItem (
+                child: Text(value),
+                value: value,
+              );
+            }
+          ).toList();
+        }
+      ),
     );
   }
 }
