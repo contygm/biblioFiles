@@ -65,10 +65,17 @@ class BooksTileListScreen extends StatefulWidget {
 }
 
 class _BooksTileListScreenState extends State<BooksTileListScreen> {
-  List<BookLibrary> allBooks = [bookRegular, bookOut, bookUnloanable];
+  // keep track of sort order
   bool _isAscending = true;
+  
+  // keep track of sort param, default = Author
   String sortParam = 'Author';
-  List<BookLibrary> sortedBooks = [bookRegular, bookOut, bookUnloanable];
+  
+  // this contains the original book list (used for filtering)
+  List<BookLibrary> allBooks = [bookRegular, bookOut, bookUnloanable];
+  
+  // this will contain the sorted/filtered books
+  List<BookLibrary> organizedBooks = [bookRegular, bookOut, bookUnloanable];
 
   @override
   Widget build(BuildContext context) {
@@ -89,9 +96,9 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
   Widget bookTileList() {
     return ListView.separated(
       padding: const EdgeInsets.all(8),
-      itemCount: 3,
+      itemCount: organizedBooks.length,
       itemBuilder: (context, index) {
-        return bookTile(sortedBooks[index]);
+        return bookTile(organizedBooks[index]);
       },
       separatorBuilder: (context, index) => const Divider()
     );
@@ -135,6 +142,8 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
     return value;
   }
 
+  // determines the text for the right side of tile
+  // based on sort and checkout statuses
   Widget bookTileEnd(BookLibrary bookLib) {
     if(sortParam != 'Author' && sortParam != 'Title' && bookLib.checkedout) {
       dynamic value = getValueFromSortParam(bookLib.book);
@@ -155,6 +164,7 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
     return null;
   }
 
+  // screen's title bar that has buttons for filter and sort
   Widget filterSortBar(String libraryName) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
@@ -167,22 +177,41 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
           Spacer(flex: 1),
           ButtonBar(
             children: [
-            filterDropDown(),
-            sortDropDown()
+            filterButton(),
+            sortButton()
           ])
         ]
       ),
     );
   }
 
-  Widget filterDropDown() {
+  Widget filterButton() {
     var choices = <String>[
       'All','Unloanable', 'Loanable', 'Checked Out', 'Checked In'
     ];
 
     return PopupMenuButton(
       icon: Icon(Icons.filter_list), 
-      onSelected: print, // TODO
+      onSelected: (value) {
+        setState(() {
+          switch (value) {
+            case 'Unloanable':
+              organizedBooks = allBooks.where((b) => !b.loanable).toList();
+              break;
+            case 'Loanable':
+              organizedBooks = allBooks.where((b) => b.loanable).toList();
+              break;
+            case 'Checked Out':
+              organizedBooks = allBooks.where((b) => b.checkedout).toList();
+              break;
+            case 'Checked In':
+              organizedBooks = allBooks.where((b) => !b.checkedout).toList();
+              break;
+            default: 
+              organizedBooks = allBooks;
+          }
+        });
+      }, // TODO
       itemBuilder: (context) {
         return choices.map<PopupMenuItem<String>>((value) {
             return PopupMenuItem (
@@ -195,7 +224,7 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
     );
   }
 
-  Widget sortDropDown() {
+  Widget sortButton() {
     var choices = <String>[
       'Author', 'Dewey Decimal', 'Pages', 'Title', 'Language'
     ];
@@ -204,7 +233,7 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
       onDoubleTap: () {
         setState(() {
           _isAscending = !_isAscending;
-          sortedBooks = sortedBooks.reversed.toList();
+          organizedBooks = organizedBooks.reversed.toList();
         });
       },
       child: PopupMenuButton(
@@ -214,23 +243,23 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
           setState(() {
             switch (value) {
               case 'Dewey Decimal':
-                sortedBooks.sort((a, b) 
+                organizedBooks.sort((a, b) 
                   => a.book.dewey.compareTo(b.book.dewey));
                 break;
               case 'Pages':
-                sortedBooks.sort((a, b) 
+                organizedBooks.sort((a, b) 
                   => a.book.pages.compareTo(b.book.pages));
                 break;
               case 'Title':
-                sortedBooks.sort((a, b) 
+                organizedBooks.sort((a, b) 
                   => a.book.title.compareTo(b.book.title));
                 break;
               case 'Language':
-                sortedBooks.sort((a, b) 
+                organizedBooks.sort((a, b) 
                   => a.book.lang.compareTo(b.book.lang));
                 break;
               default: 
-                sortedBooks.sort((a, b) 
+                organizedBooks.sort((a, b) 
                   => a.book.author.compareTo(b.book.author));
             }
             sortParam = value;
