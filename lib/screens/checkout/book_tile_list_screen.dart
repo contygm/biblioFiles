@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/book.dart';
 import '../../models/bookLibrary.dart';
+import '../../models/library.dart';
 import '../../templates/default_template.dart';
 
 BookLibrary bookRegular = BookLibrary(
@@ -56,8 +57,6 @@ BookLibrary bookUnloanable = BookLibrary(
   id: 1
 );
 
-List<BookLibrary> library = [bookRegular, bookOut, bookUnloanable];
-
 class BooksTileListScreen extends StatefulWidget {
   static final String routeName = 'booksTileList';
 
@@ -67,8 +66,12 @@ class BooksTileListScreen extends StatefulWidget {
 
 class _BooksTileListScreenState extends State<BooksTileListScreen> {
   bool _isAscending = true;
+  List<BookLibrary> allBooks = [bookRegular, bookOut, bookUnloanable];
+
   @override
   Widget build(BuildContext context) {
+    final Library library =  ModalRoute.of(context).settings.arguments;
+    
     return DefaultTemplate(
       content: Container(
         child: Column(
@@ -78,7 +81,10 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Library', style: TextStyle(fontSize: 25),),
+                  Text(
+                    library.libraryName, 
+                    style: TextStyle(fontSize: 25)
+                  ),
                   ButtonBar(children: [
                     DropdownButton(
                       icon: Icon(Icons.filter_list), 
@@ -104,10 +110,17 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
                         },
                       child: DropdownButton(
                         icon: _isAscending ? 
-                          Icon(Icons.arrow_upward) 
-                          : Icon(Icons.arrow_downward) , 
+                        Icon(Icons.arrow_upward) : Icon(Icons.arrow_downward), 
                         iconSize: 24, 
                         onChanged: (value) {
+                          setState(() {
+                            // _isAscending = !_isAscending;
+                          });
+                        },
+                        onTap: () {
+                          setState(() {
+                            _isAscending = !_isAscending;
+                          });
                         },
                         underline: Container(
                           // height: 2,
@@ -139,7 +152,7 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
       padding: const EdgeInsets.all(8),
       itemCount: 3,
       itemBuilder: (context, index) {
-        return bookTile(library[index]);
+        return bookTile(allBooks[index]);
       },
       separatorBuilder: (context, index) => const Divider()
     );

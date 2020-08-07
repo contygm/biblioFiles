@@ -34,7 +34,7 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
     var coBooks = await callGetCheckedOutBooks(uid);
     var curBooks = await callGetReadingBooks(uid);
     setState(() {
-       booksAsked = true;
+      booksAsked = true;
       checkedOutBooks = coBooks;
       currentBooks = curBooks;
       if (checkedOutBooks.isEmpty) {
@@ -62,24 +62,25 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
     } else {
       if (allBooks.isEmpty) {
         return Text('All of your shelves are empty!', 
-                style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
+          style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
       } else {
         return ListView.separated(
-            padding: const EdgeInsets.all(8),
-            itemCount: shelves.length,
-            itemBuilder: (context, index) {
-              return Container(
-                height: 300,
-                child: BookGrid(
-                  bookLibrary: allBooks[index],
-                  crossAxisCount: 2,
-                  title: shelves[index],
-                  bookCount: allBooks[index].length,
-                  scrollDirection: Axis.horizontal
-                ),
-              );
-            },
-            separatorBuilder: (context, index) => const Divider());
+          padding: const EdgeInsets.all(8),
+          itemCount: shelves.length,
+          itemBuilder: (context, index) {
+            return Container(
+              height: 300,
+              child: BookGrid(
+                bookLibrary: allBooks[index],
+                crossAxisCount: 2,
+                title: shelves[index],
+                bookCount: allBooks[index].length,
+                scrollDirection: Axis.horizontal
+              ),
+            );
+          },
+          separatorBuilder: (context, index) => const Divider()
+        );
       }
     }
   }

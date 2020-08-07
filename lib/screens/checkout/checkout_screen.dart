@@ -5,38 +5,14 @@ import '../../models/library.dart';
 import '../../templates/default_template.dart';
 import 'book_tile_list_screen.dart';
 
-class CheckoutScreen extends StatelessWidget {
+class CheckoutScreen extends StatefulWidget {
   static final String routeName = 'checkout';
 
   @override
-  Widget build(BuildContext context) {
-    return DefaultTemplate(
-      content: LoadLibrary(), 
-      floatingActionLocation: FloatingActionButtonLocation.centerDocked, 
-      floatingAction: Container(
-        height: 80.0,
-        width: 80.0,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 10.0),
-          child: FittedBox(
-            child: FloatingActionButton(
-              child: Icon(Icons.arrow_right, size: 40.0),
-              onPressed: () => Navigator.of(context)
-                .pushNamed( BooksTileListScreen.routeName ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  _CheckoutScreenState createState() => _CheckoutScreenState();
 }
 
-class LoadLibrary extends StatefulWidget {
-  @override
-  _LoadLibraryState createState() => _LoadLibraryState();
-}
-
-class _LoadLibraryState extends State<LoadLibrary> {
+class _CheckoutScreenState extends State<CheckoutScreen> {
   Library selectedLibrary;
   @override
   void initState() {
@@ -57,7 +33,7 @@ class _LoadLibraryState extends State<LoadLibrary> {
     });
   }
 
-  Widget build(BuildContext context) {
+  Widget dropDown() {
     if (lookLibrary == false) {
       return Container(child: CircularProgressIndicator());
     } else {
@@ -90,5 +66,30 @@ class _LoadLibraryState extends State<LoadLibrary> {
         child: Text('You can\'t checkout books from a non-existent library.')
       );
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTemplate(
+      content: dropDown(), 
+      floatingActionLocation: FloatingActionButtonLocation.centerDocked, 
+      floatingAction: Container(
+        height: 80.0,
+        width: 80.0,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 10.0),
+          child: FittedBox(
+            child: FloatingActionButton(
+              child: Icon(Icons.arrow_right, size: 40.0),
+              onPressed: () => Navigator.of(context)
+                .pushNamed( 
+                  BooksTileListScreen.routeName, 
+                  arguments: selectedLibrary
+                ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

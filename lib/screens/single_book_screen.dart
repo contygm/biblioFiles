@@ -45,33 +45,31 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
   }
 
   Widget bigInfo(BuildContext context, BookLibrary bookLibrary) {
-    return Expanded(
-          child: Column(
-        children: [
-          Image(image: NetworkImage(bookLibrary.book.bookImg)),
-          Text('Title: ${bookLibrary.book.title}'),
-          Text('Author: ${bookLibrary.book.author}'),
-          Text('ISBN 10: ${bookLibrary.book.isbn_10}'),
-          Text('ISBN 13: ${bookLibrary.book.isbn_13}'),
-          Text('Dewey Decimal: ${bookLibrary.book.deweyd}'),
-          Text('Pages: ${bookLibrary.book.pageCount}'),
-          Text('Language: ${bookLibrary.book.bookLang}'),
-          Text('Currently Reading: ${bookLibrary.currentlyreading}'),
-          Text('Checked Out: ${bookLibrary.checkedout}'),
-          Text('Private: ${bookLibrary.private}'),
-          Text('Loadnable: ${bookLibrary.loanable}'),
-          Text('Rating: ${bookLibrary.rating}'),
-          Text('Notes: ${bookLibrary.notes}'),
-          IconButton(
-            icon: Icon(Icons.expand_less), 
-            onPressed: () {
-              setState(() { 
-                _isSmall = !_isSmall; 
-              });
-            }
-          )
-        ]
-      ),
+    return Column(
+      children: [
+        Image(image: NetworkImage(bookLibrary.book.bookImg)),
+        Text('Title: ${bookLibrary.book.title}'),
+        Text('Author: ${bookLibrary.book.author}'),
+        Text('ISBN 10: ${bookLibrary.book.isbn_10}'),
+        Text('ISBN 13: ${bookLibrary.book.isbn_13}'),
+        Text('Dewey Decimal: ${bookLibrary.book.deweyd}'),
+        Text('Pages: ${bookLibrary.book.pageCount}'),
+        Text('Language: ${bookLibrary.book.bookLang}'),
+        Text('Currently Reading: ${bookLibrary.currentlyreading}'),
+        Text('Checked Out: ${bookLibrary.checkedout}'),
+        Text('Private: ${bookLibrary.private}'),
+        Text('Loadnable: ${bookLibrary.loanable}'),
+        Text('Rating: ${bookLibrary.rating}'),
+        Text('Notes: ${bookLibrary.notes}'),
+        IconButton(
+          icon: Icon(Icons.expand_less), 
+          onPressed: () {
+            setState(() { 
+              _isSmall = !_isSmall; 
+            });
+          }
+        )
+      ]
     );
   }
 }
