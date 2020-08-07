@@ -193,8 +193,6 @@ Future<BookLibrary> updateBooksLibrary(LibraryBookCombined bookLib) async {
   };
 
   final result = await updateLibraryBookFunction(map);
-  print(result.data);
-  var test = (BookLibrary.fromJson(result.data));
 
   return BookLibrary.fromJson(result.data);
 }
