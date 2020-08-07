@@ -3,6 +3,9 @@ import '../../models/book.dart';
 import '../../models/bookLibrary.dart';
 import '../../models/library.dart';
 import '../../templates/default_template.dart';
+import 'checkedout_book_screen.dart';
+import 'regular_book_screen.dart';
+import 'unloanable_book_screen.dart';
 
 BookLibrary bookRegular = BookLibrary(
   book: Book(
@@ -116,6 +119,31 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
           title: Text(bookLib.book.title),
           subtitle: Text('${bookLib.book.author}'),
           trailing: bookTileEnd(bookLib),
+          onTap: () {
+            if (bookLib.checkedout) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CheckedoutBookScreen(bookLib)
+                )
+              );
+            } else if (!bookLib.loanable) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => UnloanableBookScreen(bookLib)
+                )
+              ).then((value) {
+                setState(() {
+                  print('value ${value.theBook}');
+                });
+              });
+            } else {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => RegularBookScreen(bookLib)
+                )
+              );
+            }
+          },
         ),
     );
   }
