@@ -1,9 +1,10 @@
-import 'package:biblioFiles/db/databaseops.dart';
-import 'package:biblioFiles/models/library.dart';
-import 'package:biblioFiles/screens/libraries_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../db/databaseops.dart';
+import '../../models/library.dart';
 import '../../templates/default_template.dart';
+import '../libraries_screen.dart';
 
 class AddSuccessScreen extends StatelessWidget {
   final int libId;

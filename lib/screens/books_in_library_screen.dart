@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../components/book_grid.dart';
 import '../components/floating_back_button.dart';
-import '../templates/default_template.dart';
 import '../db/databaseops.dart';
-import '../models/library.dart';
+import '../templates/default_template.dart';
 import 'libraries_screen.dart';
 
 int libraryId;
@@ -63,11 +63,11 @@ class _LoadBooksLibraryState extends State<LoadBooksLibrary> {
                         bookCount: finalBooks.length,
                         scrollDirection: Axis.horizontal),
                   ),
-                   RaisedButton(
-                child: Text('Add Book'),
-                onPressed: () {
-                  Navigator.pushNamed(context, 'addBook');
-                })
+                  RaisedButton(
+                      child: Text('Add Book'),
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'addBook');
+                      })
                 ],
               );
             },

@@ -22,8 +22,6 @@ class BarcodeEntry extends StatefulWidget {
 }
 
 class _BarcodeEntry extends State<BarcodeEntry> {
-  final _key = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
@@ -83,6 +81,7 @@ class _BarcodeEntry extends State<BarcodeEntry> {
     try {
       var scanResult = await BarcodeScanner.scan();
       return scanResult;
+      // ignore: avoid_catches_without_on_clauses
     } catch (err) {
       return null;
     }

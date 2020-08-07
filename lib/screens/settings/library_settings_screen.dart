@@ -1,9 +1,10 @@
-import 'package:biblioFiles/models/library.dart';
-import 'package:biblioFiles/screens/settings/settings_screen.dart';
-import 'package:biblioFiles/templates/default_template.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:biblioFiles/db/databaseops.dart';
+
+import '../../db/databaseops.dart';
+import '../../models/library.dart';
+import '../../templates/default_template.dart';
+import 'settings_screen.dart';
 
 class LibrarySettingsScreen extends StatelessWidget {
   final int libId;

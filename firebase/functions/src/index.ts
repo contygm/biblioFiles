@@ -4,7 +4,6 @@ import { Book } from './entity/Book';
 import { User } from './entity/User';
 import { Library } from './entity/Library'; 
 import { BookLibrary } from './entity/BookLibrary';
-import { Genre } from './entity/Genre';
  
 
 // echo test function
@@ -200,7 +199,6 @@ export const createBook = functions.https.onCall(async (data, context) => {
         newBook.pages = data.pages || 0;
         newBook.lang = data.lang || null;
         newBook.image = data.image || null;
-        newBook.genres = data.genres || null; 
  
         // write object to the database
         const savedBook = await bookRepo.save(newBook); 
@@ -324,54 +322,9 @@ export const createBookLibrary = functions.https.onCall(async (data: BookLibrary
     }   
 });
 
-//create genre 
-export const createGenre = functions.https.onCall(async (data: Genre, context) => {
 
-    try {
-        // get database connection
-        const connection = await connect(); 
 
-        // get repo
-        const genreRepo = connection.getRepository(Genre); 
 
-        // create new genre object
-        const newGenre = new Genre();
-        newGenre.name = data.name; 
-
-        // write object to the database
-        const savedGenre = await genreRepo.save(newGenre); 
-
-        // return created genre
-        return savedGenre; 
-    } 
-    catch (err) { // catch and return errors
-        return err; 
-    }  
-})
-
-//delete genre
-export const deleteGenre = functions.https.onCall(async (data: Genre, context) => {
-
-    try {
-        // get database connection
-        const connection = await connect(); 
-
-        // get repo
-        const genreRepo = connection.getRepository(Genre); 
-
-        // find genre to delete
-        const delGenre = await genreRepo.findOne(data.id);
-
-        // delete from database
-        const deletedGenre = await genreRepo.delete(delGenre); 
-
-        // return confirmation of deleted genre
-        return deletedGenre; 
-    } 
-    catch (err) { // catch and return errors
-        return err; 
-    }  
-})
 
 //delete library
 export const deleteLibrary = functions.https.onCall(async (data: Library, context) => {
