@@ -22,6 +22,17 @@ class BookLibrary {
       this.unpacked,
       this.id});
 
+  Map<String, dynamic> toJson() => {
+        'user_note': notes,
+        'private_book': private,
+        'id': id,
+        'loanable': loanable,
+        'rating': rating,
+        'reading': currentlyreading,
+        'loaned': checkedout,
+        'unpacked': unpacked
+      };
+
   BookLibrary.fromJson(Map<dynamic, dynamic> record) {
     notes = record['user_note'];
     private = record['private_book'];

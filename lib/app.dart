@@ -4,6 +4,8 @@ import 'screens/add_library_screen.dart';
 import 'screens/books_in_library_screen.dart';
 import 'screens/checkout/book_tile_list_screen.dart';
 import 'screens/checkout/checkout_screen.dart';
+import 'screens/edit_single_book_screen.dart';
+import 'screens/edit_single_book_library_screen.dart'; 
 import 'screens/home_screen.dart';
 import 'screens/libraries_screen.dart';
 import 'screens/login_screen.dart';
@@ -21,6 +23,8 @@ class App extends StatelessWidget {
     'addLibrary': (context) => AddLibraryScreen(),
     'libraryBooks': (context) => LibraryBooksScreen(),
     SingleBookScreen.routeName: (context) => SingleBookScreen(),
+    'editBook': (context) => EditBookScreen(),
+    'editBookLibrary': (context) => EditLibraryScreen()
     ShelvesScreen.routeName: (context) => ShelvesScreen(),
     CheckoutScreen.routeName: (context) => CheckoutScreen(),
     BooksTileListScreen.routeName: (context) => BooksTileListScreen()

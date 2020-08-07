@@ -456,3 +456,68 @@ export const getCRLibraryBooks = functions.https.onCall(async (data, context) =>
     // return books
     return books; 
 });
+
+// update library book
+export const updateBookLibrary = functions.https.onCall(async (data,context) => {
+    try {
+        // get database connection
+        const connection = await connect();
+
+        // get repo 
+        const libraryBookRepo = connection.getRepository(BookLibrary);
+
+        // get library book
+        const bookLibraryRecord = await libraryBookRepo.findOne({id: data.id});
+
+        // update new values
+        bookLibraryRecord.user_note = data.user_note;
+        bookLibraryRecord.private_book = data.private_book;
+        bookLibraryRecord.loanable = data.loanable;
+        bookLibraryRecord.reading = data.reading;
+        bookLibraryRecord.loaned = data.loaned;
+        bookLibraryRecord.unpacked = data.unpacked;
+        bookLibraryRecord.rating = data.rating; 
+
+
+        // write object to the database
+        const savedBook = await libraryBookRepo.save(bookLibraryRecord); 
+
+        // return saved library
+        return savedBook;
+    }
+    catch (err) {
+        return err
+    }
+});
+
+
+
+// update library book
+export const updateBooksLibrary = functions.https.onCall(async (data,context) => {
+    try {
+        // get database connection
+        const connection = await connect();
+
+        // get repo 
+        const libraryBookRepo = connection.getRepository(BookLibrary)
+        //get library repo
+        const libraryRepo =  connection.getRepository(Library); 
+
+        // get library book
+        const bookLibraryRecord = await libraryBookRepo.findOne({id: data.id});
+
+        // update new values
+        bookLibraryRecord.library = await libraryRepo.findOne({id: data.library}); 
+
+
+        // write object to the database
+        const savedBook = await libraryBookRepo.save(bookLibraryRecord); 
+
+        // return saved library
+        return savedBook;
+    }
+    catch (err) {
+        return err
+    }
+});
+
