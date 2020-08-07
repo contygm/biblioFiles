@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../templates/default_template.dart';
+import 'package:flutter/material.dart';
+
 import '../db/databaseops.dart';
 import '../models/library.dart';
+import '../templates/default_template.dart';
 
 class LibraryArgs {
   final int id;
@@ -14,7 +15,7 @@ class LibraryArgs {
 class LibrariesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DefaultTemplate(content: new LoadLibrary());
+    return DefaultTemplate(content: LoadLibrary());
   }
 }
 
@@ -37,13 +38,12 @@ class _LoadLibraryState extends State<LoadLibrary> {
     final auth = FirebaseAuth.instance;
     final user = await auth.currentUser();
     final uid = user.uid;
-    List<Library> libraries = await callGetLibraries(uid);
+    var libraries = await callGetLibraries(uid);
     setState(() {
       lookLibrary = true;
       finalLibraries = libraries;
     });
   }
-
 
   Widget build(BuildContext context) {
     if (lookLibrary == false) {
@@ -54,41 +54,33 @@ class _LoadLibraryState extends State<LoadLibrary> {
           padding: EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [ 
+            children: [
               DropdownButtonFormField<Library>(
-                decoration:
-                    InputDecoration(labelText: 'Select a Library'),
-                value: selectedLibrary,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedLibrary = newValue;
-                  });
-                },
-                items: finalLibraries
-                  .map((item) => DropdownMenuItem<Library>(
-                        child: Text(item.libraryName),
-                        value: item,
-                      ))
-                  .toList()
-              ),
+                  decoration: InputDecoration(labelText: 'Select a Library'),
+                  value: selectedLibrary,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedLibrary = newValue;
+                    });
+                  },
+                  items: finalLibraries
+                      .map((item) => DropdownMenuItem<Library>(
+                            child: Text(item.libraryName),
+                            value: item,
+                          ))
+                      .toList()),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 RaisedButton(
                     onPressed: () async {
-                     
                       Navigator.pushNamed(context, 'libraryBooks',
-                          arguments: 
-                          LibraryArgs(selectedLibrary.id, 
-                            selectedLibrary.name));
+                          arguments: LibraryArgs(
+                              selectedLibrary.id, selectedLibrary.name));
                     },
                     child: Text('View')),
                 RaisedButton(
                     onPressed: () async {
-                      
                       await callDeleteLibrary(selectedLibrary.id);
-                      Navigator.pushNamed(
-                        context,
-                        'libraries'
-                      );
+                      Navigator.pushNamed(context, 'libraries');
 
                       setState(() {});
                     },
@@ -97,9 +89,8 @@ class _LoadLibraryState extends State<LoadLibrary> {
               RaisedButton(
                 child: Text('Create Library'),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'addLibrary'); 
-                  setState(() {});  
-
+                  Navigator.pushNamed(context, 'addLibrary');
+                  setState(() {});
                 },
               ),
             ],
@@ -111,10 +102,9 @@ class _LoadLibraryState extends State<LoadLibrary> {
           child: Column(
         children: [
           RaisedButton(
-              
               child: Text('Create Library'),
               onPressed: () {
-                lookLibrary = false; 
+                lookLibrary = false;
                 Navigator.pushNamed(context, 'addLibrary');
               })
         ],

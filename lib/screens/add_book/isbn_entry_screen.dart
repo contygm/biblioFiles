@@ -62,6 +62,7 @@ class IsbnEntryForm extends State<IsbnEntry> {
         ));
   }
 
+  // ignore: missing_return
   Future<Book> getBookByIsbn(String isbn) async {
     // check local database
     isbn = isbn.replaceAll('-', '');

@@ -1,12 +1,11 @@
-import 'package:biblioFiles/db/databaseops.dart';
-import 'package:biblioFiles/screens/add_book/add_book_success_screen.dart';
-import 'package:biblioFiles/screens/settings/library_settings_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../db/databaseops.dart';
 import '../../models/library.dart';
 import '../../templates/default_template.dart';
+import 'library_settings_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override

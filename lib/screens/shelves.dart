@@ -1,11 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import '../components/book_grid.dart';
 import '../components/floating_back_button.dart';
-import '../models/book.dart';
-import '../models/bookLibrary.dart';
 import '../db/databaseops.dart';
 import '../templates/default_template.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ShelvesScreen extends StatefulWidget {
   static const routeName = 'shelvesScreen';
@@ -52,8 +51,8 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
 
   Widget build(BuildContext context) {
     return DefaultTemplate(
-      floatingAction: FloatingBackButton(context),
-      content: shelvesList(context));
+        floatingAction: FloatingBackButton(context),
+        content: shelvesList(context));
   }
 
   Widget shelvesList(BuildContext context) {
@@ -61,26 +60,24 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
       return Container(child: CircularProgressIndicator());
     } else {
       if (allBooks.isEmpty) {
-        return Text('All of your shelves are empty!', 
-          style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
+        return Text('All of your shelves are empty!',
+            style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
       } else {
         return ListView.separated(
-          padding: const EdgeInsets.all(8),
-          itemCount: shelves.length,
-          itemBuilder: (context, index) {
-            return Container(
-              height: 300,
-              child: BookGrid(
-                bookLibrary: allBooks[index],
-                crossAxisCount: 2,
-                title: shelves[index],
-                bookCount: allBooks[index].length,
-                scrollDirection: Axis.horizontal
-              ),
-            );
-          },
-          separatorBuilder: (context, index) => const Divider()
-        );
+            padding: const EdgeInsets.all(8),
+            itemCount: shelves.length,
+            itemBuilder: (context, index) {
+              return Container(
+                height: 300,
+                child: BookGrid(
+                    bookLibrary: allBooks[index],
+                    crossAxisCount: 2,
+                    title: shelves[index],
+                    bookCount: allBooks[index].length,
+                    scrollDirection: Axis.horizontal),
+              );
+            },
+            separatorBuilder: (context, index) => const Divider());
       }
     }
   }
