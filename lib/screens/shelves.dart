@@ -1,11 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import '../components/book_grid.dart';
 import '../components/floating_back_button.dart';
-import '../models/book.dart';
-import '../models/bookLibrary.dart';
 import '../db/databaseops.dart';
 import '../templates/default_template.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ShelvesScreen extends StatefulWidget {
   static const routeName = 'shelvesScreen';
@@ -34,7 +33,7 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
     var coBooks = await callGetCheckedOutBooks(uid);
     var curBooks = await callGetReadingBooks(uid);
     setState(() {
-       booksAsked = true;
+      booksAsked = true;
       checkedOutBooks = coBooks;
       currentBooks = curBooks;
       if (checkedOutBooks.isEmpty) {
@@ -61,8 +60,8 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
       return Container(child: CircularProgressIndicator());
     } else {
       if (allBooks.isEmpty) {
-        return Text('All of your shelves are empty!', 
-                style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
+        return Text('All of your shelves are empty!',
+            style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
       } else {
         return ListView.separated(
             padding: const EdgeInsets.all(8),

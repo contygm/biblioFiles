@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToMany, OneToMany, JoinTable} from "typeorm";
-import { Genre } from "./Genre";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany,} from "typeorm";
 import { BookLibrary } from "./BookLibrary";
 
 @Entity()
@@ -42,10 +41,6 @@ export class Book extends BaseEntity {
     }) 
     image: string; 
    
-    @ManyToMany(type => Genre)
-    @JoinTable()
-    genres: Genre[];
-
     @OneToMany(type => BookLibrary, bookLibrary => bookLibrary.book)
     bookLibrary: BookLibrary[]; 
 
