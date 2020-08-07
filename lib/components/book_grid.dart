@@ -26,8 +26,7 @@ class BookGrid extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
             child: Text(title, style: TextStyle(fontSize: 35)),
-            // TODO make go to the library screen with appropriate arguments
-            // need to wait for library screen to have a view and accept arguments
+            // TODO make go full screen with library
             onTap: () {
               print("GO TO LIBRARY SCREEN");
             }
@@ -48,7 +47,6 @@ class BookGrid extends StatelessWidget {
       ), 
       itemBuilder: (context, index) {
         return Center(
-         
           child: bookCard(context, bookLibrary[index]) 
         );
       }

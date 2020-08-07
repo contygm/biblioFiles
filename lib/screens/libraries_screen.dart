@@ -56,20 +56,21 @@ class _LoadLibraryState extends State<LoadLibrary> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [ 
               DropdownButtonFormField<Library>(
-                          decoration:
-                              InputDecoration(labelText: 'Select a Library'),
-                          value: selectedLibrary,
-                          onChanged: (newValue) {
-                            setState(() {
-                              selectedLibrary = newValue;
-                            });
-                          },
-                          items: finalLibraries
-                              .map((item) => DropdownMenuItem<Library>(
-                                    child: Text(item.libraryName),
-                                    value: item,
-                                  ))
-                              .toList()),
+                decoration:
+                    InputDecoration(labelText: 'Select a Library'),
+                value: selectedLibrary,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedLibrary = newValue;
+                  });
+                },
+                items: finalLibraries
+                  .map((item) => DropdownMenuItem<Library>(
+                        child: Text(item.libraryName),
+                        value: item,
+                      ))
+                  .toList()
+              ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 RaisedButton(
                     onPressed: () async {

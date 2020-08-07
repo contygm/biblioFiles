@@ -57,17 +57,19 @@ class _LoadBooksLibraryState extends State<LoadBooksLibrary> {
                   Container(
                     height: 300,
                     child: BookGrid(
-                        bookLibrary: finalBooks,
-                        crossAxisCount: 2,
-                        title: libraryname,
-                        bookCount: finalBooks.length,
-                        scrollDirection: Axis.horizontal),
+                      bookLibrary: finalBooks,
+                      crossAxisCount: 2,
+                      title: libraryname,
+                      bookCount: finalBooks.length,
+                      scrollDirection: Axis.horizontal
+                    ),
                   ),
-                   RaisedButton(
-                child: Text('Add Book'),
-                onPressed: () {
-                  Navigator.pushNamed(context, 'addBook');
-                })
+                  RaisedButton(
+                    child: Text('Add Book'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'addBook');
+                    }
+                  )
                 ],
               );
             },
