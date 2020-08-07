@@ -1,3 +1,4 @@
+import 'package:biblioFiles/screens/edit_single_book_library_screen.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import '../models/book.dart';
 import '../models/bookLibrary.dart';
@@ -170,4 +171,30 @@ Future<Library> updateLibrary(Library library) async {
   final result = await updateLibraryFunction(library.toJson());
 
   return Library.fromJson(result.data);
+}
+
+Future<BookLibrary> updateLibraryBook(BookLibrary book) async {
+  final updateLibraryBookFunction = CloudFunctions.instance
+      .getHttpsCallable(functionName: 'updateBookLibrary');
+
+  var bookJson = book.toJson();
+  final result = await updateLibraryBookFunction(bookJson);
+
+  return BookLibrary.fromJson(result.data);
+}
+
+Future<BookLibrary> updateBooksLibrary(LibraryBookCombined bookLib) async {
+  final updateLibraryBookFunction = CloudFunctions.instance
+      .getHttpsCallable(functionName: 'updateBooksLibrary');
+
+  Map<String, dynamic> map = {
+    'library': bookLib.libid,
+    'id': bookLib.bookid
+  };
+
+  final result = await updateLibraryBookFunction(map);
+  print(result.data);
+  var test = (BookLibrary.fromJson(result.data));
+
+  return BookLibrary.fromJson(result.data);
 }
