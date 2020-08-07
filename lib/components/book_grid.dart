@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../models/bookLibrary.dart';
 import '../screens/single_book_screen.dart';
-import '../screens/libraries_screen.dart';
 
 class BookGrid extends StatelessWidget {
   final Axis scrollDirection;
@@ -10,13 +10,12 @@ class BookGrid extends StatelessWidget {
   final String title;
   final List<BookLibrary> bookLibrary;
 
-  BookGrid({
-    this.bookLibrary,
-    this.crossAxisCount = 5, 
-    @required this.title,
-    @required this.bookCount, 
-    @required this.scrollDirection
-  });
+  BookGrid(
+      {this.bookLibrary,
+      this.crossAxisCount = 5,
+      @required this.title,
+      @required this.bookCount,
+      @required this.scrollDirection});
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +24,11 @@ class BookGrid extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
-            child: Text(title, style: TextStyle(fontSize: 35)),
-            // TODO make go full screen with library
-            onTap: () {
-              print("GO TO LIBRARY SCREEN");
-            }
-          ),
+              child: Text(title, style: TextStyle(fontSize: 35)),
+              // TODO make go full screen with library
+              onTap: () {
+                print("GO TO LIBRARY SCREEN");
+              }),
         ),
         Expanded(child: cardGrid(context, bookLibrary)),
       ],
@@ -39,55 +37,46 @@ class BookGrid extends StatelessWidget {
 
   Widget cardGrid(BuildContext context, List<BookLibrary> bookLibrary) {
     return GridView.builder(
-      shrinkWrap: true,
-      scrollDirection: scrollDirection,
-      itemCount: bookCount, 
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount, 
-      ), 
-      itemBuilder: (context, index) {
-        return Center(
-          child: bookCard(context, bookLibrary[index]) 
-        );
-      }
-    );
+        shrinkWrap: true,
+        scrollDirection: scrollDirection,
+        itemCount: bookCount,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+        ),
+        itemBuilder: (context, index) {
+          return Center(child: bookCard(context, bookLibrary[index]));
+        });
   }
 
   Widget bookCard(BuildContext context, BookLibrary bookLibrary) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          SingleBookScreen.routeName, 
-          arguments: bookLibrary
-        );
+        Navigator.of(context)
+            .pushNamed(SingleBookScreen.routeName, arguments: bookLibrary);
       },
       child: Card(
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             image: DecorationImage(
-              image: NetworkImage(bookLibrary.book.bookImg),
-              fit: BoxFit.cover,
-              alignment: Alignment.topCenter,
-              colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3), 
-                BlendMode.dstATop
-              )
-            ),
+                image: NetworkImage(bookLibrary.book.bookImg),
+                fit: BoxFit.cover,
+                alignment: Alignment.topCenter,
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.3), BlendMode.dstATop)),
           ),
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "${bookLibrary.book.bookTitle}", 
-                  textAlign: TextAlign.center,
-                ),
-                Divider(),
-                Text("by ${bookLibrary.book.author}")
-              ],
-            )
-          ),
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${bookLibrary.book.bookTitle}",
+                textAlign: TextAlign.center,
+              ),
+              Divider(),
+              Text("by ${bookLibrary.book.author}")
+            ],
+          )),
         ),
       ),
     );

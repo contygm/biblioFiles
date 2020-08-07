@@ -1,12 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import '../db/databaseops.dart';
 import '../templates/default_template.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class AddLibraryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DefaultTemplate(content: new AddLibrary());
+    return DefaultTemplate(content: AddLibrary());
   }
 }
 
