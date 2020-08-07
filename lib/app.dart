@@ -24,7 +24,7 @@ class App extends StatelessWidget {
     'libraryBooks': (context) => LibraryBooksScreen(),
     SingleBookScreen.routeName: (context) => SingleBookScreen(),
     'editBook': (context) => EditBookScreen(),
-    'editBookLibrary': (context) => EditLibraryScreen()
+    'editBookLibrary': (context) => EditLibraryScreen(),
     ShelvesScreen.routeName: (context) => ShelvesScreen(),
     CheckoutScreen.routeName: (context) => CheckoutScreen(),
     BooksTileListScreen.routeName: (context) => BooksTileListScreen()
