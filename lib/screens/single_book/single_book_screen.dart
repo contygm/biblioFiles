@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../components/floating_back_button.dart';
-import '../models/bookLibrary.dart';
-import '../templates/default_template.dart';
+import '../../components/floating_back_button.dart';
+import '../../models/bookLibrary.dart';
+import '../../templates/default_template.dart';
 
 class SingleBookScreen extends StatefulWidget {
   static const routeName = 'singleBookScreen';
@@ -58,11 +58,11 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
     Text('Currently Reading: ${bookLibrary.currentlyreading}'),
     Text('Checked Out: ${bookLibrary.checkedout}'),
     Text('Private: ${bookLibrary.private}'),
-    Text('Loadnable: ${bookLibrary.loanable}'),
+    Text('Loanable: ${bookLibrary.loanable}'),
     Text('Rating: ${bookLibrary.rating}'),
     Text('Notes: ${bookLibrary.notes}'),
     RaisedButton(onPressed: () {
-            Navigator.pushNamed(context, 'editBook', arguments: bookLibrary);
+      Navigator.pushNamed(context, 'editBook', arguments: bookLibrary);
       
     },
     child: Text('Update book')

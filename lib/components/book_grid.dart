@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/bookLibrary.dart';
-import '../screens/single_book_screen.dart';
+import '../screens/single_book/single_book_screen.dart';
 
 class BookGrid extends StatelessWidget {
   final Axis scrollDirection;

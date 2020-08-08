@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../templates/default_template.dart';
+import '../../templates/default_template.dart';
 
 class UnpackScreen extends StatelessWidget {
   @override

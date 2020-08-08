@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../templates/default_template.dart';
-import '../db/databaseops.dart';
-import '../models/library.dart';
-import '../models/bookLibrary.dart';
-import '../screens/single_book_screen.dart';
+import '../../templates/default_template.dart';
+import '../../db/databaseops.dart';
+import '../../models/library.dart';
+import '../../models/bookLibrary.dart';
+import 'single_book_screen.dart';
 
 class LibraryBookCombined {
   int libid;

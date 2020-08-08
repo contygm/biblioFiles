@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../db/databaseops.dart';
-import '../models/library.dart';
-import '../templates/default_template.dart';
+import '../../db/databaseops.dart';
+import '../../models/library.dart';
+import '../../templates/default_template.dart';
 
 class LibraryArgs {
   final int id;
@@ -68,7 +68,8 @@ class _LoadLibraryState extends State<LoadLibrary> {
                             child: Text(item.libraryName),
                             value: item,
                           ))
-                      .toList()),
+                      .toList()
+              ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 RaisedButton(
                     onPressed: () async {

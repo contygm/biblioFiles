@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 
 import '../../db/databaseops.dart';
 import '../../templates/default_template.dart';
-import '../add_library_screen.dart';
+import '../libraries/add_library_screen.dart';
 import 'barcode_entry_screen.dart';
 import 'isbn_entry_screen.dart';
 import 'manual_book_entry_screen.dart';

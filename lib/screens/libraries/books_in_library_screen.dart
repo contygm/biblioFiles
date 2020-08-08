@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../components/book_grid.dart';
-import '../components/floating_back_button.dart';
-import '../db/databaseops.dart';
-import '../templates/default_template.dart';
+import '../../components/book_grid.dart';
+import '../../components/floating_back_button.dart';
+import '../../db/databaseops.dart';
+import '../../templates/default_template.dart';
 import 'libraries_screen.dart';
 
 int libraryId;
