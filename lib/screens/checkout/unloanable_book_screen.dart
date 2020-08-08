@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../db/databaseops.dart';
 import '../../models/bookLibrary.dart';
+import '../../models/library.dart'; 
 import '../../templates/default_template.dart';
+import 'book_tile_list_screen.dart';
 
 class UnloanableBookScreen extends StatefulWidget {
   final BookLibrary bookLibrary;
-  UnloanableBookScreen(this.bookLibrary);
+  final Library lib;
+  UnloanableBookScreen(this.lib, this.bookLibrary);
 
   @override
   _UnloanableBookScreenState createState() => _UnloanableBookScreenState();
@@ -25,14 +29,17 @@ class _UnloanableBookScreenState extends State<UnloanableBookScreen> {
           SwitchListTile(
               title: Text('Loanable'),
               value: widget.bookLibrary.loanable,
-              onChanged: (value) {
+              onChanged: (value) async {
                 setState(() {
-                  print('_loanable');
+                  //print('_loanable');
                   widget.bookLibrary.loanable = !widget.bookLibrary.loanable;
                 });
+                await updateLibraryBook(widget.bookLibrary);
               }),
           RaisedButton(
-              onPressed: () => Navigator.of(context).pop(context),
+              onPressed: () => Navigator.of(context).pushNamed(
+                  BooksTileListScreen.routeName,
+                  arguments: widget.lib),
               child: Text('Done'))
         ]),
       ),
