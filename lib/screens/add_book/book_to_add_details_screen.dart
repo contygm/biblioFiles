@@ -95,7 +95,7 @@ class BookDetailsForm extends State<BookDetails> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return DropdownButtonFormField<String>(
-                      decoration: InputDecoration(labelText: 'Libary'),
+                      decoration: InputDecoration(labelText: 'Library'),
                       value: selectedLibrary,
                       onChanged: (newValue) {
                         setState(() {
