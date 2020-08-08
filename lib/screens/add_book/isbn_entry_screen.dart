@@ -31,6 +31,7 @@ class IsbnEntryForm extends State<IsbnEntry> {
         child: Column(
           children: <Widget>[
             TextFormField(
+                maxLength: 13,
                 decoration: const InputDecoration(labelText: 'ISBN Number'),
                 validator: (value) {
                   if (value.isEmpty) {
@@ -67,15 +68,6 @@ class IsbnEntryForm extends State<IsbnEntry> {
     // check local database
     isbn = isbn.replaceAll('-', '');
     var book = await findBookByIsbn(isbn);
-
-    // if book error
-    if (book == null) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AddBookErrorScreen(),
-          ));
-    }
 
     // if book found return it
     if (book != null) {
