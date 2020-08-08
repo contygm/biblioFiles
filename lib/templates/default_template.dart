@@ -22,7 +22,7 @@ class DefaultTemplate extends StatelessWidget {
       endDrawer: BaseDrawer(),
       floatingActionButton: floatingAction,
       floatingActionButtonLocation: floatingActionLocation,
-      appBar: BaseAppBar(appBar: AppBar()),
+      appBar: AppBar(title: Text('BiblioFiles')),
       body: SafeArea(
         child: Center(
           child: content
