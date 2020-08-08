@@ -81,8 +81,8 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
           color: bookLib.loanable ? Colors.transparent : Colors.grey[400]),
       child: CheckboxTile(
         value: bookLib.unpacked,
-        label: bookLib.book.title,
-        // subtitle: Text('${bookLib.book.author}'),
+        title: bookLib.book.title,
+        author: bookLib.book.author,
         // trailing: bookTileEnd(bookLib),
         onChanged: (value) {
           setState(() {
@@ -248,15 +248,16 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
   }
 }
 
-
 class CheckboxTile extends StatelessWidget {
   const CheckboxTile({
-    this.label,
+    this.title,
+    this.author,
     this.value,
     this.onChanged,
   });
 
-  final String label;
+  final String title;
+  final String author;
   final bool value;
   final Function onChanged;
 
@@ -267,13 +268,34 @@ class CheckboxTile extends StatelessWidget {
         onChanged(!value);
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
         child: Row(
-          children: <Widget>[
-            Expanded(child: Text(label)),
-            Checkbox(
-              value: value,
-              onChanged: onChanged,
+          children: [
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 4,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, overflow: TextOverflow.ellipsis),
+                  Text(author),
+                ],
+              ),
+            ),
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 1,
+              child: Center(
+                child: Text('hi')
+              ),
+            ),
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 1,
+              child: Checkbox(
+                value: value,
+                onChanged: onChanged,
+              ),
             ),
           ],
         ),

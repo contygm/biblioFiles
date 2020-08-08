@@ -111,19 +111,19 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
     dynamic value;
     switch (sortParam) {
       case 'Dewey Decimal':
-        value = book.dewey;
+        value = book.dewey ?? '-';
         break;
       case 'Pages':
-        value = book.pages;
+        value = book.pages ?? '-';
         break;
       case 'Title':
-        value = book.title;
+        value = book.title ?? '-';
         break;
       case 'Language':
-        value = book.lang;
+        value = book.lang ?? '-';
         break;
       default:
-        value = book.author;
+        value = book.author ?? '-';
     }
 
     return value;
@@ -228,23 +228,33 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
               switch (value) {
                 case 'Dewey Decimal':
                   organizedBooks
-                      .sort((a, b) => a.book.dewey.compareTo(b.book.dewey));
+                    .sort((a, b) => a.book.dewey != null ? 
+                      a.book.dewey.compareTo(b.book.dewey) : 
+                      (b.book.dewey != null ? 1 : 0));
                   break;
                 case 'Pages':
                   organizedBooks
-                      .sort((a, b) => a.book.pages.compareTo(b.book.pages));
+                    .sort((a, b) => a.book.pages != null ? 
+                      a.book.pages.compareTo(b.book.pages) : 
+                      (b.book.pages != null ? 1 : 0));
                   break;
                 case 'Title':
                   organizedBooks
-                      .sort((a, b) => a.book.title.compareTo(b.book.title));
+                    .sort((a, b) => a.book.title != null ? 
+                      a.book.title.compareTo(b.book.title) : 
+                      (b.book.title != null ? 1 : 0));
                   break;
                 case 'Language':
                   organizedBooks
-                      .sort((a, b) => a.book.lang.compareTo(b.book.lang));
+                    .sort((a, b) => a.book.lang != null ? 
+                      a.book.bookLang.compareTo(b.book.bookLang) : 
+                      (b.book.bookLang != null ? 1 : 0));
                   break;
                 default:
                   organizedBooks
-                      .sort((a, b) => a.book.author.compareTo(b.book.author));
+                    .sort((a, b) => a.book.author != null ? 
+                      a.book.author.compareTo(b.book.author) : 
+                      (b.book.author != null ? 1 : 0));
               }
               sortParam = value;
               _isAscending = true;
