@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../db/databaseops.dart';
 import '../../models/book.dart';
 import '../../models/bookLibrary.dart';
 import '../../models/library.dart';
@@ -7,86 +8,63 @@ import 'checkedout_book_screen.dart';
 import 'regular_book_screen.dart';
 import 'unloanable_book_screen.dart';
 
-BookLibrary bookRegular = BookLibrary(
-    book: Book(
-        "https://media.wired.com/photos/5cdefc28b2569892c06b2ae4/master/w_2560%2Cc_limit/Culture-Grumpy-Cat-487386121-2.jpg",
-        420,
-        'A Sir Chonk',
-        '1234567890123',
-        '1234567890',
-        '100.21',
-        1,
-        'R - Professionally Grumpy',
-        'English'),
-    notes: 'Excellent resources for how to be grumpy',
-    loanable: true,
-    checkedout: false,
-    id: 1);
+Library library;
 
-BookLibrary bookOut = BookLibrary(
-    book: Book(
-        "https://media.wired.com/photos/5cdefc28b2569892c06b2ae4/master/w_2560%2Cc_limit/Culture-Grumpy-Cat-487386121-2.jpg",
-        25,
-        'Sir Chonk',
-        '1234567890123',
-        '1234567890',
-        '125.21',
-        1,
-        'O - Professionally Grumpy',
-        'Spanish'),
-    notes: 'Excellent resources for how to be grumpy',
-    loanable: true,
-    checkedout: true,
-    id: 1);
-
-BookLibrary bookUnloanable = BookLibrary(
-    book: Book(
-        "https://media.wired.com/photos/5cdefc28b2569892c06b2ae4/master/w_2560%2Cc_limit/Culture-Grumpy-Cat-487386121-2.jpg",
-        425,
-        'Sir Chonk',
-        '1234567890123',
-        '1234567890',
-        '122.21',
-        1,
-        'UL Professionally Grumpy',
-        'English'),
-    loanable: false,
-    checkedout: false,
-    id: 1);
-
-class BooksTileListScreen extends StatefulWidget {
+class BooksTileListScreen extends StatelessWidget {
   static final String routeName = 'booksTileList';
-
   @override
-  _BooksTileListScreenState createState() => _BooksTileListScreenState();
+  Widget build(BuildContext context) {
+    library = ModalRoute.of(context).settings.arguments;
+    return Container(child: LoadBooksTileListScreen());
+  }
 }
 
-class _BooksTileListScreenState extends State<BooksTileListScreen> {
+class LoadBooksTileListScreen extends StatefulWidget {
+  @override
+  _LoadBooksTileListScreenState createState() =>
+      _LoadBooksTileListScreenState();
+}
+
+class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
   // keep track of sort order
   bool _isAscending = true;
 
   // keep track of sort param, default = Author
   String sortParam = 'Author';
 
-  // this contains the original book list (used for filtering)
-  List<BookLibrary> allBooks = [bookRegular, bookOut, bookUnloanable];
+  @override
+  void initState() {
+    super.initState();
+    getBooksinLibrary();
+  }
 
-  // this will contain the sorted/filtered books
-  List<BookLibrary> organizedBooks = [bookRegular, bookOut, bookUnloanable];
+  bool booksSearched = false;
+  List<dynamic> allBooks = [];
+  List<dynamic> organizedBooks = [];
+  void getBooksinLibrary() async {
+    var books = await callGetLibraryBooks(library.id);
+    setState(() {
+      booksSearched = true;
+      allBooks = books;
+      organizedBooks = books;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final Library library = ModalRoute.of(context).settings.arguments;
-
-    return DefaultTemplate(
-      content: Container(
-          child: Column(
-        children: [
-          filterSortBar(library.libraryName),
-          Expanded(child: bookTileList())
-        ],
-      )),
-    );
+    if (booksSearched = false) {
+      return Container(child: CircularProgressIndicator());
+    } else {
+      return DefaultTemplate(
+        content: Container(
+            child: Column(
+          children: [
+            filterSortBar(library.libraryName),
+            Expanded(child: bookTileList())
+          ],
+        )),
+      );
+    }
   }
 
   Widget bookTileList() {
@@ -112,19 +90,17 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
         onTap: () {
           if (bookLib.checkedout) {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => CheckedoutBookScreen(bookLib)));
+                builder: (context) => CheckedoutBookScreen(library, bookLib)));
           } else if (!bookLib.loanable) {
             Navigator.of(context)
                 .push(MaterialPageRoute(
-                    builder: (context) => UnloanableBookScreen(bookLib)))
+                    builder: (context) => UnloanableBookScreen(library, bookLib)))
                 .then((value) {
-              setState(() {
-                print('value ${value.theBook}');
-              });
+              setState(() {});
             });
           } else {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => RegularBookScreen(bookLib)));
+                builder: (context) => RegularBookScreen(library, bookLib)));
           }
         },
       ),
@@ -285,3 +261,4 @@ class _BooksTileListScreenState extends State<BooksTileListScreen> {
     );
   }
 }
+

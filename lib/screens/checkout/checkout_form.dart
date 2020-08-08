@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../db/databaseops.dart';
+import '../../models/bookLibrary.dart';
 import '../../templates/default_template.dart';
 
+BookLibrary book; 
+
 class CheckoutForm extends StatefulWidget {
+  static final String routeName = 'checkoutForm';
   @override
   _CheckoutFormState createState() => _CheckoutFormState();
 }
 
 class _CheckoutFormState extends State<CheckoutForm> {
+  var firstName = '';
+  var lastName = '';
+  var phone;
+  var email;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    book = ModalRoute.of(context).settings.arguments;
     return DefaultTemplate(
         content: Padding(
       padding: const EdgeInsets.all(20.0),
@@ -22,7 +32,8 @@ class _CheckoutFormState extends State<CheckoutForm> {
                 decoration: InputDecoration(
                     labelText: 'First Name', border: OutlineInputBorder()),
                 onSaved: (value) {
-                  print('first name');
+                  firstName = value;
+                  //print('first name');
                 },
                 keyboardType: TextInputType.text,
                 inputFormatters: <TextInputFormatter>[
@@ -34,7 +45,8 @@ class _CheckoutFormState extends State<CheckoutForm> {
                 decoration: InputDecoration(
                     labelText: 'Last Name', border: OutlineInputBorder()),
                 onSaved: (value) {
-                  print('Last name');
+                  lastName = value;
+                  //print('Last name');
                 },
                 keyboardType: TextInputType.text,
                 inputFormatters: <TextInputFormatter>[
@@ -46,7 +58,8 @@ class _CheckoutFormState extends State<CheckoutForm> {
                 decoration: InputDecoration(
                     labelText: 'Phone', border: OutlineInputBorder()),
                 onSaved: (value) {
-                  print('phone');
+                  phone = value;
+                 // print('phone');
                 },
                 keyboardType: TextInputType.phone,
                 inputFormatters: <TextInputFormatter>[
@@ -57,6 +70,7 @@ class _CheckoutFormState extends State<CheckoutForm> {
               decoration: InputDecoration(
                   labelText: 'Email', border: OutlineInputBorder()),
               onSaved: (value) {
+               // email = value;
                 print('email');
               },
               keyboardType: TextInputType.emailAddress,
@@ -82,9 +96,14 @@ class _CheckoutFormState extends State<CheckoutForm> {
         onPressed: () => saveAndGoToList(context));
   }
 
-  void saveAndGoToList(BuildContext context) {
+  void saveAndGoToList(BuildContext context) async {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
+      var checkedOutNote =
+          'Checked out to: $firstName $lastName, Phone: $phone, Email: $email';
+      book.notes = checkedOutNote;
+      book.checkedout = true;
+      await updateLibraryBook(book);
       Navigator.of(context).pop();
     }
   }
