@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../components/library_dropdown.dart';
 import '../../db/databaseops.dart';
 import '../../models/library.dart';
 import '../../templates/default_template.dart';
@@ -40,25 +41,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       if (finalLibraries.isNotEmpty) {
         return Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [ 
-              DropdownButtonFormField<Library>(
-                decoration: InputDecoration(labelText: 'Select a Library'),
-                value: selectedLibrary,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedLibrary = newValue;
-                  });
-                },
-                items: finalLibraries.map((item) => 
-                  DropdownMenuItem<Library>(
-                    child: Text(item.libraryName),
-                    value: item,
-                  )).toList()
-              ),
-            ],
-          ),
+          child: LibraryDropdown(
+            selectedLibrary: selectedLibrary,
+            finalLibraries: finalLibraries,
+            onChanged: (value) {
+              setState(() {
+                selectedLibrary = value;
+              });
+            },
+            viewAction: () => Navigator.of(context).pushNamed( 
+              BooksTileListScreen.routeName, 
+              arguments: selectedLibrary
+            )
+          )
         );
       }
       //otherwise print empty screen
@@ -71,25 +66,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTemplate(
-      content: dropDown(), 
-      floatingActionLocation: FloatingActionButtonLocation.centerDocked, 
-      floatingAction: Container(
-        height: 80.0,
-        width: 80.0,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 10.0),
-          child: FittedBox(
-            child: FloatingActionButton(
-              child: Icon(Icons.arrow_right, size: 40.0),
-              onPressed: () => Navigator.of(context)
-                .pushNamed( 
-                  BooksTileListScreen.routeName, 
-                  arguments: selectedLibrary
-                ),
-            ),
-          ),
-        ),
-      ),
+      content: dropDown(),
     );
   }
 }

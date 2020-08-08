@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../components/library_dropdown.dart';
 import '../../db/databaseops.dart';
 import '../../models/library.dart';
 import '../../templates/default_template.dart';
@@ -43,33 +44,20 @@ class _UnpackScreenState extends State<UnpackScreen> {
       if (finalLibraries.isNotEmpty) {
         return Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [ 
-              DropdownButtonFormField<Library>(
-                decoration: InputDecoration(labelText: 'Select a Library'),
-                value: selectedLibrary,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedLibrary = newValue;
-                  });
-                },
-                items: finalLibraries.map((item) => 
-                  DropdownMenuItem<Library>(
-                    child: Text(item.libraryName),
-                    value: item,
-                  )).toList()
-              ),
-              RaisedButton(
-                onPressed: () async {
-                  Navigator.pushNamed(context, CheckoutBookListScreen.routeName,
-                    arguments: selectedLibrary
-                  );
-                },
-                child: Text('View')
-              )
-            ],
-          ),
+          child: LibraryDropdown(
+            selectedLibrary: selectedLibrary,
+            finalLibraries: finalLibraries,
+            onChanged: (value) {
+              setState(() {
+                selectedLibrary = value;
+              });
+            },
+            viewAction: () async {
+              Navigator.pushNamed(context, CheckoutBookListScreen.routeName,
+                arguments: selectedLibrary
+              );
+            },
+          )
         );
       }
       //otherwise print empty screen
