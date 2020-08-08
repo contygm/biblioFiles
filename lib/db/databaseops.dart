@@ -189,3 +189,15 @@ Future<BookLibrary> updateBooksLibrary(LibraryBookCombined bookLib) async {
 
   return BookLibrary.fromJson(result.data);
 }
+
+//delete library book with book  id
+void callDeleteLibraryBook(int book) async {
+  // get function instance
+  final deleteLibraryFunction = CloudFunctions.instance.getHttpsCallable(
+    functionName: 'deleteBookLibrary',
+  );
+
+  await deleteLibraryFunction.call(
+    <String, dynamic>{'id': book},
+  );
+}

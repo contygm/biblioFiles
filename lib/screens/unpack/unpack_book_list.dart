@@ -155,10 +155,11 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
             bookLib: organizedBooks[index],
             library: library,
             hasCheckbox: true,
-            onChanged: (value) {
+            onChanged: (value) async {
               setState(() {
                 organizedBooks[index].unpacked = !organizedBooks[index].unpacked;
               });
+             await updateLibraryBook(organizedBooks[index]);
             }
           ),
         );
