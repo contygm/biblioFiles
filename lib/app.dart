@@ -13,6 +13,7 @@ import 'screens/login_screen.dart';
 import 'screens/shelves.dart';
 import 'screens/single_book/single_book_screen.dart';
 import 'screens/unpack/unpack_screen.dart';
+import 'screens/unpack/checkbox_book_list.dart';
 
 class App extends StatelessWidget {
   static final routes = {
@@ -29,7 +30,8 @@ class App extends StatelessWidget {
     ShelvesScreen.routeName: (context) => ShelvesScreen(),
     CheckoutScreen.routeName: (context) => CheckoutScreen(),
     BooksTileListScreen.routeName: (context) => BooksTileListScreen(),
-    'checkoutForm': (context) => CheckoutForm()
+    'checkoutForm': (context) => CheckoutForm(),
+    CheckoutBookListScreen.routeName: (context) => CheckoutBookListScreen()
   };
 
   @override
