@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../components/base_appbar.dart';
 import '../components/base_drawer.dart';
 
 // NOTE: Guide for how to make templates: 
