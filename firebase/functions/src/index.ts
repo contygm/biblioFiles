@@ -275,7 +275,7 @@ export const addBookToLibrary = functions.https.onCall(async (data, context) => 
         newBookLibrary.book = await bookRepo.findOne(data.bookId);
         // get library
         const libraryRepo = connection.getRepository(Library);
-        newBookLibrary.library = await libraryRepo.findOne({name: data.libraryName, user: data.userId});
+        newBookLibrary.library = await libraryRepo.findOne({id: data.library});
         
         const savedBookLibrary = await bookLibraryRepo.save(newBookLibrary);
 

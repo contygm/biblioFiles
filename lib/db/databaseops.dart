@@ -85,12 +85,12 @@ Future<Book> callCreateBook(Book book) async {
   return Book.fromJson(result.data);
 }
 
-void addBookToLibrary(Book book, String libraryName, String userId) async {
+void addBookToLibrary(Book book, Library library, String userId) async {
   final createBookLibraryFunction = CloudFunctions.instance
       .getHttpsCallable(functionName: 'addBookToLibrary');
 
   await createBookLibraryFunction
-      .call({'bookId': book.id, 'libraryName': libraryName, 'userId': userId});
+      .call({'bookId': book.id, 'library': library.id, 'userId': userId});
 }
 
 Future<Library> findLibraryRecord(String libName, String userId) async {
@@ -193,11 +193,11 @@ Future<BookLibrary> updateBooksLibrary(LibraryBookCombined bookLib) async {
 //delete library book with book  id
 void callDeleteLibraryBook(int book) async {
   // get function instance
-  final deleteLibraryFunction = CloudFunctions.instance.getHttpsCallable(
+  final deleteLibraryBookFunction = CloudFunctions.instance.getHttpsCallable(
     functionName: 'deleteBookLibrary',
   );
 
-  await deleteLibraryFunction.call(
+  await deleteLibraryBookFunction.call(
     <String, dynamic>{'id': book},
   );
 }
