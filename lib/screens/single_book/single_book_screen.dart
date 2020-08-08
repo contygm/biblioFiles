@@ -17,7 +17,7 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
     final BookLibrary bookLibrary = ModalRoute.of(context).settings.arguments;
 
     return DefaultTemplate(
-      floatingAction: FloatingBackButton(context),
+      // floatingAction: FloatingBackButton(context),
       content: Card(
         child: _isSmall ? 
           smallInfo(context, bookLibrary) : 

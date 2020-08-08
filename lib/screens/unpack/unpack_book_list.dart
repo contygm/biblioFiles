@@ -3,6 +3,7 @@ import '../../components/book_tile.dart';
 import '../../components/filter_sort_bar.dart';
 import '../../db/databaseops.dart';
 import '../../models/library.dart';
+import '../../screens/single_book/single_book_screen.dart';
 import '../../templates/default_template.dart';
 
 Library library;
@@ -53,7 +54,7 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
     } else {
       return DefaultTemplate(
         content: Container(
-            child: Column(
+          child: Column(
           children: [
             FilterSortBar(
               filterChoices: [
@@ -145,16 +146,21 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
       padding: const EdgeInsets.all(8),
       itemCount: organizedBooks.length,
       itemBuilder: (context, index) {
-        return BookTile(
-          sortParam: sortParam,
-          bookLib: organizedBooks[index],
-          library: library,
-          hasCheckbox: true,
-          onChanged: (value) {
-            setState(() {
-              organizedBooks[index].unpacked = !organizedBooks[index].unpacked;
-            });
-          }
+        return GestureDetector(
+          onDoubleTap: () => Navigator.of(context)
+            .pushNamed(SingleBookScreen.routeName, 
+            arguments: organizedBooks[index]),
+          child: BookTile(
+            sortParam: sortParam,
+            bookLib: organizedBooks[index],
+            library: library,
+            hasCheckbox: true,
+            onChanged: (value) {
+              setState(() {
+                organizedBooks[index].unpacked = !organizedBooks[index].unpacked;
+              });
+            }
+          ),
         );
       },
       separatorBuilder: (context, index) => const Divider());

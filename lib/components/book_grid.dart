@@ -52,7 +52,7 @@ class BookGrid extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .pushNamed(SingleBookScreen.routeName, arguments: bookLibrary);
+        .pushNamed(SingleBookScreen.routeName, arguments: bookLibrary);
       },
       child: Card(
         child: Container(
