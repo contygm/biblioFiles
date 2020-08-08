@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import '../../components/library_dropdown.dart';
 import '../../db/databaseops.dart';
 import '../../models/library.dart';
 import '../../templates/default_template.dart';
@@ -55,38 +55,25 @@ class _LoadLibraryState extends State<LoadLibrary> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              DropdownButtonFormField<Library>(
-                  decoration: InputDecoration(labelText: 'Select a Library'),
-                  value: selectedLibrary,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedLibrary = newValue;
-                    });
-                  },
-                  items: finalLibraries
-                      .map((item) => DropdownMenuItem<Library>(
-                            child: Text(item.libraryName),
-                            value: item,
-                          ))
-                      .toList()
+              LibraryDropdown(
+                selectedLibrary: selectedLibrary,
+                finalLibraries: finalLibraries,
+                onChanged: (value) {
+                  setState(() {
+                    selectedLibrary = value;
+                  });
+                },
+                viewAction: () async {
+                  Navigator.pushNamed(context, 'libraryBooks',
+                    arguments: LibraryArgs(
+                      selectedLibrary.id, selectedLibrary.name));
+                },
+                includeDelete: true,
+                deleteAction: () async {
+                  await callDeleteLibrary(selectedLibrary.id);
+                  Navigator.pushNamed(context, 'libraries');
+                }
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                RaisedButton(
-                    onPressed: () async {
-                      Navigator.pushNamed(context, 'libraryBooks',
-                          arguments: LibraryArgs(
-                              selectedLibrary.id, selectedLibrary.name));
-                    },
-                    child: Text('View')),
-                RaisedButton(
-                    onPressed: () async {
-                      await callDeleteLibrary(selectedLibrary.id);
-                      Navigator.pushNamed(context, 'libraries');
-
-                      setState(() {});
-                    },
-                    child: Text('Delete'))
-              ]),
               RaisedButton(
                 child: Text('Create Library'),
                 onPressed: () {

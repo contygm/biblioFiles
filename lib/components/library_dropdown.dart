@@ -22,6 +22,7 @@ class LibraryDropdown extends StatelessWidget {
   Widget actionButtons() {
     if (includeDelete) {
       return ButtonBar(
+        alignment: MainAxisAlignment.center,
         children: [
           RaisedButton(
             onPressed: viewAction,
