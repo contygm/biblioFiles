@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../db/databaseops.dart';
-import '../models/bookLibrary.dart';
-import '../screens/single_book_screen.dart';
-import '../templates/default_template.dart';
+import '../../db/databaseops.dart';
+import '../../models/bookLibrary.dart';
+import 'single_book_screen.dart';
+import '../../templates/default_template.dart';
 
 class EditBookScreen extends StatelessWidget {
   @override

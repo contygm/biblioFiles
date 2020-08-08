@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../components/base_appbar.dart';
 import '../components/base_drawer.dart';
 
 // NOTE: Guide for how to make templates: 
@@ -22,7 +21,7 @@ class DefaultTemplate extends StatelessWidget {
       endDrawer: BaseDrawer(),
       floatingActionButton: floatingAction,
       floatingActionButtonLocation: floatingActionLocation,
-      appBar: BaseAppBar(appBar: AppBar()),
+      appBar: AppBar(title: Text('BiblioFiles')),
       body: SafeArea(
         child: Center(
           child: content

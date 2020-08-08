@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/bookLibrary.dart';
-import '../screens/single_book_screen.dart';
+import '../screens/single_book/single_book_screen.dart';
 
 class BookGrid extends StatelessWidget {
   final Axis scrollDirection;
@@ -52,7 +52,7 @@ class BookGrid extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .pushNamed(SingleBookScreen.routeName, arguments: bookLibrary);
+        .pushNamed(SingleBookScreen.routeName, arguments: bookLibrary);
       },
       child: Card(
         child: Container(

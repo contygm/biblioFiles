@@ -64,20 +64,20 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
             style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
       } else {
         return ListView.separated(
-            padding: const EdgeInsets.all(8),
-            itemCount: shelves.length,
-            itemBuilder: (context, index) {
-              return Container(
-                height: 300,
-                child: BookGrid(
-                    bookLibrary: allBooks[index],
-                    crossAxisCount: 2,
-                    title: shelves[index],
-                    bookCount: allBooks[index].length,
-                    scrollDirection: Axis.horizontal),
-              );
-            },
-            separatorBuilder: (context, index) => const Divider());
+          padding: const EdgeInsets.all(8),
+          itemCount: shelves.length,
+          itemBuilder: (context, index) {
+            return Container(
+              height: 300,
+              child: BookGrid(
+                bookLibrary: allBooks[index],
+                crossAxisCount: 2,
+                title: shelves[index],
+                bookCount: allBooks[index].length,
+                scrollDirection: Axis.horizontal),
+            );
+          },
+          separatorBuilder: (context, index) => const Divider());
       }
     }
   }

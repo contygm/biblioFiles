@@ -4,16 +4,19 @@ import '../../components/library_dropdown.dart';
 import '../../db/databaseops.dart';
 import '../../models/library.dart';
 import '../../templates/default_template.dart';
-import 'book_tile_list_screen.dart';
+import 'unpack_book_list.dart';
 
-class CheckoutScreen extends StatefulWidget {
-  static final String routeName = 'checkout';
+class UnpackScreen extends StatefulWidget {
+  static final String routeName = 'unpack';
+  final String nextRoute;
+
+  UnpackScreen({Key key, this.nextRoute}) : super(key: key);
 
   @override
-  _CheckoutScreenState createState() => _CheckoutScreenState();
+  _UnpackScreenState createState() => _UnpackScreenState();
 }
 
-class _CheckoutScreenState extends State<CheckoutScreen> {
+class _UnpackScreenState extends State<UnpackScreen> {
   Library selectedLibrary;
   @override
   void initState() {
@@ -49,16 +52,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 selectedLibrary = value;
               });
             },
-            viewAction: () => Navigator.of(context).pushNamed( 
-              BooksTileListScreen.routeName, 
-              arguments: selectedLibrary
-            )
+            viewAction: () async {
+              Navigator.pushNamed(context, CheckoutBookListScreen.routeName,
+                arguments: selectedLibrary
+              );
+            },
           )
         );
       }
       //otherwise print empty screen
       return Container(
-        child: Text('You can\'t checkout books from a non-existent library.')
+        child: Text('You can\'t unpack books from a non-existent library.')
       );
     }
   }
@@ -66,7 +70,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTemplate(
-      content: dropDown(),
+      content: dropDown()
     );
   }
 }

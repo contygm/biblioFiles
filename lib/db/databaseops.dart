@@ -1,4 +1,4 @@
-import 'package:biblioFiles/screens/edit_single_book_library_screen.dart';
+import 'package:biblioFiles/screens/single_book/edit_single_book_library_screen.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import '../models/book.dart';
 import '../models/bookLibrary.dart';

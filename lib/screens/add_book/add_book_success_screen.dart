@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../db/databaseops.dart';
 import '../../models/library.dart';
 import '../../templates/default_template.dart';
-import '../libraries_screen.dart';
+import '../libraries/libraries_screen.dart';
 
 class AddSuccessScreen extends StatelessWidget {
   final int libId;
