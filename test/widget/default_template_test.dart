@@ -23,7 +23,6 @@ void main() {
     await tester.pumpWidget(setUpApp());
 
     expect(find.text('BiblioFiles'), findsOneWidget); // Appbar and title
-    expect(find.byIcon(Icons.search), findsOneWidget);
     expect(find.byIcon(Icons.menu), findsOneWidget);
   });
 }
