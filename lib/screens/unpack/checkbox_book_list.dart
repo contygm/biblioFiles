@@ -79,10 +79,10 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
           border: Border.all(
               color: bookLib.checkedout ? Colors.red : Colors.transparent),
           color: bookLib.loanable ? Colors.transparent : Colors.grey[400]),
-      child: CheckboxListTile(
+      child: CheckboxTile(
         value: bookLib.unpacked,
-        title: Text(bookLib.book.title),
-        subtitle: Text('${bookLib.book.author}'),
+        label: bookLib.book.title,
+        // subtitle: Text('${bookLib.book.author}'),
         // trailing: bookTileEnd(bookLib),
         onChanged: (value) {
           setState(() {
@@ -244,6 +244,40 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
               );
             }).toList();
           }),
+    );
+  }
+}
+
+
+class CheckboxTile extends StatelessWidget {
+  const CheckboxTile({
+    this.label,
+    this.value,
+    this.onChanged,
+  });
+
+  final String label;
+  final bool value;
+  final Function onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        onChanged(!value);
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: Row(
+          children: <Widget>[
+            Expanded(child: Text(label)),
+            Checkbox(
+              value: value,
+              onChanged: onChanged,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
