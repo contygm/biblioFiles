@@ -16,7 +16,6 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
   @override
   Widget build(BuildContext context) {
     final BookLibrary bookLibrary = ModalRoute.of(context).settings.arguments;
-    BuildContext innerConext = context;
 
     return DefaultTemplate(
         // floatingAction: FloatingBackButton(context),
