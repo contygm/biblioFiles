@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../components/checkbox_book_tile.dart';
+import '../../components/filter_sort_bar.dart';
 import '../../db/databaseops.dart';
 import '../../models/book.dart';
 import '../../models/bookLibrary.dart';
@@ -55,7 +57,84 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
         content: Container(
             child: Column(
           children: [
-            filterSortBar(library.libraryName),
+            FilterSortBar(
+              filterChoices: [
+                'All',
+                'Packed',
+                'Unpacked',
+                'Checked Out',
+                'Checked In'
+              ],
+              filterOnSelected: (value) {
+                setState(() {
+                  switch (value) {
+                    case 'Packed':
+                      organizedBooks = 
+                        allBooks.where((b) => !b.unpacked).toList();
+                      break;
+                    case 'Unpacked':
+                      organizedBooks = 
+                        allBooks.where((b) => b.unpacked).toList();
+                      break;
+                    case 'Checked Out':
+                      organizedBooks = 
+                        allBooks.where((b) => b.checkedout).toList();
+                      break;
+                    case 'Checked In':
+                      organizedBooks = 
+                        allBooks.where((b) => !b.checkedout).toList();
+                      break;
+                    default:
+                      organizedBooks = allBooks;
+                  }
+                });
+              },
+              sortDoubleTap: () {
+                setState(() {
+                  _isAscending = !_isAscending;
+                  organizedBooks = organizedBooks.reversed.toList();
+                });
+              },
+              sortOnSelected: (value) {
+                setState(() {
+                  switch (value) {
+                    case 'Dewey Decimal':
+                      organizedBooks
+                        .sort((a, b) => a.book.dewey != null ? 
+                          a.book.dewey.compareTo(b.book.dewey) : 
+                          (b.book.dewey != null ? 1 : 0));
+                      break;
+                    case 'Pages':
+                      organizedBooks
+                        .sort((a, b) => a.book.pages != null ? 
+                          a.book.pages.compareTo(b.book.pages) : 
+                          (b.book.pages != null ? 1 : 0));
+                      break;
+                    case 'Title':
+                      organizedBooks
+                        .sort((a, b) => a.book.title != null ? 
+                          a.book.title.compareTo(b.book.title) : 
+                          (b.book.title != null ? 1 : 0));
+                      break;
+                    case 'Language':
+                      organizedBooks
+                        .sort((a, b) => a.book.lang != null ? 
+                          a.book.bookLang.compareTo(b.book.bookLang) : 
+                          (b.book.bookLang != null ? 1 : 0));
+                      break;
+                    default:
+                      organizedBooks
+                        .sort((a, b) => a.book.author != null ? 
+                          a.book.author.compareTo(b.book.author) : 
+                          (b.book.author != null ? 1 : 0));
+                  }
+                  sortParam = value;
+                  _isAscending = true;
+                });
+              },
+              isAscending: _isAscending,
+              libraryName: library.libraryName,
+            ),
             Expanded(child: bookTileList())
           ],
         )),
@@ -83,7 +162,7 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
         value: bookLib.unpacked,
         title: bookLib.book.title,
         author: bookLib.book.author,
-        // trailing: bookTileEnd(bookLib),
+        detailText: bookTileEnd(bookLib),
         onChanged: (value) {
           setState(() {
             bookLib.unpacked = !bookLib.unpacked;
@@ -93,23 +172,23 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
     );
   }
 
-  dynamic getValueFromSortParam(Book book) {
+ dynamic getValueFromSortParam(Book book) {
     dynamic value;
     switch (sortParam) {
       case 'Dewey Decimal':
-        value = book.dewey;
+        value = book.dewey ?? '-';
         break;
       case 'Pages':
-        value = book.pages;
+        value = book.pages ?? '-';
         break;
       case 'Title':
-        value = book.title;
+        value = book.title ?? '-';
         break;
       case 'Language':
-        value = book.lang;
+        value = book.lang ?? '-';
         break;
       default:
-        value = book.author;
+        value = book.author ?? '-';
     }
 
     return value;
@@ -134,172 +213,5 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
     }
 
     return null;
-  }
-
-  // TODO EXTRACT into component
-  Widget filterSortBar(String libraryName) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
-      child: Row(children: [
-        Text(libraryName, style: TextStyle(fontSize: 25)),
-        Spacer(flex: 1),
-        ButtonBar(children: [filterButton(), sortButton()])
-      ]),
-    );
-  }
-
-  Widget filterButton() {
-    var choices = <String>[
-      'All',
-      'Packed',
-      'Unpacked',
-      'Checked Out',
-      'Checked In'
-    ];
-
-    return PopupMenuButton(
-        icon: Icon(Icons.filter_list),
-        onSelected: (value) {
-          setState(() {
-            switch (value) {
-              case 'Packed':
-                organizedBooks = allBooks.where((b) => !b.unpacked).toList();
-                break;
-              case 'Unpacked':
-                organizedBooks = allBooks.where((b) => b.unpacked).toList();
-                break;
-              case 'Checked Out':
-                organizedBooks = allBooks.where((b) => b.checkedout).toList();
-                break;
-              case 'Checked In':
-                organizedBooks = allBooks.where((b) => !b.checkedout).toList();
-                break;
-              default:
-                organizedBooks = allBooks;
-            }
-          });
-        },
-        itemBuilder: (context) {
-          return choices.map<PopupMenuItem<String>>((value) {
-            return PopupMenuItem(
-              child: Text(value),
-              value: value,
-            );
-          }).toList();
-        });
-  }
-
-  Widget sortButton() {
-    var choices = <String>[
-      'Author',
-      'Dewey Decimal',
-      'Pages',
-      'Title',
-      'Language'
-    ];
-
-    return GestureDetector(
-      onDoubleTap: () {
-        setState(() {
-          _isAscending = !_isAscending;
-          organizedBooks = organizedBooks.reversed.toList();
-        });
-      },
-      child: PopupMenuButton(
-          icon: _isAscending
-              ? Icon(Icons.arrow_upward)
-              : Icon(Icons.arrow_downward),
-          onSelected: (value) {
-            setState(() {
-              switch (value) {
-                case 'Dewey Decimal':
-                  organizedBooks
-                      .sort((a, b) => a.book.dewey.compareTo(b.book.dewey));
-                  break;
-                case 'Pages':
-                  organizedBooks
-                      .sort((a, b) => a.book.pages.compareTo(b.book.pages));
-                  break;
-                case 'Title':
-                  organizedBooks
-                      .sort((a, b) => a.book.title.compareTo(b.book.title));
-                  break;
-                case 'Language':
-                  organizedBooks
-                      .sort((a, b) => a.book.lang.compareTo(b.book.lang));
-                  break;
-                default:
-                  organizedBooks
-                      .sort((a, b) => a.book.author.compareTo(b.book.author));
-              }
-              sortParam = value;
-              _isAscending = true;
-            });
-          },
-          itemBuilder: (context) {
-            return choices.map<PopupMenuItem<String>>((value) {
-              return PopupMenuItem(
-                child: Text(value),
-                value: value,
-              );
-            }).toList();
-          }),
-    );
-  }
-}
-
-class CheckboxTile extends StatelessWidget {
-  const CheckboxTile({
-    this.title,
-    this.author,
-    this.value,
-    this.onChanged,
-  });
-
-  final String title;
-  final String author;
-  final bool value;
-  final Function onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onChanged(!value);
-      },
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-        child: Row(
-          children: [
-            Flexible(
-              fit: FlexFit.tight,
-              flex: 4,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, overflow: TextOverflow.ellipsis),
-                  Text(author),
-                ],
-              ),
-            ),
-            Flexible(
-              fit: FlexFit.tight,
-              flex: 1,
-              child: Center(
-                child: Text('hi')
-              ),
-            ),
-            Flexible(
-              fit: FlexFit.tight,
-              flex: 1,
-              child: Checkbox(
-                value: value,
-                onChanged: onChanged,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
