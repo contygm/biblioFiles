@@ -3,21 +3,23 @@ import 'package:flutter/material.dart';
 import '../models/book.dart';
 import '../models/bookLibrary.dart';
 import '../models/library.dart';
-import '../screens/checkout/checkedout_book_screen.dart';
-import '../screens/checkout/regular_book_screen.dart';
-import '../screens/checkout/unloanable_book_screen.dart';
+import 'checkbox_tile.dart';
 
 class BookTile extends StatelessWidget {
 
   BookTile({
     this.sortParam,
     this.bookLib,
-    this.library
+    this.library,
+    this.onChanged,
+    this.hasCheckbox = false
   });
 
   final String sortParam;
   final BookLibrary bookLib;
   final Library library;
+  final bool hasCheckbox;
+  final Function onChanged;
 
   dynamic getValueFromSortParam(Book book) {
     dynamic value;
@@ -66,25 +68,21 @@ class BookTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(
-              color: bookLib.checkedout ? Colors.red : Colors.transparent),
-          color: bookLib.loanable ? Colors.transparent : Colors.grey[400]),
-      child: ListTile(
+        border: Border.all(color: bookLib.checkedout 
+          ? Colors.red : Colors.transparent),
+        color: bookLib.loanable ? Colors.transparent : Colors.grey[400]
+      ),
+      child: hasCheckbox ? CheckboxTile(
+        value: bookLib.unpacked,
+        title: bookLib.book.title,
+        author: bookLib.book.author,
+        detailText: bookTileEnd(bookLib),
+        onChanged: onChanged
+      ) : ListTile(
         title: Text(bookLib.book.title),
         subtitle: Text('${bookLib.book.author}'),
         trailing: bookTileEnd(bookLib),
-        onTap: () {
-          if (bookLib.checkedout) {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => CheckedoutBookScreen(library, bookLib)));
-          } else if (!bookLib.loanable) {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => UnloanableBookScreen(library, bookLib)));
-          } else {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => RegularBookScreen(library, bookLib)));
-          }
-        },
+        onTap: onChanged
       ),
     );
   }

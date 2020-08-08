@@ -3,6 +3,9 @@ import '../../components/book_tile.dart';
 import '../../components/filter_sort_bar.dart';
 import '../../db/databaseops.dart';
 import '../../models/library.dart';
+import '../../screens/checkout/checkedout_book_screen.dart';
+import '../../screens/checkout/regular_book_screen.dart';
+import '../../screens/checkout/unloanable_book_screen.dart';
 import '../../templates/default_template.dart';
 
 Library library;
@@ -149,6 +152,15 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
           sortParam: sortParam,
           bookLib: organizedBooks[index],
           library: library,
+          onChanged: () {
+            if (organizedBooks[index].checkedout) {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => CheckedoutBookScreen(library, organizedBooks[index])));
+            } else if (!organizedBooks[index].loanable) {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => UnloanableBookScreen(library, organizedBooks[index])));
+            } else {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegularBookScreen(library, organizedBooks[index])));
+            }
+          },
         );
       },
       separatorBuilder: (context, index) => const Divider());
