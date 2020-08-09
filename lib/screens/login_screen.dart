@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../components/logo_card.dart';
@@ -32,6 +33,13 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Styles.blue, Styles.green],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          )
+        ),
         child: SafeArea(
           child: Center(
             child: Column(
@@ -113,7 +121,7 @@ class _LoginState extends State<Login> {
         side: BorderSide(color: Styles.darkGrey)
       ),
       child: RaisedButton.icon(
-        icon: FaIcon(FontAwesomeIcons.google),
+        icon: FaIcon(FontAwesomeIcons.google, color: Styles.yellow),
         label: Text(label, style: Styles.bigButtonLabel),
         onPressed: onPressed,
       ),

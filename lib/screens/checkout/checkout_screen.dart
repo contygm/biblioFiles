@@ -1,3 +1,4 @@
+import 'package:biblioFiles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../components/library_dropdown.dart';
@@ -49,6 +50,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 selectedLibrary = value;
               });
             },
+            viewColor: Styles.blue,
             viewAction: () => Navigator.of(context).pushNamed( 
               BooksTileListScreen.routeName, 
               arguments: selectedLibrary

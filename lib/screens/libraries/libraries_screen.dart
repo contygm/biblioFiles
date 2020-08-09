@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../components/library_dropdown.dart';
 import '../../db/databaseops.dart';
 import '../../models/library.dart';
+import '../../styles.dart';
 import '../../templates/default_template.dart';
 
 class LibraryArgs {
@@ -50,12 +51,20 @@ class _LoadLibraryState extends State<LoadLibrary> {
       return Container(child: CircularProgressIndicator());
     } else {
       if (finalLibraries.isNotEmpty) {
+        final formKey = GlobalKey<FormState>();
+
         return Container(
           padding: EdgeInsets.all(8.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text('Select a library: ', style: Styles.header3Style),
+              ),
               LibraryDropdown(
+                formKey: formKey,
                 selectedLibrary: selectedLibrary,
                 finalLibraries: finalLibraries,
                 onChanged: (value) {
@@ -63,23 +72,33 @@ class _LoadLibraryState extends State<LoadLibrary> {
                     selectedLibrary = value;
                   });
                 },
+                viewColor: Styles.yellow,
                 viewAction: () async {
-                  Navigator.pushNamed(context, 'libraryBooks',
+                  if (formKey.currentState.validate()) {
+                    Navigator.pushNamed(context, 'libraryBooks',
                     arguments: LibraryArgs(
                       selectedLibrary.id, selectedLibrary.name));
+                  }
                 },
                 includeDelete: true,
+                deleteColor: Styles.darkGrey,
                 deleteAction: () async {
-                  await callDeleteLibrary(selectedLibrary.id);
-                  Navigator.pushNamed(context, 'libraries');
+                  if (formKey.currentState.validate()) {
+                    await callDeleteLibrary(selectedLibrary.id);
+                    Navigator.pushNamed(context, 'libraries');
+                  }
                 }
               ),
-              RaisedButton(
-                child: Text('Create Library'),
+              OrComponent(),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text('Create a Library: ', style: Styles.header3Style),
+              ),
+              createButton(
+                context, 
                 onPressed: () {
                   Navigator.pushNamed(context, 'addLibrary');
-                  setState(() {});
-                },
+                }
               ),
             ],
           ),
@@ -89,15 +108,66 @@ class _LoadLibraryState extends State<LoadLibrary> {
       return Container(
         child: Column(
           children: [
-            RaisedButton(
-              child: Text('Create Library'),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text('Create a Library: ', style: Styles.header3Style),
+            ),
+            createButton(
+              context, 
               onPressed: () {
                 lookLibrary = false;
                 Navigator.pushNamed(context, 'addLibrary');
               }
-            )
-        ],
-      ));
+            ),
+          ],
+        )
+      );
     }
+  }
+
+   Widget createButton(BuildContext context, {Function onPressed}) {
+    return ButtonTheme(
+      buttonColor: Styles.green,
+      minWidth: (MediaQuery.of(context).size.width * 0.5),
+      height: (MediaQuery.of(context).size.width * 0.15),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: RaisedButton(
+        elevation: 5,
+        child: Text('New Library', style: Styles.smallWhiteButtonLabel),
+        onPressed: onPressed
+      ),
+    );
+  }
+}
+
+
+class OrComponent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              height: 1.0,
+              color: Styles.blue,
+            ),
+          ),
+          Container(
+              margin: EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text("OR",style: Styles.mediumText),
+          ),
+          Expanded(
+            child: Container(
+              height: 1.0,
+              color: Styles.blue,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

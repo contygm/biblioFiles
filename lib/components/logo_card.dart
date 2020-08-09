@@ -5,52 +5,7 @@ import '../styles.dart';
 class LogoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var dimension =MediaQuery.of(context).size.width * 0.35;
-    return Stack(
-      children: [
-        background(context, dimension), logoTitle(context)
-      ]);
-  }
-
-  Widget background(BuildContext context, double dimension) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              color: Styles.green,
-              height: dimension,
-              width: dimension,
-            ),
-            Container(
-              color: Styles.yellow,
-              height: dimension,
-              width: dimension
-            )
-          ]
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              color: Styles.pink,
-              height: dimension,
-              width: dimension,
-            ),
-            Container(
-              color: Styles.blue,
-              height: dimension,
-              width: dimension,
-            )
-          ]
-        ),
-      ],
-    );
+    return logoTitle(context); 
   }
 
   Widget logoTitle(BuildContext context) {

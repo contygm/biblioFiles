@@ -18,6 +18,14 @@ class Styles {
     )
   );
 
+  static final TextStyle header3Style = headerFont(
+    textStyle: TextStyle(
+      fontSize: 30,
+      fontWeight: FontWeight.bold,
+      color: darkGrey,
+    )
+  );
+
   static final TextStyle homeTileStyle = headerFont(
     textStyle: TextStyle(
       fontSize: 25,
@@ -27,18 +35,42 @@ class Styles {
 
   static final TextStyle welcomeMsg = textFont(
     textStyle: TextStyle(
-      color: Styles.darkGrey,
+      color: darkGrey,
       fontSize: 30,
       fontStyle: FontStyle.italic 
     )
   );
 
-  static final TextStyle bigButtonLabel = textFont(
+  static final TextStyle mediumText = textFont(
     textStyle: TextStyle(
-      color: Colors.black,
+      color: blue,
       fontSize: 20,
     )
   );
+
+  static final TextStyle bigButtonLabel = textFont(
+    textStyle: TextStyle(
+      color: offWhite,
+      fontSize: 18,
+    )
+  );
+
+  static final TextStyle smallGreyButtonLabel = textFont(
+    textStyle: TextStyle(
+      color: darkGrey,
+      fontWeight: FontWeight.bold,
+      fontSize: 17,
+    )
+  );
+
+  static final TextStyle smallWhiteButtonLabel = textFont(
+    textStyle: TextStyle(
+      color: offWhite,
+      fontWeight: FontWeight.bold,
+      fontSize: 17,
+    )
+  );
+  
 }
 
 TextStyle headerFont({TextStyle textStyle}) {
