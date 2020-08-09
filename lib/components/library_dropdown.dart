@@ -30,16 +30,25 @@ class LibraryDropdown extends StatelessWidget {
 
   Widget viewButton(BuildContext context) {
     return ButtonTheme(
-      buttonColor: viewColor,
+      buttonColor: Colors.white,
       minWidth: (MediaQuery.of(context).size.width * 0.25),
       height: (MediaQuery.of(context).size.width * 0.12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: RaisedButton(
-        elevation: 5,
+        elevation: 3,
         onPressed: viewAction,
-        child: Text('View', style: viewFont ?? Styles.smallWhiteButtonLabel)
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 8.0),
+              child: Icon(Icons.visibility, color: viewColor),
+            ),
+            Text('View', style: (viewColor == Styles.green) ? Styles.smallGreenButtonLabel : Styles.smallBlueButtonLabel),
+          ],
+        )
       ),
     );
   }
@@ -51,16 +60,24 @@ class LibraryDropdown extends StatelessWidget {
         children: [
           viewButton(context),
           ButtonTheme(
-            buttonColor: deleteColor,
+            buttonColor: Colors.white,
             minWidth: (MediaQuery.of(context).size.width * 0.25),
             height: (MediaQuery.of(context).size.width * 0.12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
             ),
             child: RaisedButton(
-              elevation: 5,
+              elevation: 3,
               onPressed: deleteAction,
-              child: Text('Delete', style: Styles.smallWhiteButtonLabel)
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 8.0),
+                    child: Icon(Icons.delete, color: deleteColor),
+                  ),
+                  Text('Delete', style: (viewColor == Styles.green) ? Styles.smallGreenButtonLabel : Styles.smallBlueButtonLabel),
+                ],
+              )
             )
           )
           
@@ -77,6 +94,10 @@ class LibraryDropdown extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text('Select a library: ', style: Styles.header3Style),
+          ),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: DropdownButtonFormField<Library>(

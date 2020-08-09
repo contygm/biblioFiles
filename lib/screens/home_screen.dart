@@ -46,13 +46,13 @@ class Home extends StatelessWidget {
               title: 'Unpack', 
               icon: FontAwesomeIcons.boxOpen, 
               routeName: 'unpack',
-              themeColor: Styles.pink
+              themeColor: Styles.blue
             ),
             HomeTile(
               title: 'Libraries', 
               icon: FontAwesomeIcons.warehouse,
               routeName: 'libraries',
-              themeColor: Styles.yellow
+              themeColor: Styles.green
             ),
             HomeTile(
               title: 'Checkout', 

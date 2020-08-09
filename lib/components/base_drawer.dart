@@ -58,7 +58,7 @@ class BaseDrawer extends StatelessWidget {
                     Opacity(
                       opacity: _opac,
                       child: ListTile(
-                        leading: Icon(Icons.settings, color: Styles.blue),
+                        leading: Icon(Icons.settings, color: Styles.green),
                         title: Text('Settings'),
                         onTap: () {
                           if (snapshot.data != '') {
@@ -75,7 +75,7 @@ class BaseDrawer extends StatelessWidget {
                     Opacity(
                       opacity: _opac,
                       child: ListTile(
-                        leading: Icon(Icons.home, color: Styles.yellow),
+                        leading: Icon(Icons.home, color: Styles.green),
                         title: Text('Home'),
                         onTap: ()  {
                               Navigator.pushNamed(context, 'home');
@@ -86,7 +86,7 @@ class BaseDrawer extends StatelessWidget {
                     Opacity(
                       opacity: _opac,
                       child: ListTile(
-                        leading: FaIcon(FontAwesomeIcons.signOutAlt, color: Styles.pink),
+                        leading: FaIcon(FontAwesomeIcons.signOutAlt, color: Styles.darkGrey),
                         title: Text('Signout'),
                         onTap: () async {
                           if (snapshot.data != '') {

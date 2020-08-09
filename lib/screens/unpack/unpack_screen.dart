@@ -48,7 +48,7 @@ class _UnpackScreenState extends State<UnpackScreen> {
           padding: const EdgeInsets.all(10.0),
           child: LibraryDropdown(
             formKey: formKey,
-            viewColor: Styles.pink,
+            viewColor: Styles.blue,
             selectedLibrary: selectedLibrary,
             finalLibraries: finalLibraries,
             onChanged: (value) {

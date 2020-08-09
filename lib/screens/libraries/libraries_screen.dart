@@ -58,11 +58,7 @@ class _LoadLibraryState extends State<LoadLibrary> {
           child: Column(
 
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text('Select a library: ', style: Styles.header3Style),
-              ),
+            children: [              
               LibraryDropdown(
                 formKey: formKey,
                 selectedLibrary: selectedLibrary,
@@ -72,7 +68,7 @@ class _LoadLibraryState extends State<LoadLibrary> {
                     selectedLibrary = value;
                   });
                 },
-                viewColor: Styles.yellow,
+                viewColor: Styles.green,
                 viewAction: () async {
                   if (formKey.currentState.validate()) {
                     Navigator.pushNamed(context, 'libraryBooks',
@@ -81,7 +77,7 @@ class _LoadLibraryState extends State<LoadLibrary> {
                   }
                 },
                 includeDelete: true,
-                deleteColor: Styles.darkGrey,
+                deleteColor: Colors.red,
                 deleteAction: () async {
                   if (formKey.currentState.validate()) {
                     await callDeleteLibrary(selectedLibrary.id);
@@ -89,7 +85,7 @@ class _LoadLibraryState extends State<LoadLibrary> {
                   }
                 }
               ),
-              OrComponent(),
+              orComponent(),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text('Create a Library: ', style: Styles.header3Style),
@@ -140,12 +136,8 @@ class _LoadLibraryState extends State<LoadLibrary> {
       ),
     );
   }
-}
 
-
-class OrComponent extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  Widget orComponent() {
     return Padding(
       padding: const EdgeInsets.only(left: 40.0, right: 40.0),
       child: Row(
@@ -153,21 +145,21 @@ class OrComponent extends StatelessWidget {
           Expanded(
             child: Container(
               height: 1.0,
-              color: Styles.blue,
+              color: Styles.green,
             ),
           ),
           Container(
               margin: EdgeInsets.symmetric(horizontal: 10.0),
-              child: Text("OR",style: Styles.mediumText),
+              child: Text("OR",style: Styles.greenMediumText),
           ),
           Expanded(
             child: Container(
               height: 1.0,
-              color: Styles.blue,
+              color: Styles.green,
             ),
           ),
         ],
       ),
     );
-  }
+}
 }
