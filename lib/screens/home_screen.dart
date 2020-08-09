@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../components/home_tile.dart';
+import '../styles.dart';
 import '../templates/default_template.dart';
 
 class Home extends StatelessWidget {
@@ -8,13 +9,14 @@ class Home extends StatelessWidget {
 
   Widget addBookBtn(BuildContext context) {
     return Container(
-        height: 100.0,
-        width: 100.0,
+        height: 75.0,
+        width: 75.0,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 10.0),
           child: FittedBox(
             child: FloatingActionButton(
-              child: Icon(Icons.add, size: 40.0),
+              backgroundColor: Styles.darkGrey,
+              child: Icon(Icons.add, size: 30.0, color: Styles.offWhite),
               tooltip: 'Add a Book',
               onPressed: () => Navigator.of(context).pushNamed( 'addBook' ),
             ),
@@ -28,45 +30,38 @@ class Home extends StatelessWidget {
     return DefaultTemplate(
       floatingAction: addBookBtn(context),
       floatingActionLocation: FloatingActionButtonLocation.centerFloat,
-      content: Column (
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                HomeTile(
-                  title: 'Shelves', 
-                  icon: FontAwesomeIcons.leanpub, 
-                  routeName: 'shelvesScreen'
-                ),
-                HomeTile(
-                  title: 'Unpack', 
-                  icon: FontAwesomeIcons.boxOpen, 
-                  routeName: 'unpack'
-                )
-              ],
+      content: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: Column (
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            HomeTile(
+              title: 'Shelves', 
+              icon: FontAwesomeIcons.leanpub, 
+              routeName: 'shelvesScreen',
+              themeColor: Styles.green,
+
             ),
-          SizedBox(height: 30),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                HomeTile(
-                  title: 'Libraries', 
-                  icon: FontAwesomeIcons.clone,
-                  routeName: 'libraries',
-                ),
-                HomeTile(
-                  title: 'Checkout', 
-                  icon: FontAwesomeIcons.tasks,
-                  routeName: 'checkout',
-                )
-              ]
+            HomeTile(
+              title: 'Unpack', 
+              icon: FontAwesomeIcons.boxOpen, 
+              routeName: 'unpack',
+              themeColor: Styles.pink
             ),
-          
-        ]
+            HomeTile(
+              title: 'Libraries', 
+              icon: FontAwesomeIcons.warehouse,
+              routeName: 'libraries',
+              themeColor: Styles.yellow
+            ),
+            HomeTile(
+              title: 'Checkout', 
+              icon: FontAwesomeIcons.tasks,
+              routeName: 'checkout',
+              themeColor: Styles.blue
+            )
+          ]
+        ),
       ),
     ); 
   } 

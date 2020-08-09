@@ -39,7 +39,7 @@ class App extends StatelessWidget {
     return MaterialApp(
         title: 'BiblioFiles',
         theme: ThemeData(
-          primarySwatch: Colors.green,
+          primarySwatch: Colors.grey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         routes: routes);

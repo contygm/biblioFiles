@@ -12,19 +12,26 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
-  String welcomeMsg = 'Welcome!';
+class _LoginState extends State<Login> {  
+  String welcomeMsg = authService.user != null 
+      ? 'Welcome back!' : 'Welcome!';
+  
+  Future<String> getProfileName() async {
+    // get UID
+    final auth = FirebaseAuth.instance;
+    final user = await auth.currentUser();
+    if (user != null) {
+      welcomeMsg = 'Welcome back!';
+      return user.displayName;
+    } else {
+      welcomeMsg = 'Welcome!';
+      return '';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Styles.blue, Styles.green ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          )
-        ),
         child: SafeArea(
           child: Center(
             child: Column(
@@ -37,11 +44,7 @@ class _LoginState extends State<Login> {
                 ),
                 Flexible(
                   child: Text(welcomeMsg, 
-                    style: TextStyle(
-                      color: Styles.darkGrey,
-                      fontSize: 30,
-                      fontStyle: FontStyle.italic 
-                    )
+                    style: Styles.welcomeMsg
                   ),
                   fit: FlexFit.tight,
                   flex: 1
@@ -57,19 +60,6 @@ class _LoginState extends State<Login> {
         ),
       )
     );
-  }
-
-  Future<String> getProfileName() async {
-    // get UID
-    final auth = FirebaseAuth.instance;
-    final user = await auth.currentUser();
-    if (user != null) {
-      welcomeMsg = 'Welcome back!';
-      return user.displayName;
-    } else {
-      welcomeMsg = 'Welcome!';
-      return '';
-    }
   }
 
   void pushHome(BuildContext context) {
@@ -124,7 +114,7 @@ class _LoginState extends State<Login> {
       ),
       child: RaisedButton.icon(
         icon: FaIcon(FontAwesomeIcons.google),
-        label: Text(label),
+        label: Text(label, style: Styles.bigButtonLabel),
         onPressed: onPressed,
       ),
     );

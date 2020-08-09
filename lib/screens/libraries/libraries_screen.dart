@@ -87,14 +87,15 @@ class _LoadLibraryState extends State<LoadLibrary> {
       }
       //otherwise print empty screen
       return Container(
-          child: Column(
-        children: [
-          RaisedButton(
+        child: Column(
+          children: [
+            RaisedButton(
               child: Text('Create Library'),
               onPressed: () {
                 lookLibrary = false;
                 Navigator.pushNamed(context, 'addLibrary');
-              })
+              }
+            )
         ],
       ));
     }
