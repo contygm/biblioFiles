@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../styles.dart';
 
 class LogoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Column(
-        children: [
-          Icon(
-            FontAwesomeIcons.bookReader, 
-            size: 200, 
-            color: Colors.green
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Text(
-              "BiblioFiles",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold
-              ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(
+          FontAwesomeIcons.bookReader, 
+          size: MediaQuery.of(context).size.width * 0.4, 
+          color: Colors.white
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text(
+            "BiblioFiles",
+            style: TextStyle(
+              fontSize: MediaQuery.of(context).size.width * 0.14,
+              fontWeight: FontWeight.bold,
+              color: Colors.white
             ),
-          )
-        ]
-      ),
+          ),
+        )
+      ]
     );
   }
 }
