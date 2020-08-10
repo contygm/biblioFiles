@@ -35,7 +35,7 @@ class _LoginState extends State<Login> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Styles.blue, Styles.green],
+            colors: [Styles.darkGreen, Styles.green],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           )
@@ -121,7 +121,7 @@ class _LoginState extends State<Login> {
         side: BorderSide(color: Styles.darkGrey)
       ),
       child: RaisedButton.icon(
-        icon: FaIcon(FontAwesomeIcons.google, color: Styles.yellow),
+        icon: FaIcon(FontAwesomeIcons.google, color: Styles.darkGreen),
         label: Text(label, style: Styles.bigButtonLabel),
         onPressed: onPressed,
       ),

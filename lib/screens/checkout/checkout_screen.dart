@@ -50,7 +50,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 selectedLibrary = value;
               });
             },
-            viewColor: Styles.blue,
+            viewColor: Styles.darkGreen,
             viewAction: () => Navigator.of(context).pushNamed( 
               BooksTileListScreen.routeName, 
               arguments: selectedLibrary

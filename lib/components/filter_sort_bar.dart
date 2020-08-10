@@ -34,7 +34,7 @@ class FilterSortBar extends StatelessWidget {
 
   Widget filterButton() {
     return PopupMenuButton(
-      icon: FaIcon(FontAwesomeIcons.filter, color: Styles.lightGreen),
+      icon: FaIcon(FontAwesomeIcons.filter, color: Styles.mediumGrey),
       onSelected: filterOnSelected,
       itemBuilder: (context) {
         return filterChoices.map<PopupMenuItem<String>>((value) {
@@ -60,8 +60,8 @@ class FilterSortBar extends StatelessWidget {
       onDoubleTap: sortDoubleTap,
       child: PopupMenuButton(
         icon: isAscending
-            ? FaIcon(FontAwesomeIcons.sortAlphaDown, color: Styles.lightGreen,)
-            : FaIcon(FontAwesomeIcons.sortAlphaUp, color: Styles.lightGreen,),
+            ? FaIcon(FontAwesomeIcons.sortAlphaDown, color: Styles.mediumGrey,)
+            : FaIcon(FontAwesomeIcons.sortAlphaUp, color: Styles.mediumGrey,),
         onSelected: sortOnSelected,
         itemBuilder: (context) {
           return choices.map<PopupMenuItem<String>>((value) {

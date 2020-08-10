@@ -145,17 +145,17 @@ class _LoadLibraryState extends State<LoadLibrary> {
           Expanded(
             child: Container(
               height: 1.0,
-              color: Styles.green,
+              color: Styles.darkGreen,
             ),
           ),
           Container(
               margin: EdgeInsets.symmetric(horizontal: 10.0),
-              child: Text("OR",style: Styles.greenMediumText),
+              child: Text("OR",style: Styles.darkGreenMediumText),
           ),
           Expanded(
             child: Container(
               height: 1.0,
-              color: Styles.green,
+              color: Styles.darkGreen,
             ),
           ),
         ],

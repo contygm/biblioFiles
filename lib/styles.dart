@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Styles {
-  static final Color blue = Color(0xFF06bee1);
-  static final Color pink = Color(0xFFe83f6f);
-  static final Color yellow = Color(0xFFffbf00);
+  static final Color darkGreen = Color(0xFF104911);
+  static final Color yellow = Color(0xFFF9A620);
   static final Color green = Color(0xFF26a96c);
   static final Color lightGreen = Color(0xFF48d594);
-
+  static final Color mediumGrey = Color(0xFF585563);
   static final Color darkGrey = Color(0xFF495159);
   static final Color offWhite = Color(0xFFF5F5F5);
   
@@ -24,7 +23,7 @@ class Styles {
     textStyle: TextStyle(
       fontSize: 30,
       fontWeight: FontWeight.bold,
-      color: darkGrey,
+      color: green,
     )
   );
 
@@ -40,6 +39,13 @@ class Styles {
       color: darkGrey,
       fontSize: 30,
       fontStyle: FontStyle.italic 
+    )
+  );
+
+  static final TextStyle darkGreenMediumText = textFont(
+    textStyle: TextStyle(
+      color: darkGreen,
+      fontSize: 20,
     )
   );
 
@@ -73,9 +79,9 @@ class Styles {
     )
   );
 
-  static final TextStyle smallBlueButtonLabel = textFont(
+  static final TextStyle smallDarkGreenButtonLabel = textFont(
     textStyle: TextStyle(
-      color: blue,
+      color: darkGreen,
       // fontWeight: FontWeight.bold,
       fontSize: 15,
     )

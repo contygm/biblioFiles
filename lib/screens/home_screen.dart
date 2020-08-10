@@ -46,7 +46,7 @@ class Home extends StatelessWidget {
               title: 'Unpack', 
               icon: FontAwesomeIcons.boxOpen, 
               routeName: 'unpack',
-              themeColor: Styles.blue
+              themeColor: Styles.darkGreen
             ),
             HomeTile(
               title: 'Libraries', 
@@ -58,7 +58,7 @@ class Home extends StatelessWidget {
               title: 'Checkout', 
               icon: FontAwesomeIcons.tasks,
               routeName: 'checkout',
-              themeColor: Styles.blue
+              themeColor: Styles.darkGreen
             )
           ]
         ),

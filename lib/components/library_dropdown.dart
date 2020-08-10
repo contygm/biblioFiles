@@ -46,7 +46,8 @@ class LibraryDropdown extends StatelessWidget {
               padding: EdgeInsets.only(right: 8.0),
               child: Icon(Icons.visibility, color: viewColor),
             ),
-            Text('View', style: (viewColor == Styles.green) ? Styles.smallGreenButtonLabel : Styles.smallBlueButtonLabel),
+            Text('View', style: (viewColor == Styles.green) ? 
+              Styles.smallGreenButtonLabel : Styles.smallDarkGreenButtonLabel),
           ],
         )
       ),
@@ -75,7 +76,8 @@ class LibraryDropdown extends StatelessWidget {
                     padding: EdgeInsets.only(right: 8.0),
                     child: Icon(Icons.delete, color: deleteColor),
                   ),
-                  Text('Delete', style: (viewColor == Styles.green) ? Styles.smallGreenButtonLabel : Styles.smallBlueButtonLabel),
+                  Text('Delete', style: (viewColor == Styles.green) ? 
+                    Styles.smallGreenButtonLabel : Styles.smallDarkGreenButtonLabel),
                 ],
               )
             )
