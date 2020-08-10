@@ -40,9 +40,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       return Container(child: CircularProgressIndicator());
     } else {
       if (finalLibraries.isNotEmpty) {
+        final formKey = GlobalKey<FormState>();
         return Padding(
           padding: const EdgeInsets.all(10.0),
           child: LibraryDropdown(
+            formKey: formKey,
             selectedLibrary: selectedLibrary,
             finalLibraries: finalLibraries,
             onChanged: (value) {
@@ -51,10 +53,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               });
             },
             viewColor: Styles.darkGreen,
-            viewAction: () => Navigator.of(context).pushNamed( 
-              BooksTileListScreen.routeName, 
-              arguments: selectedLibrary
-            )
+            viewAction: () {
+              if (formKey.currentState.validate()) {
+                Navigator.of(context).pushNamed( 
+                  BooksTileListScreen.routeName, 
+                  arguments: selectedLibrary
+                );
+              }
+            } 
           )
         );
       }

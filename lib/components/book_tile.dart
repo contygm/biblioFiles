@@ -4,6 +4,7 @@ import '../models/book.dart';
 import '../models/bookLibrary.dart';
 import '../models/library.dart';
 import 'checkbox_tile.dart';
+import 'book_list_tile.dart';
 import '../styles.dart';
 
 class BookTile extends StatelessWidget {
@@ -46,27 +47,8 @@ class BookTile extends StatelessWidget {
 
   // determines the text for the right side of tile
   // based on sort and checkout statuses
-  Widget bookTileEnd(BookLibrary bookLib) {
-    if (sortParam != 'Author' && sortParam != 'Title' && bookLib.checkedout) {
-      dynamic value = getValueFromSortParam(bookLib.book);
-      return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text('$value', style: TextStyle(color: Colors.green)),
-            Text('OUT', style: TextStyle(color: Colors.red))
-          ]);
-    } else if (bookLib.checkedout) {
-      return Text('OUT', style: TextStyle(color: Colors.red));
-    } else if (sortParam != 'Author' && sortParam != 'Title') {
-      dynamic value = getValueFromSortParam(bookLib.book);
-      return Text('$value', style: TextStyle(color: Colors.green));
-    }
 
-    return null;
-  }
-
-  // TODO cut off text
-  Widget checkboxTileEnd(BookLibrary bookLib) {
+  Widget tileEnd(BookLibrary bookLib) {
     if (sortParam != 'Author' && sortParam != 'Title' && bookLib.checkedout) {
       dynamic value = getValueFromSortParam(bookLib.book);
       return Container(
@@ -126,19 +108,25 @@ class BookTile extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(20)),
         border: Border.all(color: bookLib.checkedout 
           ? Colors.red : Colors.transparent),
-        color: bookLib.loanable ? Colors.transparent : Colors.grey[400]
+        color: bookLib.loanable ? Colors.white : Colors.grey[400],
+        boxShadow: [BoxShadow(
+          color: Colors.grey,
+          blurRadius: 5.0,
+          offset: Offset(3.0, 3.0)
+        )]
       ),
       child: hasCheckbox ? CheckboxTile(
         value: bookLib.unpacked,
         title: bookLib.book.title,
         author: bookLib.book.author,
-        detailText: checkboxTileEnd(bookLib),
+        detailText: tileEnd(bookLib),
         onChanged: onChanged
-      ) : ListTile(
-        title: Text(bookLib.book.title),
-        subtitle: Text('${bookLib.book.author}'),
-        trailing: bookTileEnd(bookLib),
-        onTap: onChanged
+      ) : BookListTile(
+        value: bookLib.unpacked,
+        title: bookLib.book.title,
+        author: bookLib.book.author,
+        detailText: tileEnd(bookLib),
+        onChanged: onChanged
       ),
     );
   }
