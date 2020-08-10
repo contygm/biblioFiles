@@ -10,6 +10,7 @@ class Styles {
   static final Color darkGrey = Color(0xFF495159);
   static final Color offWhite = Color(0xFFF5F5F5);
   
+  static final TextStyle defaultFont = GoogleFonts.robotoSlab();
 
   static final TextStyle header1Style = headerFont(
     textStyle: TextStyle(

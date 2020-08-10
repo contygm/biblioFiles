@@ -14,6 +14,7 @@ import 'screens/shelves.dart';
 import 'screens/single_book/single_book_screen.dart';
 import 'screens/unpack/unpack_screen.dart';
 import 'screens/unpack/unpack_book_list.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class App extends StatelessWidget {
   static final routes = {
@@ -39,6 +40,9 @@ class App extends StatelessWidget {
     return MaterialApp(
         title: 'BiblioFiles',
         theme: ThemeData(
+          textTheme: GoogleFonts.robotoSlabTextTheme(
+            Theme.of(context).textTheme,
+          ),
           primarySwatch: Colors.grey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
