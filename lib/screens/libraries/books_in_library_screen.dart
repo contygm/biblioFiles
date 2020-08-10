@@ -4,6 +4,7 @@ import '../../components/floating_back_button.dart';
 import '../../db/databaseops.dart';
 import '../../templates/default_template.dart';
 import 'libraries_screen.dart';
+import '../../styles.dart';
 
 int libraryId;
 String libraryname;
@@ -14,9 +15,7 @@ class LibraryBooksScreen extends StatelessWidget {
     LibraryArgs librarydeets = ModalRoute.of(context).settings.arguments;
     libraryId = librarydeets.id;
     libraryname = librarydeets.name;
-    return DefaultTemplate(
-        content: LoadBooksLibrary(),
-        floatingAction: FloatingBackButton(context));
+    return DefaultTemplate(content: LoadBooksLibrary());
   }
 }
 
@@ -74,16 +73,31 @@ class _LoadBooksLibraryState extends State<LoadBooksLibrary> {
       } else {
         //otherwise print empty screen
         return Container(
-            child: Column(
-          children: [
-            Text('$libraryname is empty!', style: TextStyle(fontSize: 35)),
-            RaisedButton(
-                child: Text('Add Book'),
-                onPressed: () {
-                  Navigator.pushNamed(context, 'addBook');
-                })
-          ],
-        ));
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('$libraryname is empty!', style: Styles.header2Style),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: ButtonTheme(
+                  minWidth: (MediaQuery.of(context).size.width * 0.25),
+                  height: (MediaQuery.of(context).size.width * 0.12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: RaisedButton(
+                    elevation: 3,
+                    color: Styles.yellow,
+                    child: Text('Add Book', style: Styles.smallWhiteButtonLabel,),
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'addBook');
+                    }
+                  ),
+                ),
+              )
+            ],
+          )
+        );
       }
     }
   }

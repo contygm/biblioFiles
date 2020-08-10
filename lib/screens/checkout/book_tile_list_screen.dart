@@ -7,6 +7,8 @@ import '../../screens/checkout/checkedout_book_screen.dart';
 import '../../screens/checkout/regular_book_screen.dart';
 import '../../screens/checkout/unloanable_book_screen.dart';
 import '../../templates/default_template.dart';
+import '../../styles.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Library library;
 
@@ -54,6 +56,19 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
   Widget build(BuildContext context) {
     if (booksSearched = false) {
       return Container(child: CircularProgressIndicator());
+    } else if (allBooks.length == 0) {
+      return DefaultTemplate (content: 
+      Center(child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: 15.0),
+            child: FaIcon(FontAwesomeIcons.plusCircle, color: Styles.yellow, size: 50,),
+          ),
+          Text('You need to add a book first!', style: Styles.header2Style, textAlign: TextAlign.center,),
+        ],
+      )));
     } else {
       return DefaultTemplate(
         content: Container(

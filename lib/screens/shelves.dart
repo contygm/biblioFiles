@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../components/book_grid.dart';
-import '../components/floating_back_button.dart';
 import '../db/databaseops.dart';
 import '../templates/default_template.dart';
 
@@ -51,7 +50,6 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
 
   Widget build(BuildContext context) {
     return DefaultTemplate(
-        floatingAction: FloatingBackButton(context),
         content: shelvesList(context));
   }
 
