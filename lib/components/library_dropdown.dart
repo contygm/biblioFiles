@@ -4,26 +4,26 @@ import '../styles.dart';
 
 class LibraryDropdown extends StatelessWidget {
   LibraryDropdown({
-    this.selectedLibrary,
-    this.onChanged,
-    this.finalLibraries,
-    this.viewAction,
-    this.includeDelete = false,
-    this.deleteAction,
-    this.viewColor,
-    this.deleteColor,
-    this.viewFont,
-    this.formKey
-  });
+      this.selectedLibrary,
+      this.onChanged,
+      this.finalLibraries,
+      this.viewAction,
+      this.includeDelete = false,
+      this.includeView = true,
+      this.deleteAction,
+      this.formKey,
+      this.deleteColor,
+      this.viewColor,
+    });
 
   final Library selectedLibrary;
   final Function onChanged;
   final List<Library> finalLibraries;
   final Function viewAction;
   final bool includeDelete;
+  final bool includeView;
   final Function deleteAction;
   final Color viewColor;
-  final Color viewFont;
   final Color deleteColor;
 
   final formKey;
@@ -86,7 +86,11 @@ class LibraryDropdown extends StatelessWidget {
         ]
       );
     } 
-    return viewButton(context);
+
+    if(includeView) {
+      return viewButton(context);
+    }
+    return Container();
   }
 
   @override

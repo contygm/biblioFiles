@@ -72,6 +72,14 @@ class Styles {
     )
   );
 
+  static final TextStyle greenText = textFont(
+    textStyle: TextStyle(
+      color: green,
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+    )
+  );
+
   static final TextStyle bigButtonLabel = textFont(
     textStyle: TextStyle(
       color: offWhite,

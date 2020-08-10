@@ -54,8 +54,8 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (booksSearched = false) {
-      return Container(child: CircularProgressIndicator());
+    if (booksSearched == false) {
+      return DefaultTemplate (content: Container(child: CircularProgressIndicator()));
     } else if (allBooks.length == 0) {
       return DefaultTemplate (content: 
       Center(child: Column(

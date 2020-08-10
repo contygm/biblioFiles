@@ -1,6 +1,9 @@
+import 'package:biblioFiles/components/library_dropdown.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../../components/library_dropdown.dart';
 import '../../db/databaseops.dart';
 import '../../models/book.dart';
 import '../../models/library.dart';
@@ -20,7 +23,7 @@ class ManualBookEntry extends StatefulWidget {
 }
 
 class _ManualBookEntry extends State<ManualBookEntry> {
-  String selectedLibrary;
+  Library selectedLibrary;
 
   final _key = GlobalKey<FormState>();
 
@@ -32,115 +35,126 @@ class _ManualBookEntry extends State<ManualBookEntry> {
   final TextEditingController _languageController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _key,
-      child: Column(
-        children: <Widget>[
-          TextFormField(
-            controller: _titleController,
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Enter a title';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              labelText: 'Title',
-            ),
-          ),
-          TextFormField(
-            controller: _authorController,
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Enter an author';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              labelText: 'Author',
-            ),
-          ),
-          TextFormField(
-            controller: _isbn10Controller,
-            decoration: InputDecoration(
-              labelText: 'ISBN10',
-            ),
-          ),
-          TextFormField(
-            controller: _isbn13Controller,
-            decoration: InputDecoration(
-              labelText: 'ISBN13',
-            ),
-          ),
-          TextFormField(
-            controller: _pagesController,
-            decoration: InputDecoration(
-              labelText: 'Pages',
-            ),
-          ),
-          TextFormField(
-            controller: _languageController,
-            decoration: InputDecoration(
-              labelText: 'Language',
-            ),
-          ),
-          FutureBuilder<List<Library>>(
-              future: getLibraries(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return DropdownButtonFormField<String>(
-                      decoration: InputDecoration(labelText: 'Library'),
-                      value: selectedLibrary,
-                      onChanged: (newValue) {
-                        setState(() {
-                          selectedLibrary = newValue;
-                        });
-                      },
-                      items: snapshot.data
-                          .map((item) => DropdownMenuItem<String>(
-                                child: Text(item.libraryName),
-                                value: item.libraryName,
-                              ))
-                          .toList());
-                } else {
-                  return CircularProgressIndicator();
-                }
-              }),
-          RaisedButton(
-            onPressed: () async {
-              var isValid = await submit(selectedLibrary);
-
-              if (isValid) {
-                // get the library record
-                var libRecord = await getLibraryRecord(selectedLibrary);
-                var libId = libRecord.id;
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddSuccessScreen(libId: libId),
-                  ),
-                );
-              }
-            },
-            child: Text('Approve'),
-          ),
-        ],
-      ),
-    );
+  void initState() {
+    super.initState();
+    getLibraries();
   }
 
-  Future<Library> getLibraryRecord(String libraryName) async {
-    // get UID
+  List<Library> finalLibraries = [];
+  bool lookLibrary = false;
+  void getLibraries() async {
     final auth = FirebaseAuth.instance;
     final user = await auth.currentUser();
     final uid = user.uid;
-
-    return await findLibraryRecord(selectedLibrary, uid);
+    var libraries = await callGetLibraries(uid);
+    setState(() {
+      lookLibrary = true;
+      finalLibraries = libraries;
+    });
   }
 
-  Future<bool> submit(String selectedLibrary) async {
+  Widget build(BuildContext context) {
+    if (lookLibrary == false) {
+      return Container(child: CircularProgressIndicator());
+    } else {
+      return Form(
+        key: _key,
+        child: ListView(
+          children: <Widget>[
+            TextFormField(
+              controller: _titleController,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Enter a title';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                labelText: 'Title',
+              ),
+            ),
+            TextFormField(
+              controller: _authorController,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Enter an author';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                labelText: 'Author',
+              ),
+            ),
+            TextFormField(
+              maxLength: 10,
+              controller: _isbn10Controller,
+              decoration: InputDecoration(
+                labelText: 'ISBN10',
+              ),
+            ),
+            TextFormField(
+              maxLength: 13,
+              controller: _isbn13Controller,
+              decoration: InputDecoration(
+                labelText: 'ISBN13',
+              ),
+            ),
+            TextFormField(
+              controller: _pagesController,
+              decoration: InputDecoration(
+                labelText: 'Pages',
+              ),
+               keyboardType: TextInputType.phone,
+                inputFormatters: <TextInputFormatter>[
+                  WhitelistingTextInputFormatter.digitsOnly,
+                ]
+            ),
+            TextFormField(
+              controller: _languageController,
+              decoration: InputDecoration(
+                labelText: 'Language',
+              ),
+            ),
+            LibraryDropdown(
+              includeView: false,
+              selectedLibrary: selectedLibrary,
+              finalLibraries: finalLibraries,
+              onChanged: (value) {
+                setState(() {
+                  selectedLibrary = value;
+                });
+              },
+            ),
+            RaisedButton(
+              onPressed: () async {
+                if (selectedLibrary == null) {
+                  final message =
+                      SnackBar(content: Text('Library is required!'));
+                  Scaffold.of(context).showSnackBar(message);
+                } else {
+                  var isValid = await submit(selectedLibrary);
+
+                  if (isValid) {
+                    var libId = selectedLibrary.id;
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddSuccessScreen(libId: libId),
+                      ),
+                    );
+                  }
+                }
+              },
+              child: Text('Approve'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Future<bool> submit(Library selectedLibrary) async {
     if (_key.currentState.validate()) {
       var book = Book.empty();
       book.bookAuthor = _authorController.text.trim();
@@ -167,18 +181,5 @@ class _ManualBookEntry extends State<ManualBookEntry> {
     } else {
       return false;
     }
-  }
-
-  Future<List<Library>> getLibraries() async {
-    // get UID
-    final auth = FirebaseAuth.instance;
-    final user = await auth.currentUser();
-    final uid = user.uid;
-
-    // get libraries from database
-    var libraryObjects = await callGetLibraries(uid);
-
-    // return libraries
-    return libraryObjects;
   }
 }
