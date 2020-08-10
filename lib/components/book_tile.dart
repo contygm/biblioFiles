@@ -83,7 +83,8 @@ class BookTile extends StatelessWidget {
                       color: Styles.darkGreen
                     ),
                     child: Text('$value',
-                    textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white))))
                     ),
               Positioned(
@@ -110,6 +111,7 @@ class BookTile extends StatelessWidget {
               color: Styles.darkGreen
             ),
             child: Text('$value', textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(color: Colors.white)))),
       );
     }
