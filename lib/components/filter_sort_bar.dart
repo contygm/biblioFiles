@@ -25,7 +25,7 @@ class FilterSortBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
       child: Row(children: [
-        Text(libraryName, style: Styles.header3Style),
+        Text(libraryName, style: Styles.header2DarkGreenStyle),
         Spacer(flex: 1),
         ButtonBar(children: [filterButton(), sortButton()])
       ]),
@@ -34,7 +34,7 @@ class FilterSortBar extends StatelessWidget {
 
   Widget filterButton() {
     return PopupMenuButton(
-      icon: FaIcon(FontAwesomeIcons.filter, color: Styles.mediumGrey),
+      icon: FaIcon(FontAwesomeIcons.filter, color: Styles.darkGreen),
       onSelected: filterOnSelected,
       itemBuilder: (context) {
         return filterChoices.map<PopupMenuItem<String>>((value) {
@@ -60,8 +60,8 @@ class FilterSortBar extends StatelessWidget {
       onDoubleTap: sortDoubleTap,
       child: PopupMenuButton(
         icon: isAscending
-            ? FaIcon(FontAwesomeIcons.sortAlphaDown, color: Styles.mediumGrey,)
-            : FaIcon(FontAwesomeIcons.sortAlphaUp, color: Styles.mediumGrey,),
+            ? FaIcon(FontAwesomeIcons.sortAlphaDown, color: Styles.darkGreen,)
+            : FaIcon(FontAwesomeIcons.sortAlphaUp, color: Styles.darkGreen,),
         onSelected: sortOnSelected,
         itemBuilder: (context) {
           return choices.map<PopupMenuItem<String>>((value) {

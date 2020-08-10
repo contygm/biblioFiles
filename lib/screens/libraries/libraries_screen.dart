@@ -88,7 +88,7 @@ class _LoadLibraryState extends State<LoadLibrary> {
               orComponent(),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Text('Create a Library: ', style: Styles.header3Style),
+                child: Text('Create a Library: ', style: Styles.header2Style),
               ),
               createButton(
                 context, 
@@ -106,7 +106,7 @@ class _LoadLibraryState extends State<LoadLibrary> {
           children: [
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Text('Create a Library: ', style: Styles.header3Style),
+              child: Text('Create a Library: ', style: Styles.header2Style),
             ),
             createButton(
               context, 

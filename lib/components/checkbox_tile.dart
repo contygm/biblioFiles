@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../styles.dart';
 
 class CheckboxTile extends StatelessWidget {
   
@@ -32,8 +33,8 @@ class CheckboxTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, overflow: TextOverflow.ellipsis),
-                  Text(author),
+                  Text(title, overflow: TextOverflow.ellipsis, style: Styles.header3Style),
+                  Text(author, style: Styles.smallDarkGreenButtonLabel),
                 ],
               ),
             ),
@@ -48,6 +49,8 @@ class CheckboxTile extends StatelessWidget {
               fit: FlexFit.tight,
               flex: 1,
               child: Checkbox(
+                activeColor: Styles.yellow,
+                checkColor: Styles.mediumGrey,
                 value: value,
                 onChanged: onChanged,
               ),

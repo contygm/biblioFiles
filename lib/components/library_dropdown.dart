@@ -98,7 +98,7 @@ class LibraryDropdown extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Text('Select a library: ', style: Styles.header3Style),
+            child: Text('Select a library: ', style: Styles.header2Style),
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),

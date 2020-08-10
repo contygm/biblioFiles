@@ -15,6 +15,7 @@ import 'screens/single_book/single_book_screen.dart';
 import 'screens/unpack/unpack_screen.dart';
 import 'screens/unpack/unpack_book_list.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'styles.dart';
 
 class App extends StatelessWidget {
   static final routes = {

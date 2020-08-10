@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Styles {
-  static final Color darkGreen = Color(0xFF104911);
+  static final Color darkGreen = Color(0xFF166417);
   static final Color yellow = Color(0xFFF9A620);
   static final Color green = Color(0xFF26a96c);
   static final Color lightGreen = Color(0xFF48d594);
@@ -20,9 +20,24 @@ class Styles {
     )
   );
 
-  static final TextStyle header3Style = headerFont(
+  static final TextStyle header2Style = headerFont(
     textStyle: TextStyle(
       fontSize: 30,
+      fontWeight: FontWeight.bold,
+      color: green,
+    )
+  );
+  static final TextStyle header2DarkGreenStyle = headerFont(
+    textStyle: TextStyle(
+      fontSize: 30,
+      fontWeight: FontWeight.bold,
+      color: darkGreen,
+    )
+  );
+
+  static final TextStyle header3Style = headerFont(
+    textStyle: TextStyle(
+      fontSize: 20,
       fontWeight: FontWeight.bold,
       color: green,
     )
