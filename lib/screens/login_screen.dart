@@ -121,7 +121,7 @@ class _LoginState extends State<Login> {
         side: BorderSide(color: Styles.darkGrey)
       ),
       child: RaisedButton.icon(
-        icon: FaIcon(FontAwesomeIcons.google, color: Styles.darkGreen),
+        icon: FaIcon(FontAwesomeIcons.google, color: Styles.offWhite),
         label: Text(label, style: Styles.bigButtonLabel),
         onPressed: onPressed,
       ),

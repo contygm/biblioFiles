@@ -52,7 +52,7 @@ class Styles {
 
   static final TextStyle welcomeMsg = textFont(
     textStyle: TextStyle(
-      color: darkGrey,
+      color: offWhite,
       fontSize: 30,
       fontStyle: FontStyle.italic 
     )

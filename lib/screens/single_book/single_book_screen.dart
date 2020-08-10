@@ -18,11 +18,13 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
   Widget build(BuildContext context) {
     final BookLibrary bookLibrary = ModalRoute.of(context).settings.arguments;
 
+    // TODO lil box shadow
     return DefaultTemplate(
       content: Container(
         height: MediaQuery.of(context).size.height * 0.8,
         width: MediaQuery.of(context).size.width * 0.9,
         child: Card(
+          elevation: 4,
           child: _isSmall
             ? smallInfo(context, bookLibrary)
             : bigInfo(context, bookLibrary)),
@@ -35,7 +37,7 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
       children: [
       (bookLibrary.book.bookImg.length > 1 ? 
         Image(
-          fit: BoxFit.fitHeight,
+          fit: BoxFit.scaleDown,
           image: NetworkImage(bookLibrary.book.bookImg),
           height: MediaQuery.of(context).size.height * 0.5,
           width: MediaQuery.of(context).size.width * 0.7,
@@ -43,9 +45,12 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
         : SizedBox(
           height: MediaQuery.of(context).size.height * 0.4,
           width: MediaQuery.of(context).size.width * 0.8,
-            child: Icon(Icons.import_contacts, 
-            color: Styles.darkGreen, 
-            size: 200),
+            child: Container(
+              color: Styles.darkGreen,
+              child: Icon(Icons.import_contacts, 
+                color: Styles.offWhite, 
+                size: 200),
+            ),
         )),
       Divider(color: Colors.transparent),
       ListTile(
@@ -73,7 +78,7 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
       children: [
         (bookLibrary.book.bookImg.length > 1 ? 
         Image(
-          fit: BoxFit.fitHeight,
+          fit: BoxFit.cover,
           image: NetworkImage(bookLibrary.book.bookImg),
           height: MediaQuery.of(context).size.height * 0.4,
           width: MediaQuery.of(context).size.width * 0.5,
@@ -141,13 +146,14 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
           )
         ),
         ListTile(
-          leading: Text('Loanable:', style: Styles.greenText),
+          leading: Text('Notes:', style: Styles.greenText),
           title: Text(bookLibrary.notes ?? '-')
         ),
+        Divider(color: Colors.transparent),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           ButtonTheme(
-            buttonColor: Colors.white,
+            buttonColor: Styles.offWhite,
             minWidth: (MediaQuery.of(context).size.width * 0.25),
             height: (MediaQuery.of(context).size.width * 0.12),
             shape: RoundedRectangleBorder(
@@ -170,7 +176,7 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
             )
           ),
           ButtonTheme(
-            buttonColor: Colors.white,
+            buttonColor: Styles.offWhite,
             minWidth: (MediaQuery.of(context).size.width * 0.25),
             height: (MediaQuery.of(context).size.width * 0.12),
             shape: RoundedRectangleBorder(
@@ -194,7 +200,7 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
           )
         ]),
         ButtonTheme(
-            buttonColor: Colors.white,
+            buttonColor: Styles.offWhite,
             minWidth: (MediaQuery.of(context).size.width * 0.25),
             height: (MediaQuery.of(context).size.width * 0.12),
             shape: RoundedRectangleBorder(
