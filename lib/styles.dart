@@ -65,6 +65,13 @@ class Styles {
     )
   );
 
+  static final TextStyle darkGreenMediumText = textFont(
+    textStyle: TextStyle(
+      color: darkGreen,
+      fontSize: 20,
+    )
+  );
+
   static final TextStyle greenMediumText = textFont(
     textStyle: TextStyle(
       color: green,
