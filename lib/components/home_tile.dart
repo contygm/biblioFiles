@@ -7,20 +7,22 @@ class HomeTile extends StatelessWidget {
     this.title, 
     this.icon, 
     this.routeName,
-    this.themeColor
+    this.themeColor,
+    this.onTap
   }) : super(key: key);
 
   final String title;
   final IconData icon;
   final String routeName;
   final Color themeColor;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed( routeName ),
+        onTap: onTap ?? () => Navigator.of(context).pushNamed( routeName ),
         child: Container(
           width: MediaQuery.of(context).size.width * 0.6,
           height: MediaQuery.of(context).size.width * 0.3,

@@ -24,12 +24,6 @@ class _AddError extends State<AddError> {
         RaisedButton(
           child: Text('Try Again'),
           onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        RaisedButton(
-          child: Text('Use another way'),
-          onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => AddBookScreen()));
           },
