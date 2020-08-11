@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../components/library_dropdown.dart';
 import '../../db/databaseops.dart';
 import '../../models/library.dart';
+import '../../styles.dart';
 import '../../templates/default_template.dart';
 import 'unpack_book_list.dart';
 
@@ -42,9 +43,12 @@ class _UnpackScreenState extends State<UnpackScreen> {
       return Container(child: CircularProgressIndicator());
     } else {
       if (finalLibraries.isNotEmpty) {
+        final formKey = GlobalKey<FormState>();
         return Padding(
           padding: const EdgeInsets.all(10.0),
           child: LibraryDropdown(
+            formKey: formKey,
+            viewColor: Styles.darkGreen,
             selectedLibrary: selectedLibrary,
             finalLibraries: finalLibraries,
             onChanged: (value) {
@@ -53,17 +57,18 @@ class _UnpackScreenState extends State<UnpackScreen> {
               });
             },
             viewAction: () async {
-              Navigator.pushNamed(context, CheckoutBookListScreen.routeName,
-                arguments: selectedLibrary
-              );
+              if (formKey.currentState.validate()) {
+                Navigator.pushNamed(context, CheckoutBookListScreen.routeName,
+                  arguments: selectedLibrary
+                );
+              }
             },
           )
         );
       }
       //otherwise print empty screen
-      return Container(
-        child: Text('You can\'t unpack books from a non-existent library.')
-      );
+      return Container(child: Text('You don\'t have any libraries yet!', 
+        style: Styles.header2Style));
     }
   }
 

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../components/book_grid.dart';
-import '../components/floating_back_button.dart';
 import '../db/databaseops.dart';
 import '../templates/default_template.dart';
 
@@ -36,22 +35,23 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
       booksAsked = true;
       checkedOutBooks = coBooks;
       currentBooks = curBooks;
-      if (checkedOutBooks.isEmpty) {
-        shelves.remove('Checked Out');
-      } else {
-        allBooks.add(checkedOutBooks);
-      }
+      
       if (currentBooks.isEmpty) {
         shelves.remove('Currently Reading');
       } else {
         allBooks.add(currentBooks);
+      }
+
+      if (checkedOutBooks.isEmpty) {
+        shelves.remove('Checked Out');
+      } else {
+        allBooks.add(checkedOutBooks);
       }
     });
   }
 
   Widget build(BuildContext context) {
     return DefaultTemplate(
-        floatingAction: FloatingBackButton(context),
         content: shelvesList(context));
   }
 
@@ -63,21 +63,23 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
         return Text('All of your shelves are empty!',
             style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
       } else {
-        return ListView.separated(
-          padding: const EdgeInsets.all(8),
+        return ListView.builder(
           itemCount: shelves.length,
           itemBuilder: (context, index) {
-            return Container(
-              height: 300,
-              child: BookGrid(
-                bookLibrary: allBooks[index],
-                crossAxisCount: 2,
-                title: shelves[index],
-                bookCount: allBooks[index].length,
-                scrollDirection: Axis.horizontal),
+            return Padding(
+              padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.28,
+                child: BookGrid(
+                  bookLibrary: allBooks[index],
+                  crossAxisCount: 1,
+                  title: shelves[index],
+                  bookCount: allBooks[index].length,
+                  scrollDirection: Axis.horizontal),
+              ),
             );
-          },
-          separatorBuilder: (context, index) => const Divider());
+          }
+        );      
       }
     }
   }

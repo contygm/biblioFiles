@@ -5,6 +5,8 @@ import '../../db/databaseops.dart';
 import '../../models/library.dart';
 import '../../screens/single_book/single_book_screen.dart';
 import '../../templates/default_template.dart';
+import '../../styles.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Library library;
 
@@ -49,94 +51,112 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (booksSearched = false) {
-      return Container(child: CircularProgressIndicator());
+    if (booksSearched == false) {
+      return DefaultTemplate(
+        content: Container(child: CircularProgressIndicator())
+      );
+    } else if (allBooks.length == 0) {
+      return DefaultTemplate (content: 
+      Center(child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: 15.0),
+            child: FaIcon(FontAwesomeIcons.plusCircle, color: Styles.yellow, size: 50,),
+          ),
+          Text('You need to add a book first!', style: Styles.header2Style, textAlign: TextAlign.center,),
+        ],
+      )));
     } else {
       return DefaultTemplate(
-        content: Container(
-          child: Column(
-          children: [
-            FilterSortBar(
-              filterChoices: [
-                'All',
-                'Packed',
-                'Unpacked',
-                'Checked Out',
-                'Checked In'
-              ],
-              filterOnSelected: (value) {
-                setState(() {
-                  switch (value) {
-                    case 'Packed':
-                      organizedBooks = 
-                        allBooks.where((b) => !b.unpacked).toList();
-                      break;
-                    case 'Unpacked':
-                      organizedBooks = 
-                        allBooks.where((b) => b.unpacked).toList();
-                      break;
-                    case 'Checked Out':
-                      organizedBooks = 
-                        allBooks.where((b) => b.checkedout).toList();
-                      break;
-                    case 'Checked In':
-                      organizedBooks = 
-                        allBooks.where((b) => !b.checkedout).toList();
-                      break;
-                    default:
-                      organizedBooks = allBooks;
-                  }
-                });
-              },
-              sortDoubleTap: () {
-                setState(() {
-                  _isAscending = !_isAscending;
-                  organizedBooks = organizedBooks.reversed.toList();
-                });
-              },
-              sortOnSelected: (value) {
-                setState(() {
-                  switch (value) {
-                    case 'Dewey Decimal':
-                      organizedBooks
-                        .sort((a, b) => a.book.dewey != null ? 
-                          a.book.dewey.compareTo(b.book.dewey) : 
-                          (b.book.dewey != null ? 1 : 0));
-                      break;
-                    case 'Pages':
-                      organizedBooks
-                        .sort((a, b) => a.book.pages != null ? 
-                          a.book.pages.compareTo(b.book.pages) : 
-                          (b.book.pages != null ? 1 : 0));
-                      break;
-                    case 'Title':
-                      organizedBooks
-                        .sort((a, b) => a.book.title != null ? 
-                          a.book.title.compareTo(b.book.title) : 
-                          (b.book.title != null ? 1 : 0));
-                      break;
-                    case 'Language':
-                      organizedBooks
-                        .sort((a, b) => a.book.lang != null ? 
-                          a.book.bookLang.compareTo(b.book.bookLang) : 
-                          (b.book.bookLang != null ? 1 : 0));
-                      break;
-                    default:
-                      organizedBooks
-                        .sort((a, b) => a.book.author != null ? 
-                          a.book.author.compareTo(b.book.author) : 
-                          (b.book.author != null ? 1 : 0));
-                  }
-                  sortParam = value;
-                  _isAscending = true;
-                });
-              },
-              isAscending: _isAscending,
-              libraryName: library.libraryName,
-            ),
-            Expanded(child: bookTileList())
-          ],
-        )),
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Column(
+            children: [
+              FilterSortBar(
+                filterChoices: [
+                  'All',
+                  'Packed',
+                  'Unpacked',
+                  'Checked Out',
+                  'Checked In'
+                ],
+                filterOnSelected: (value) {
+                  setState(() {
+                    switch (value) {
+                      case 'Packed':
+                        organizedBooks = 
+                          allBooks.where((b) => !b.unpacked).toList();
+                        break;
+                      case 'Unpacked':
+                        organizedBooks = 
+                          allBooks.where((b) => b.unpacked).toList();
+                        break;
+                      case 'Checked Out':
+                        organizedBooks = 
+                          allBooks.where((b) => b.checkedout).toList();
+                        break;
+                      case 'Checked In':
+                        organizedBooks = 
+                          allBooks.where((b) => !b.checkedout).toList();
+                        break;
+                      default:
+                        organizedBooks = allBooks;
+                    }
+                  });
+                },
+                sortDoubleTap: () {
+                  setState(() {
+                    _isAscending = !_isAscending;
+                    organizedBooks = organizedBooks.reversed.toList();
+                  });
+                },
+                sortOnSelected: (value) {
+                  setState(() {
+                    switch (value) {
+                      case 'Dewey Decimal':
+                        organizedBooks
+                          .sort((a, b) => a.book.dewey != null ? 
+                            a.book.dewey.compareTo(b.book.dewey) : 
+                            (b.book.dewey != null ? 1 : 0));
+                        break;
+                      case 'Pages':
+                        organizedBooks
+                          .sort((a, b) => a.book.pages != null ? 
+                            a.book.pages.compareTo(b.book.pages) : 
+                            (b.book.pages != null ? 1 : 0));
+                        break;
+                      case 'Title':
+                        organizedBooks
+                          .sort((a, b) => a.book.title != null ? 
+                            a.book.title.compareTo(b.book.title) : 
+                            (b.book.title != null ? 1 : 0));
+                        break;
+                      case 'Language':
+                        organizedBooks
+                          .sort((a, b) => a.book.lang != null ? 
+                            a.book.bookLang.compareTo(b.book.bookLang) : 
+                            (b.book.bookLang != null ? 1 : 0));
+                        break;
+                      default:
+                        organizedBooks
+                          .sort((a, b) => a.book.author != null ? 
+                            a.book.author.compareTo(b.book.author) : 
+                            (b.book.author != null ? 1 : 0));
+                    }
+                    sortParam = value;
+                    _isAscending = true;
+                  });
+                },
+                isAscending: _isAscending,
+                libraryName: library.libraryName,
+              ),
+              Expanded(child: bookTileList())
+            ],
+          )),
+        ),
       );
     }
   }

@@ -1,12 +1,14 @@
 import 'package:biblioFiles/components/library_dropdown.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../components/library_dropdown.dart';
 import '../../db/databaseops.dart';
 import '../../models/book.dart';
 import '../../models/library.dart';
+import '../../styles.dart';
 import '../../templates/default_template.dart';
 import 'add_book_success_screen.dart';
 
@@ -57,98 +59,161 @@ class _ManualBookEntry extends State<ManualBookEntry> {
     if (lookLibrary == false) {
       return Container(child: CircularProgressIndicator());
     } else {
-      return Form(
-        key: _key,
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              controller: _titleController,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Enter a title';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                labelText: 'Title',
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+        child: Form(
+          key: _key,
+          child: ListView(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(bottom: 20.0, top: 20.0),
+                child: Text('Enter your book\'s info:', 
+                  style: Styles.header2DarkGreenStyle,
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            TextFormField(
-              controller: _authorController,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Enter an author';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                labelText: 'Author',
+              TextFormField(
+                controller: _titleController,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Enter a title';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Title',
+                  labelStyle: TextStyle(color: Styles.green),
+                  focusColor: Styles.green,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.darkGreen
+                    )
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.green
+                    )
+                  )
+                ),
               ),
-            ),
-            TextFormField(
-              maxLength: 10,
-              controller: _isbn10Controller,
-              decoration: InputDecoration(
-                labelText: 'ISBN10',
+              TextFormField(
+                controller: _authorController,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Enter an author';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Author',
+                  labelStyle: TextStyle(color: Styles.green),
+                  focusColor: Styles.green,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.darkGreen
+                    )
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.green
+                    )
+                  )
+                ),
               ),
-            ),
-            TextFormField(
-              maxLength: 13,
-              controller: _isbn13Controller,
-              decoration: InputDecoration(
-                labelText: 'ISBN13',
+              TextFormField(
+                maxLength: 10,
+                controller: _isbn10Controller,
+                decoration: InputDecoration(
+                  labelText: 'ISBN10',
+                  labelStyle: TextStyle(color: Styles.green),
+                  focusColor: Styles.green,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.darkGreen
+                    )
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.green
+                    )
+                  )
+                ),
               ),
-            ),
-            TextFormField(
-              controller: _pagesController,
-              decoration: InputDecoration(
-                labelText: 'Pages',
+              TextFormField(
+                maxLength: 13,
+                controller: _isbn13Controller,
+                decoration: InputDecoration(
+                  labelText: 'ISBN13',
+                  labelStyle: TextStyle(color: Styles.green),
+                  focusColor: Styles.green,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.darkGreen
+                    )
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.green
+                    )
+                  )
+                ),
               ),
-               keyboardType: TextInputType.phone,
+              TextFormField(
+                controller: _pagesController,
+                decoration: InputDecoration(
+                  labelText: 'Pages',
+                  labelStyle: TextStyle(color: Styles.green),
+                  focusColor: Styles.green,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.darkGreen
+                    )
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.green
+                    )
+                  )
+                ),
+                keyboardType: TextInputType.phone,
                 inputFormatters: <TextInputFormatter>[
                   WhitelistingTextInputFormatter.digitsOnly,
                 ]
-            ),
-            TextFormField(
-              controller: _languageController,
-              decoration: InputDecoration(
-                labelText: 'Language',
               ),
-            ),
-            LibraryDropdown(
-              includeView: false,
-              selectedLibrary: selectedLibrary,
-              finalLibraries: finalLibraries,
-              onChanged: (value) {
-                setState(() {
-                  selectedLibrary = value;
-                });
-              },
-            ),
-            RaisedButton(
-              onPressed: () async {
-                if (selectedLibrary == null) {
-                  final message =
-                      SnackBar(content: Text('Library is required!'));
-                  Scaffold.of(context).showSnackBar(message);
-                } else {
-                  var isValid = await submit(selectedLibrary);
-
-                  if (isValid) {
-                    var libId = selectedLibrary.id;
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddSuccessScreen(libId: libId),
-                      ),
-                    );
-                  }
-                }
-              },
-              child: Text('Approve'),
-            ),
-          ],
+              TextFormField(
+                controller: _languageController,
+                decoration: InputDecoration(
+                  labelText: 'Language',
+                  labelStyle: TextStyle(color: Styles.green),
+                  focusColor: Styles.green,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.darkGreen
+                    )
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Styles.green
+                    )
+                  )
+                ),
+              ),
+              LibraryDropdown(
+                includeView: false,
+                includeTitle: false,
+                isGreen: true,
+                padding: 1.0,
+                selectedLibrary: selectedLibrary,
+                finalLibraries: finalLibraries,
+                onChanged: (value) {
+                  setState(() {
+                    selectedLibrary = value;
+                  });
+                },
+              ),
+              approveButton()
+            ],
+          ),
         ),
       );
     }
@@ -181,5 +246,61 @@ class _ManualBookEntry extends State<ManualBookEntry> {
     } else {
       return false;
     }
+  }
+
+  Widget approveButton() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center, 
+        children: <Widget>[
+          ButtonTheme(
+            buttonColor: Styles.yellow,
+            minWidth: (MediaQuery.of(context).size.width * 0.25),
+            height: (MediaQuery.of(context).size.width * 0.12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: RaisedButton(
+              elevation: 3,
+              onPressed: () async {
+                if (selectedLibrary == null) {
+                  final message =
+                      SnackBar(content: Text('Library is required!'));
+                  Scaffold.of(context).showSnackBar(message);
+                } else {
+                  var isValid = await submit(selectedLibrary);
+
+                  if (isValid) {
+                    var libId = selectedLibrary.id;
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddSuccessScreen(libId: libId),
+                      ),
+                    );
+                  }
+                }
+              },
+              child: Row(
+                children:[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: FaIcon(FontAwesomeIcons.solidThumbsUp, 
+                      color: Styles.offWhite, 
+                      size: MediaQuery.of(context).size.width * 0.05),
+                  ),
+                  Text('Approve', 
+                    style: Styles.smallWhiteBoldButtonLabel,
+                    textAlign: TextAlign.center
+                  ),
+                ],
+              )
+            )
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../components/base_drawer.dart';
+import '../styles.dart';
 
 // NOTE: Guide for how to make templates: 
 // -> https://medium.com/@SandeepGurram/creating-templates-in-flutter-43568073193b
@@ -21,7 +22,13 @@ class DefaultTemplate extends StatelessWidget {
       endDrawer: BaseDrawer(),
       floatingActionButton: floatingAction,
       floatingActionButtonLocation: floatingActionLocation,
-      appBar: AppBar(title: Text('BiblioFiles')),
+      appBar: AppBar(
+        title: Text('BiblioFiles', 
+          style: Styles.appHeaderStyle
+        ),
+        backgroundColor: Styles.offWhite,
+        iconTheme: IconThemeData(color: Styles.darkGreen)
+      ),
       body: SafeArea(
         child: Center(
           child: content

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../db/databaseops.dart';
 import '../../models/library.dart';
+import '../../styles.dart';
 import '../../templates/default_template.dart';
 import 'library_settings_screen.dart';
 
@@ -27,14 +28,19 @@ class _Settings extends State<Settings> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   trailing: Icon(
                     Icons.edit,
-                    size: 45,
+                    size: MediaQuery.of(context).size.width*0.1,
+                    color: Styles.darkGreen,
                   ),
-                  title: Text('${snapshot.data[index].libraryName}'),
+                  title: Text(
+                    '${snapshot.data[index].libraryName}',
+                    style: Styles.header3Style,
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../styles.dart';
 
-class CheckboxTile extends StatelessWidget {
+class BookListTile extends StatelessWidget {
   
-  CheckboxTile({
+  BookListTile({
     this.title,
     this.author,
     this.value,
@@ -20,9 +20,7 @@ class CheckboxTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        onChanged(!value);
-      },
+      onTap: onChanged,
       child: Padding(
         padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
         child: Row(
@@ -45,16 +43,6 @@ class CheckboxTile extends StatelessWidget {
               flex: 1,
               child: Center(
                 child: detailText
-              ),
-            ),
-            Flexible(
-              fit: FlexFit.tight,
-              flex: 1,
-              child: Checkbox(
-                activeColor: Styles.yellow,
-                checkColor: Styles.mediumGrey,
-                value: value,
-                onChanged: onChanged,
               ),
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:biblioFiles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../components/library_dropdown.dart';
@@ -39,9 +40,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       return Container(child: CircularProgressIndicator());
     } else {
       if (finalLibraries.isNotEmpty) {
+        final formKey = GlobalKey<FormState>();
         return Padding(
           padding: const EdgeInsets.all(10.0),
           child: LibraryDropdown(
+            formKey: formKey,
             selectedLibrary: selectedLibrary,
             finalLibraries: finalLibraries,
             onChanged: (value) {
@@ -49,10 +52,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 selectedLibrary = value;
               });
             },
-            viewAction: () => Navigator.of(context).pushNamed( 
-              BooksTileListScreen.routeName, 
-              arguments: selectedLibrary
-            )
+            viewColor: Styles.darkGreen,
+            viewAction: () {
+              if (formKey.currentState.validate()) {
+                Navigator.of(context).pushNamed( 
+                  BooksTileListScreen.routeName, 
+                  arguments: selectedLibrary
+                );
+              }
+            } 
           )
         );
       }

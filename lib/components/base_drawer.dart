@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../screens/login_screen.dart';
 import '../screens/profile/profile_screen.dart';
 import '../screens/settings/settings_screen.dart';
+import '../styles.dart';
 
 class BaseDrawer extends StatelessWidget {
   @override
@@ -40,7 +41,24 @@ class BaseDrawer extends StatelessWidget {
                     Opacity(
                       opacity: _opac,
                       child: ListTile(
-                        leading: Icon(Icons.settings),
+                        leading: Icon(Icons.account_circle, color: Styles.green),
+                        title: Text(
+                            snapshot.data == '' ? 'Profile' : snapshot.data),
+                        onTap: () {
+                          if (snapshot.data != '') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProfileScreen()),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    Opacity(
+                      opacity: _opac,
+                      child: ListTile(
+                        leading: Icon(Icons.settings, color: Styles.green),
                         title: Text('Settings'),
                         onTap: () {
                           if (snapshot.data != '') {
@@ -57,31 +75,24 @@ class BaseDrawer extends StatelessWidget {
                     Opacity(
                       opacity: _opac,
                       child: ListTile(
-                        leading: Icon(Icons.account_circle),
-                        title: Text(
-                            snapshot.data == '' ? 'Profile' : snapshot.data),
-                        onTap: () {
-                          if (snapshot.data != '') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfileScreen()),
-                            );
-                          }
-                        },
+                        leading: Icon(Icons.home, color: Styles.yellow),
+                        title: Text('Home'),
+                        onTap: ()  {
+                          Navigator.pushNamed(context, 'home');
+                        }
                       ),
                     ),
-                    Divider(),
+                    Divider(color: Styles.darkGrey),
                     Opacity(
                       opacity: _opac,
                       child: ListTile(
+                        leading: FaIcon(FontAwesomeIcons.signOutAlt, color: Styles.darkGrey),
                         title: Text('Signout'),
                         onTap: () async {
                           if (snapshot.data != '') {
                             var name = await getProfileName();
                             if (name != 'Profile') {
                               FirebaseAuth.instance.signOut();
-
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -89,15 +100,6 @@ class BaseDrawer extends StatelessWidget {
                             }
                           }
                         },
-                      ),
-                    ),
-                     Opacity(
-                      opacity: _opac,
-                      child: ListTile(
-                        title: Text('Home'),
-                        onTap: ()  {
-                              Navigator.pushNamed(context, 'home');
-                            }
                       ),
                     ),
                   ],

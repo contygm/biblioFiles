@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../styles.dart';
 
 class FilterSortBar extends StatelessWidget {
   
@@ -23,7 +25,7 @@ class FilterSortBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
       child: Row(children: [
-        Text(libraryName, style: TextStyle(fontSize: 25)),
+        Text(libraryName, style: Styles.header2DarkGreenStyle),
         Spacer(flex: 1),
         ButtonBar(children: [filterButton(), sortButton()])
       ]),
@@ -32,7 +34,7 @@ class FilterSortBar extends StatelessWidget {
 
   Widget filterButton() {
     return PopupMenuButton(
-      icon: Icon(Icons.filter_list),
+      icon: FaIcon(FontAwesomeIcons.filter, color: Styles.darkGreen),
       onSelected: filterOnSelected,
       itemBuilder: (context) {
         return filterChoices.map<PopupMenuItem<String>>((value) {
@@ -58,8 +60,8 @@ class FilterSortBar extends StatelessWidget {
       onDoubleTap: sortDoubleTap,
       child: PopupMenuButton(
         icon: isAscending
-            ? Icon(Icons.arrow_upward)
-            : Icon(Icons.arrow_downward),
+            ? FaIcon(FontAwesomeIcons.sortAlphaDown, color: Styles.darkGreen,)
+            : FaIcon(FontAwesomeIcons.sortAlphaUp, color: Styles.darkGreen,),
         onSelected: sortOnSelected,
         itemBuilder: (context) {
           return choices.map<PopupMenuItem<String>>((value) {
