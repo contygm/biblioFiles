@@ -67,9 +67,8 @@ class _UnpackScreenState extends State<UnpackScreen> {
         );
       }
       //otherwise print empty screen
-      return Container(
-        child: Text('You can\'t unpack books from a non-existent library.')
-      );
+      return Container(child: Text('You don\'t have any libraries yet!', 
+        style: Styles.header2Style));
     }
   }
 
