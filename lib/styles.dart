@@ -90,15 +90,19 @@ class Styles {
   static final TextStyle smallWhiteButtonLabel = textFont(
     textStyle: TextStyle(
       color: offWhite,
-      // fontWeight: FontWeight.bold,
       fontSize: 15,
+    )
+  );
+  static final TextStyle smallerWhiteButtonLabel = textFont(
+    textStyle: TextStyle(
+      color: offWhite,
+      fontSize: 12,
     )
   );
 
   static final TextStyle smallGreenButtonLabel = textFont(
     textStyle: TextStyle(
       color: green,
-      // fontWeight: FontWeight.bold,
       fontSize: 15,
     )
   );
@@ -106,8 +110,20 @@ class Styles {
   static final TextStyle smallDarkGreenButtonLabel = textFont(
     textStyle: TextStyle(
       color: darkGreen,
-      // fontWeight: FontWeight.bold,
       fontSize: 15,
+    )
+  );
+  static final TextStyle smallRedButtonLabel = textFont(
+    textStyle: TextStyle(
+      color: Colors.red,
+      fontSize: 15,
+    )
+  );
+
+  static final TextStyle smallerRedButtonLabel = textFont(
+    textStyle: TextStyle(
+      color: Colors.red,
+      fontSize: 12,
     )
   );
   

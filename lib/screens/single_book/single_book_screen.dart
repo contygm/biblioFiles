@@ -157,86 +157,105 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
           title: Text(bookLibrary.notes ?? '-')
         ),
         Divider(color: Colors.transparent),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          ButtonTheme(
-            buttonColor: Styles.offWhite,
-            minWidth: (MediaQuery.of(context).size.width * 0.25),
-            height: (MediaQuery.of(context).size.width * 0.12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: RaisedButton(
-              elevation: 3,
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+            children: [
+              ButtonTheme(
+                buttonColor: Styles.darkGreen,
+                minWidth: (MediaQuery.of(context).size.width * 0.25),
+                height: (MediaQuery.of(context).size.width * 0.12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: RaisedButton(
+                  elevation: 3,
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'editBook', arguments: bookLibrary);
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 12),
+                        child: FaIcon(FontAwesomeIcons.book, color: Styles.offWhite)
+                      ),
+                      Text('Update\nBook', 
+                        style: Styles.smallerWhiteButtonLabel,
+                        textAlign: TextAlign.center
+                      ),
+                    ],
+                  )
+                )
+              ),
+              ButtonTheme(
+              buttonColor: Styles.darkGreen,
+              minWidth: (MediaQuery.of(context).size.width * 0.25),
+              height: (MediaQuery.of(context).size.width * 0.12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child:RaisedButton(
+                elevation: 3,
               onPressed: () {
-                Navigator.pushNamed(context, 'editBook', arguments: bookLibrary);
+                Navigator.pushNamed(context, 'editBookLibrary',
+                    arguments: bookLibrary);
               },
+              child: Row(
+                children:[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: FaIcon(FontAwesomeIcons.warehouse, 
+                      color: Styles.offWhite, 
+                      size: MediaQuery.of(context).size.width * 0.05),
+                  ),
+                  Text('Update\nLibrary', 
+                    style: Styles.smallerWhiteButtonLabel,
+                    textAlign: TextAlign.center
+                  ),
+                ],
+              ))
+            )
+          ]),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ButtonTheme(
+                buttonColor: Styles.offWhite,
+                minWidth: (MediaQuery.of(context).size.width * 0.25),
+                height: (MediaQuery.of(context).size.width * 0.12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: RaisedButton(
+                  elevation: 3,
+                onPressed: () async {
+                  await callDeleteLibraryBook(bookLibrary.id);
+                    Navigator.pushNamed(context, 'home');
+                      
+                },
               child: Row(
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(right: 5.0),
-                    child: FaIcon(FontAwesomeIcons.book, color: Styles.darkGreen, size: MediaQuery.of(context).size.width * 0.05),
+                    child: Icon(Icons.delete, color: Colors.red, size: MediaQuery.of(context).size.width * 0.05),
                   ),
-                  Text('Update book', style: Styles.smallDarkGreenButtonLabel,),
+                  Text('Delete Book', style: Styles.smallRedButtonLabel),
                 ],
-              )
-            )
-          ),
-          ButtonTheme(
-            buttonColor: Styles.offWhite,
-            minWidth: (MediaQuery.of(context).size.width * 0.25),
-            height: (MediaQuery.of(context).size.width * 0.12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child:RaisedButton(
-              elevation: 3,
-            onPressed: () {
-              Navigator.pushNamed(context, 'editBookLibrary',
-                  arguments: bookLibrary);
-            },
-            child: Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 5.0),
-                  child: FaIcon(FontAwesomeIcons.warehouse, color: Styles.darkGreen, size: MediaQuery.of(context).size.width * 0.05),
-                ),
-                Text('Update library', style: Styles.smallDarkGreenButtonLabel),
-              ],
-            ))
-          )
-        ]),
-        ButtonTheme(
-            buttonColor: Styles.offWhite,
-            minWidth: (MediaQuery.of(context).size.width * 0.25),
-            height: (MediaQuery.of(context).size.width * 0.12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: RaisedButton(
-              elevation: 3,
-            onPressed: () async {
-              await callDeleteLibraryBook(bookLibrary.id);
-                Navigator.pushNamed(context, 'home');
-                  
-            },
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 5.0),
-                child: Icon(Icons.delete, color: Colors.red, size: MediaQuery.of(context).size.width * 0.05),
-              ),
-              Text('Delete Book', style: Styles.smallDarkGreenButtonLabel),
+              ))),
             ],
-          ))),
-        IconButton(
-          icon: Icon(Icons.expand_less),
-          onPressed: () {
-            setState(() {
-              _isSmall = !_isSmall;
-            });
-          })
+          ),
+        ),
+      IconButton(
+        icon: Icon(Icons.expand_less),
+        onPressed: () {
+          setState(() {
+            _isSmall = !_isSmall;
+          });
+        })
       ],
     );
   }
