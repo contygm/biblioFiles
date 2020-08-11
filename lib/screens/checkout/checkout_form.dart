@@ -15,8 +15,8 @@ class CheckoutForm extends StatefulWidget {
 class _CheckoutFormState extends State<CheckoutForm> {
   var firstName = '';
   var lastName = '';
-  var phone;
-  var email;
+  var phone  = '';
+  var email  = '';
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override

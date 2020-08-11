@@ -93,6 +93,14 @@ class Styles {
       fontSize: 15,
     )
   );
+  static final TextStyle smallWhiteBoldButtonLabel = textFont(
+    textStyle: TextStyle(
+      color: offWhite,
+      fontWeight: FontWeight.bold,
+      fontSize: 15,
+    )
+  );
+
   static final TextStyle smallerWhiteButtonLabel = textFont(
     textStyle: TextStyle(
       color: offWhite,
