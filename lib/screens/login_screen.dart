@@ -115,10 +115,10 @@ class _LoginState extends State<Login> {
       minWidth: (MediaQuery.of(context).size.width * 0.6),
       height: (MediaQuery.of(context).size.width * 0.15),
       padding: EdgeInsets.all(10.0),
-      buttonColor: Colors.transparent,
+      buttonColor: Styles.yellow,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
-        side: BorderSide(color: Styles.darkGrey)
+        side: BorderSide(color: Styles.yellow)
       ),
       child: RaisedButton.icon(
         icon: FaIcon(FontAwesomeIcons.google, color: Styles.offWhite),

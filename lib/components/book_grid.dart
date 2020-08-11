@@ -91,7 +91,10 @@ class BookGrid extends StatelessWidget {
                       ),
                     )),
                 ),
-                sortParams(context, bookLibrary.book)
+                Visibility(
+                  visible: (sortParam != null && sortParam != 'Title' && sortParam != 'Author'), 
+                  child: sortParams(context, bookLibrary.book)
+                )
                 ],
               ),
               bookInfo(bookLibrary),
@@ -103,16 +106,22 @@ class BookGrid extends StatelessWidget {
   }
 
   Widget sortParams(BuildContext context, Book book) {
-    if (sortParam != null && sortParam != 'Title' && sortParam != 'Author') {
-      var sortValue = getValueFromSortParam(book);
-      return Positioned(
-        child: Align(
-          alignment: FractionalOffset.topRight,
+    var sortValue = getValueFromSortParam(book);
+    return Positioned(
+      child: Align(
+        alignment: FractionalOffset.topRight,
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.25,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: Styles.lightGreen,
+              boxShadow: [BoxShadow(
+                color: Colors.black,
+                offset: Offset(0.0, 1.0),
+                blurRadius: 3.0
+              )]
             ),
             child: Padding(
               padding: const EdgeInsets.all(4.0),
@@ -121,12 +130,10 @@ class BookGrid extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Styles.offWhite)),
             )
-          )
+          ),
         )
-      );
-    }
-
-    return Container();
+      )
+    );
   }
 
   Widget bookInfo(BookLibrary bookLibrary) {
@@ -140,8 +147,14 @@ class BookGrid extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(bookLibrary.book.bookTitle, overflow: TextOverflow.ellipsis),
-                Text(bookLibrary.book.author, overflow: TextOverflow.ellipsis),
+                Text(bookLibrary.book.bookTitle, 
+                  overflow: TextOverflow.ellipsis,
+                  style: Styles.bookTileTitle,
+                ),
+                Text(bookLibrary.book.author, 
+                  overflow: TextOverflow.ellipsis,
+                  style: Styles.bookTileAuthor,
+                ),
               ],
             ),
           ),
@@ -154,7 +167,7 @@ class BookGrid extends StatelessWidget {
             Container(
               // height: 50,
               child: Align(alignment: FractionalOffset.bottomCenter,
-                child: Text('OUT', style: TextStyle(color: Colors.red))),
+                child: Text('OUT', style: Styles.smallerRedButtonLabel)),
             )
             : Container()
           ),

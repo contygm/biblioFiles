@@ -134,6 +134,28 @@ class Styles {
       fontSize: 15,
     )
   );
+
+  static final TextStyle smallerRedButtonLabel = textFont(
+    textStyle: TextStyle(
+      color: Colors.red,
+      fontWeight: FontWeight.bold,
+      fontSize: 12,
+    )
+  );
+
+  static final TextStyle bookTileTitle = textFont(
+    textStyle: TextStyle(
+      color: green,
+      fontSize: 14,
+    )
+  );
+
+  static final TextStyle bookTileAuthor = textFont(
+    textStyle: TextStyle(
+      color: darkGreen,
+      fontSize: 12,
+    )
+  );
 }
 
 TextStyle headerFont({TextStyle textStyle}) {
