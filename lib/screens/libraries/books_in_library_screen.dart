@@ -79,7 +79,8 @@ class _LoadBooksLibraryState extends State<LoadBooksLibrary> {
               crossAxisCount: 2,
               titleWidget: filterBar(context),
               bookCount: organizedBooks.length,
-              scrollDirection: Axis.vertical
+              scrollDirection: Axis.vertical,
+              sortParam: sortParam,
             ),
         );
       } else {

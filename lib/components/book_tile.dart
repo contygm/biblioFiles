@@ -68,7 +68,7 @@ class BookTile extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white))))
-                    ),
+              ),
               Positioned(
                 child: Align(
                   alignment: FractionalOffset.bottomCenter,

@@ -35,15 +35,17 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
       booksAsked = true;
       checkedOutBooks = coBooks;
       currentBooks = curBooks;
-      if (checkedOutBooks.isEmpty) {
-        shelves.remove('Checked Out');
-      } else {
-        allBooks.add(checkedOutBooks);
-      }
+      
       if (currentBooks.isEmpty) {
         shelves.remove('Currently Reading');
       } else {
         allBooks.add(currentBooks);
+      }
+
+      if (checkedOutBooks.isEmpty) {
+        shelves.remove('Checked Out');
+      } else {
+        allBooks.add(checkedOutBooks);
       }
     });
   }
@@ -62,17 +64,19 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
             style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
       } else {
         return ListView.separated(
-          padding: const EdgeInsets.all(8),
           itemCount: shelves.length,
           itemBuilder: (context, index) {
-            return Container(
-              height: 300,
-              child: BookGrid(
-                bookLibrary: allBooks[index],
-                crossAxisCount: 2,
-                title: shelves[index],
-                bookCount: allBooks[index].length,
-                scrollDirection: Axis.horizontal),
+            return Padding(
+              padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+              child: Container(
+                height: 250,
+                child: BookGrid(
+                  bookLibrary: allBooks[index],
+                  crossAxisCount: 1,
+                  title: shelves[index],
+                  bookCount: allBooks[index].length,
+                  scrollDirection: Axis.horizontal),
+              ),
             );
           },
           separatorBuilder: (context, index) => const Divider());

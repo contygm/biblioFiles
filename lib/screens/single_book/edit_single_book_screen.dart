@@ -1,11 +1,10 @@
-import 'package:biblioFiles/styles.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import '../../db/databaseops.dart';
 import '../../models/bookLibrary.dart';
-import 'single_book_screen.dart';
-import '../../templates/default_template.dart';
 import '../../styles.dart';
+import '../../templates/default_template.dart';
+import 'single_book_screen.dart';
 
 class EditBookScreen extends StatelessWidget {
   @override

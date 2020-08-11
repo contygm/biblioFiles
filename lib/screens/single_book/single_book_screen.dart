@@ -25,9 +25,8 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
         width: MediaQuery.of(context).size.width * 0.9,
         child: Card(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-              // side: BorderSide(color: themeColor, width: 5.0)
-            ),
+            borderRadius: BorderRadius.circular(20.0),
+          ),
           elevation: 4,
           child: _isSmall
             ? smallInfo(context, bookLibrary)
@@ -41,7 +40,7 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
       children: [
       (bookLibrary.book.bookImg.length > 1 ? 
         Image(
-          fit: BoxFit.scaleDown,
+          fit: BoxFit.contain,
           image: NetworkImage(bookLibrary.book.bookImg),
           height: MediaQuery.of(context).size.height * 0.5,
           width: MediaQuery.of(context).size.width * 0.7,
@@ -81,7 +80,8 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
       shrinkWrap: true,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
           child: (bookLibrary.book.bookImg.length > 1 ? 
             Image(
               fit: BoxFit.cover,
