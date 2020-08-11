@@ -12,6 +12,14 @@ class Styles {
   
   static final TextStyle defaultFont = GoogleFonts.robotoSlab();
 
+  static final TextStyle appHeaderStyle = headerFont(
+    textStyle: TextStyle(
+      fontSize: 25,
+      fontWeight: FontWeight.bold,
+      color: green,
+    )
+  );
+
   static final TextStyle header1Style = headerFont(
     textStyle: TextStyle(
       fontSize: 45,

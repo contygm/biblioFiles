@@ -23,9 +23,11 @@ class DefaultTemplate extends StatelessWidget {
       floatingActionButton: floatingAction,
       floatingActionButtonLocation: floatingActionLocation,
       appBar: AppBar(
-        title: Text('BiblioFiles'),
+        title: Text('BiblioFiles', 
+          style: Styles.appHeaderStyle
+        ),
         backgroundColor: Styles.offWhite,
-        iconTheme: IconThemeData(color: Styles.darkGrey)
+        iconTheme: IconThemeData(color: Styles.darkGreen)
       ),
       body: SafeArea(
         child: Center(
