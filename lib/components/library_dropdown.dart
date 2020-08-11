@@ -9,7 +9,10 @@ class LibraryDropdown extends StatelessWidget {
       this.finalLibraries,
       this.viewAction,
       this.includeDelete = false,
+      this.isGreen = false,
       this.includeView = true,
+      this.includeTitle = true,
+      this.padding,
       this.deleteAction,
       this.formKey,
       this.deleteColor,
@@ -22,10 +25,13 @@ class LibraryDropdown extends StatelessWidget {
   final Function viewAction;
   final bool includeDelete;
   final bool includeView;
+  final bool includeTitle;
+  final bool isGreen;
+  final double padding;
   final Function deleteAction;
   final Color viewColor;
   final Color deleteColor;
-
+  
   final formKey;
 
   Widget viewButton(BuildContext context) {
@@ -95,21 +101,39 @@ class LibraryDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color color = isGreen ? Styles.green : Styles.darkGrey;
     return Form(
       key: formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text('Select a library: ', style: Styles.header2Style),
+          Visibility(
+            visible: includeTitle,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text('Select a library: ', style: Styles.header2Style),
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(padding ?? 20.0),
             child: DropdownButtonFormField<Library>(
               validator: (value) => value == null ? 
                 'Please select a libary to view.' : null,
-              decoration: InputDecoration(labelText: 'Select a Library'),
+              iconEnabledColor: color,
+              decoration: InputDecoration(
+                labelText: 'Select a Library',
+                labelStyle: TextStyle(color: color),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: color
+                    )
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: color
+                    )
+                  )
+              ),
               value: selectedLibrary,
               onChanged: onChanged,
               items: finalLibraries

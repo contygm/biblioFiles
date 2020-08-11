@@ -54,7 +54,8 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
                 color: Styles.offWhite, 
                 size: 200),
             ),
-        )),
+        )
+      ),
       Divider(color: Colors.transparent),
       ListTile(
         leading: Text('Title:', style: Styles.greenText),

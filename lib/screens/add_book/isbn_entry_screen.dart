@@ -62,9 +62,7 @@ class IsbnEntryForm extends State<IsbnEntry> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'ISBN is required.';
-                  } else if (value.length != 10 || value.length != 13) {
-                    return 'ISBN must be 10 or 13 digits long.';
-                  }
+                  } 
                   isbn = value;
                   return null;
                 }

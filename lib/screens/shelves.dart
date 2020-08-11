@@ -63,13 +63,13 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
         return Text('All of your shelves are empty!',
             style: TextStyle(fontSize: 35), textAlign: TextAlign.center);
       } else {
-        return ListView.separated(
+        return ListView.builder(
           itemCount: shelves.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
               child: Container(
-                height: 250,
+                height: MediaQuery.of(context).size.height * 0.28,
                 child: BookGrid(
                   bookLibrary: allBooks[index],
                   crossAxisCount: 1,
@@ -78,8 +78,8 @@ class _ShelvesScreenState extends State<ShelvesScreen> {
                   scrollDirection: Axis.horizontal),
               ),
             );
-          },
-          separatorBuilder: (context, index) => const Divider());
+          }
+        );      
       }
     }
   }
