@@ -40,7 +40,7 @@ class _Profile extends State<Profile> {
             key: _key,
             child: Column(
               children: <Widget>[
-                Image.network(snapshot.data.userPhotoURL),
+                Image(image: NetworkImage(snapshot.data.photoURL)),
                 TextFormField(
                   controller: _photoURLController,
                   keyboardType: TextInputType.multiline,

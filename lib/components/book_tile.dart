@@ -108,7 +108,7 @@ class BookTile extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(20)),
         border: Border.all(color: bookLib.checkedout 
           ? Colors.red : Colors.transparent),
-        color: bookLib.loanable ? Colors.white : Colors.grey[400],
+        color: bookLib.loanable ? Colors.white : Colors.grey[350],
         boxShadow: [BoxShadow(
           color: Colors.grey,
           blurRadius: 5.0,

@@ -55,7 +55,9 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
   @override
   Widget build(BuildContext context) {
     if (booksSearched == false) {
-      return DefaultTemplate (content: Container(child: CircularProgressIndicator()));
+      return DefaultTemplate (
+        content: Container(child: CircularProgressIndicator())
+      );
     } else if (allBooks.length == 0) {
       return DefaultTemplate (content: 
       Center(child: Column(
@@ -64,9 +66,11 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(bottom: 15.0),
-            child: FaIcon(FontAwesomeIcons.plusCircle, color: Styles.yellow, size: 50,),
+            child: FaIcon(FontAwesomeIcons.plusCircle, 
+              color: Styles.yellow, size: 50,),
           ),
-          Text('You need to add a book first!', style: Styles.header2Style, textAlign: TextAlign.center,),
+          Text('You need to add a book first!', 
+            style: Styles.header2Style, textAlign: TextAlign.center,),
         ],
       )));
     } else {
@@ -169,11 +173,20 @@ class _LoadBooksTileListScreenState extends State<LoadBooksTileListScreen> {
           library: library,
           onChanged: () {
             if (organizedBooks[index].checkedout) {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => CheckedoutBookScreen(library, organizedBooks[index])));
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => 
+                  CheckedoutBookScreen(library, organizedBooks[index]))
+              );
             } else if (!organizedBooks[index].loanable) {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => UnloanableBookScreen(library, organizedBooks[index])));
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => 
+                  UnloanableBookScreen(library, organizedBooks[index]))
+              );
             } else {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegularBookScreen(library, organizedBooks[index])));
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => 
+                  RegularBookScreen(library, organizedBooks[index]))
+              );
             }
           },
         );

@@ -24,6 +24,10 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
         height: MediaQuery.of(context).size.height * 0.8,
         width: MediaQuery.of(context).size.width * 0.9,
         child: Card(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              // side: BorderSide(color: themeColor, width: 5.0)
+            ),
           elevation: 4,
           child: _isSmall
             ? smallInfo(context, bookLibrary)
@@ -76,23 +80,26 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
     return ListView(
       shrinkWrap: true,
       children: [
-        (bookLibrary.book.bookImg.length > 1 ? 
-        Image(
-          fit: BoxFit.cover,
-          image: NetworkImage(bookLibrary.book.bookImg),
-          height: MediaQuery.of(context).size.height * 0.4,
-          width: MediaQuery.of(context).size.width * 0.5,
-        )
-        : SizedBox(
-          height: MediaQuery.of(context).size.height * 0.4,
-          width: MediaQuery.of(context).size.width * 0.8,
-          child: Container(
-            color: Styles.darkGreen,
-            child: Icon(Icons.import_contacts, 
-              color: Styles.offWhite, 
-              size: 200),
-          ),
-        )),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: (bookLibrary.book.bookImg.length > 1 ? 
+            Image(
+              fit: BoxFit.cover,
+              image: NetworkImage(bookLibrary.book.bookImg),
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width * 0.5,
+            )
+            : SizedBox(
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Container(
+                color: Styles.darkGreen,
+                child: Icon(Icons.import_contacts, 
+                  color: Styles.offWhite, 
+                  size: 200),
+              ),
+            )),
+        ),
         Divider(color: Colors.transparent),
         ListTile(
           leading: Text('Title:', style: Styles.greenText),
