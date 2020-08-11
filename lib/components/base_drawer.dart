@@ -75,11 +75,11 @@ class BaseDrawer extends StatelessWidget {
                     Opacity(
                       opacity: _opac,
                       child: ListTile(
-                        leading: Icon(Icons.home, color: Styles.green),
+                        leading: Icon(Icons.home, color: Styles.yellow),
                         title: Text('Home'),
                         onTap: ()  {
-                              Navigator.pushNamed(context, 'home');
-                            }
+                          Navigator.pushNamed(context, 'home');
+                        }
                       ),
                     ),
                     Divider(color: Styles.darkGrey),

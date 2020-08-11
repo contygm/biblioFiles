@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../db/databaseops.dart';
+import '../../styles.dart';
 import '../../templates/default_template.dart';
 
 class AddLibraryScreen extends StatelessWidget {
@@ -33,24 +34,78 @@ class _AddLibraryState extends State<AddLibrary> {
   String name = '';
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Form(
         key: _key,
-        child: Column(children: [
-          TextFormField(
-              decoration: const InputDecoration(labelText: 'Library Name'),
+        child: Column(
+          children: [
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Library Name',
+                labelStyle: TextStyle(color: Styles.green),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Styles.darkGreen
+                  )
+                )
+              ),
               validator: (value) {
                 if (value.isEmpty) {
                   return 'A new library requires a name!';
                 }
                 name = value;
                 return null;
-              }),
-          RaisedButton(
+              }
+            ),
+            buttonRow(),
+          ]
+        )
+      ),
+    );
+  }
+
+  Widget buttonRow() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+        children: [
+          ButtonTheme(
+            buttonColor: Styles.darkGreen,
+            minWidth: (MediaQuery.of(context).size.width * 0.25),
+            height: (MediaQuery.of(context).size.width * 0.12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: RaisedButton(
+              elevation: 3,
               onPressed: () {
                 Navigator.pushNamed(context, 'libraries');
               },
-              child: Text('View libraries')),
-          RaisedButton(
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(right: 12),
+                    child: FaIcon(FontAwesomeIcons.book, color: Styles.offWhite)
+                  ),
+                  Text('View libraries', 
+                    style: Styles.smallWhiteButtonLabel,
+                    textAlign: TextAlign.center
+                  ),
+                ],
+              )
+            )
+          ),
+          ButtonTheme(
+            buttonColor: Styles.yellow,
+            minWidth: (MediaQuery.of(context).size.width * 0.3),
+            height: (MediaQuery.of(context).size.width * 0.12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: RaisedButton(
+              elevation: 3,
               onPressed: () async {
                 if (_key.currentState.validate()) {
                   //submit info to db and navigate to libraries
@@ -60,7 +115,24 @@ class _AddLibraryState extends State<AddLibrary> {
                   Scaffold.of(context).showSnackBar(message);
                 }
               },
-              child: Text('Save'))
-        ]));
+              child: Row(
+                children:[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: FaIcon(FontAwesomeIcons.solidSave, 
+                      color: Styles.offWhite, 
+                      size: MediaQuery.of(context).size.width * 0.05),
+                  ),
+                  Text('Save', 
+                    style: Styles.smallWhiteBoldButtonLabel,
+                    textAlign: TextAlign.center
+                  ),
+                ],
+              )
+            )
+          )
+        ]
+      ),
+    );
   }
 }

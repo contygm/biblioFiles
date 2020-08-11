@@ -58,9 +58,9 @@ class Styles {
     )
   );
 
-  static final TextStyle darkGreenMediumText = textFont(
+  static final TextStyle darkGreyMediumText = textFont(
     textStyle: TextStyle(
-      color: darkGreen,
+      color: darkGrey,
       fontSize: 20,
     )
   );
@@ -101,7 +101,7 @@ class Styles {
     )
   );
 
-  static final TextStyle smallerWhiteButtonLabel = textFont(
+  static final TextStyle mediumWhiteButtonLabel = textFont(
     textStyle: TextStyle(
       color: offWhite,
       fontSize: 12,
@@ -127,14 +127,6 @@ class Styles {
       fontSize: 15,
     )
   );
-
-  static final TextStyle smallerRedButtonLabel = textFont(
-    textStyle: TextStyle(
-      color: Colors.red,
-      fontSize: 12,
-    )
-  );
-  
 }
 
 TextStyle headerFont({TextStyle textStyle}) {

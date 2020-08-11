@@ -5,6 +5,7 @@ import '../../db/databaseops.dart';
 import '../../models/bookLibrary.dart';
 import 'single_book_screen.dart';
 import '../../templates/default_template.dart';
+import '../../styles.dart';
 
 class EditBookScreen extends StatelessWidget {
   @override

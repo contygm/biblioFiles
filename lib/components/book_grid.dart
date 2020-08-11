@@ -8,12 +8,14 @@ class BookGrid extends StatelessWidget {
   final int bookCount;
   final int crossAxisCount;
   final String title;
+  final Widget titleWidget;
   final List<BookLibrary> bookLibrary;
 
   BookGrid(
       {this.bookLibrary,
       this.crossAxisCount = 5,
-      @required this.title,
+      this.titleWidget,
+      this.title,
       @required this.bookCount,
       @required this.scrollDirection});
 
@@ -21,14 +23,10 @@ class BookGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GestureDetector(
-              child: Text(title, style: TextStyle(fontSize: 35)),
-              // TODO make go full screen with library
-              onTap: () {
-                print("GO TO LIBRARY SCREEN");
-              }),
+        titleWidget ?? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(title, style: TextStyle(fontSize: 35)
+          ),
         ),
         Expanded(child: cardGrid(context, bookLibrary)),
       ],

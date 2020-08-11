@@ -123,15 +123,15 @@ class _LoadLibraryState extends State<LoadLibrary> {
 
    Widget createButton(BuildContext context, {Function onPressed}) {
     return ButtonTheme(
-      buttonColor: Styles.green,
-      minWidth: (MediaQuery.of(context).size.width * 0.5),
+      buttonColor: Styles.yellow,
+      minWidth: (MediaQuery.of(context).size.width * 0.4),
       height: (MediaQuery.of(context).size.width * 0.15),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: RaisedButton(
         elevation: 5,
-        child: Text('New Library', style: Styles.smallWhiteButtonLabel),
+        child: Text('New Library', style: Styles.bigButtonLabel),
         onPressed: onPressed
       ),
     );
@@ -145,17 +145,17 @@ class _LoadLibraryState extends State<LoadLibrary> {
           Expanded(
             child: Container(
               height: 1.0,
-              color: Styles.darkGreen,
+              color: Styles.darkGrey,
             ),
           ),
           Container(
               margin: EdgeInsets.symmetric(horizontal: 10.0),
-              child: Text("OR",style: Styles.darkGreenMediumText),
+              child: Icon(Icons.local_library, color: Styles.mediumGrey,),
           ),
           Expanded(
             child: Container(
               height: 1.0,
-              color: Styles.darkGreen,
+              color: Styles.darkGrey,
             ),
           ),
         ],

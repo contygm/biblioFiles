@@ -58,23 +58,29 @@ class _EditLibraryState extends State<EditLibrary> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Change Book Location', style: Styles.header2Style),
-            DropdownButtonFormField<Library>(
-              decoration: InputDecoration(
-                labelText: 'Select a Library',
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text('Change Book Location', style: Styles.header2Style),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+              child: DropdownButtonFormField<Library>(
+                decoration: InputDecoration(
+                  labelText: 'Select a Library',
+                ),
+                value: selectedLibrary,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedLibrary = newValue;
+                  });
+                },
+                items: finalLibraries
+                  .map((item) => DropdownMenuItem<Library>(
+                      child: Text(item.libraryName),
+                      value: item,
+                    ))
+                  .toList()
               ),
-              value: selectedLibrary,
-              onChanged: (newValue) {
-                setState(() {
-                  selectedLibrary = newValue;
-                });
-              },
-              items: finalLibraries
-                .map((item) => DropdownMenuItem<Library>(
-                    child: Text(item.libraryName),
-                    value: item,
-                  ))
-                .toList()
             ),
             buttonRow(book)
           ],
@@ -86,7 +92,7 @@ class _EditLibraryState extends State<EditLibrary> {
     }
   }
 
-    Widget buttonRow(BookLibrary book) {
+  Widget buttonRow(BookLibrary book) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
       child: Row(
@@ -134,7 +140,7 @@ class _EditLibraryState extends State<EditLibrary> {
                 //submit info to db and navigate to libraries
                 await updateBooksLibrary(libBookId);
                 final message =
-                  SnackBar(content: Text('Changes have been made!'));
+                  SnackBar(content: Text('Book library updated!'));
                 Scaffold.of(context).showSnackBar(message);  
               },
               child: Row(

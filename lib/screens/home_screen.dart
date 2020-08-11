@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 10.0),
           child: FittedBox(
             child: FloatingActionButton(
-              backgroundColor: Styles.darkGrey,
+              backgroundColor: Styles.yellow,
               child: Icon(Icons.add, size: 30.0, color: Styles.offWhite),
               tooltip: 'Add a Book',
               onPressed: () => Navigator.of(context).pushNamed( 'addBook' ),
