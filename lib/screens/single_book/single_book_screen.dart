@@ -59,11 +59,11 @@ class _SingleBookScreenState extends State<SingleBookScreen> {
       Divider(color: Colors.transparent),
       ListTile(
         leading: Text('Title:', style: Styles.greenText),
-        title: Text(bookLibrary.book.title)
+        title: Text(bookLibrary.book.title, maxLines: 2, overflow: TextOverflow.ellipsis)
       ),
       ListTile(
         leading: Text('Author:', style: Styles.greenText),
-        title: Text(bookLibrary.book.author)
+        title: Text(bookLibrary.book.author, overflow: TextOverflow.ellipsis)
       ),
       IconButton(
         icon: Icon(Icons.expand_more, size: 30),

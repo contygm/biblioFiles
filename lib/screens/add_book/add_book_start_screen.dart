@@ -50,7 +50,7 @@ class _AddBook extends State<AddBook> {
                     ),
                   ),
                   HomeTile(
-                    title: 'Scan Barcode',
+                    title: 'Scan',
                     icon: FontAwesomeIcons.barcode,
                     themeColor: Styles.green,
                     onTap: () {
@@ -73,7 +73,7 @@ class _AddBook extends State<AddBook> {
                     }
                   ),
                   HomeTile(
-                    title: 'Custom Info',
+                    title: 'Custom',
                     icon: FontAwesomeIcons.edit,
                     themeColor: Styles.green,
                     onTap: () {
