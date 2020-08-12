@@ -127,8 +127,8 @@ class _CheckoutFormState extends State<CheckoutForm> {
               )
             ),
             onSaved: (value) {
-              // email = value;
-              print('email');
+              email = value;
+              //print('email');
             },
             keyboardType: TextInputType.emailAddress,
             validator: (value) {

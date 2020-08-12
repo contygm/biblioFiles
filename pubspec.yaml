@@ -52,8 +52,8 @@ flutter:
 
   assets:
     - grumpy-cat.jpg
-  #   - images/a_dot_ham.jpeg
-
+    - open-book.png
+    - open-book-small.png
   # fonts:
   #   - family: Schyler
   #     fonts:
