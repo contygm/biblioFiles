@@ -30,21 +30,18 @@ Learn more about our project below!
   ![bottom of book view](/assets/finalPics/book-bottom.png)
 </details>
 <details>
-  <summary>Login View</summary>
+  <summary>Login + Home Views</summary>
 
   ![login view](/assets/finalPics/login.png)
-
-</details>
-<details>
-  <summary>Home View</summary>
-
   ![home view](/assets/finalPics/home.png)
-  
+
 </details>
 <details>
-  <summary>Library View</summary>
+  <summary>Library Views</summary>
 
   ![library](/assets/finalPics/library.png)
+  ![library select](/assets/finalPics/library_select.png)
+
 </details>
 
 ## Tech
