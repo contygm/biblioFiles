@@ -24,22 +24,22 @@ Learn more about our project below!
 
 ## Photo Gallery 
 <details>
-  <summary>Login Views</summary>
+  <summary>Book Views</summary>
+  
+  ![top of book view](/assets/finalPics/book_top.png)
+  ![bottom of book view](/assets/finalPics/book-bottom.png)
+</details>
+<details>
+  <summary>Login View</summary>
 
   ![login view](/assets/finalPics/login.png)
 
 </details>
 <details>
-  <summary>Home Views</summary>
+  <summary>Home View</summary>
 
   ![home view](/assets/finalPics/home.png)
   
-</details>
-<details>
-  <summary>Book View</summary>
-  
-  ![top of book view](/assets/finalPics/book_top.png)
-  ![bottom of book view](/assets/finalPics/book-bottom.png)
 </details>
 <details>
   <summary>Library View</summary>
