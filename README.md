@@ -1,31 +1,36 @@
 # BiblioFiles
-Keep track of your books in flutter
+A personal library catalog allowing you to keep track of your books
 
-## Testing
+## Description
 
-To run the tests locally: 
-```dart
-# lint
-flutter analyze
+The DeweyDecimate team is exited to bring you BiblioFiles app - apersonal library catalog packed with features. You can scan new books into your catalog by scanning the book's barcode with your phone! The app uses ISBN lookup to get all books info so you can organize by author, publishing data and more. 
 
-# unit & widget tests
-flutter test
+We used the lastest technologies to make our app accessible. Using Google's new cross platform framework, Flutter, we were able to make an iOS and Android app with 1 codebase. 
 
-# integration test
-flutter drive --target=test_driver/app.dart
-```
+For our backend and DB management, we used a combo of GCP, Firebase and SQL to keep track of user data. 
 
-For the integration tests, be sure to start a similator of your choice. 
+Learn more about our project below!
 
-Documentation and Code Exmaples for all test types: https://flutter.dev/docs/cookbook/testing
+## Key Features
+ - Create user account via Gmail auth
+ - Add books via barcode scan, ISBN lookup, or manual input
+ - Seperate books by library location, like home office or living room
+ - Mark books as "Currently Reading", "Loaanable", "Private" and more
+ - Checkout books to friends and leave a note about who has the book
+ - Unpack books easily with a simple check off system
+ - iOS and Android friendly
+ - Rate books on a scale of 1-5
+ - Sort and filter books by author, publish date and more. 
 
-For linting, we are using the Effective Style: https://dart.dev/guides/language/effective-dart/documentation
+## Photo Gallery 
 
-## Automated Testing
+## Tech
+- SQL
+- Flutter
+- GCP (Google Cloud Platform)
+- Firebase
 
-- Set up Guide: https://levelup.gitconnected.com/ci-cd-for-flutter-apps-3a56e3fc6d8e
-- Github Actions: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
-
-The code for the automated PR testing is located in .github/workflows. The repo uses Github Actions to automate the testing of PRs. 
-
-Test will run automatically on PRs. Tests include lint, unit and integration tests. Tests must pass in order for PRs to be merged.
+## Contributors - Dewey Decimate
+- Geneveieve Conty - Github: [@contygm](https://github.com/contygm)
+- James Wise - Github: [@WiseJames](https://github.com/WiseJames)
+- Gabrielle Hatfield - Github: [@gdhatfield](https://github.com/gdhatfield)
