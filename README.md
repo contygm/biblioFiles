@@ -23,6 +23,29 @@ Learn more about our project below!
  - Sort and filter books by author, publish date and more. 
 
 ## Photo Gallery 
+<details>
+  <summary>Login Views</summary>
+
+  ![login view](/assets/finalPics/login.png)
+
+</details>
+<details>
+  <summary>Home Views</summary>
+
+  ![home view](/assets/finalPics/home.png)
+  
+</details>
+<details>
+  <summary>Book View</summary>
+  
+  ![top of book view](/assets/finalPics/book_top.png)
+  ![bottom of book view](/assets/finalPics/book-bottom.png)
+</details>
+<details>
+  <summary>Library View</summary>
+
+  ![library](/assets/finalPics/library.png)
+</details>
 
 ## Tech
 - SQL
